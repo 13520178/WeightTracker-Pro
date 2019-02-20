@@ -24,6 +24,10 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         
         tabCollectionView.delegate = self
         tabCollectionView.dataSource = self
+        tabCollectionView?.register(InputWeightCell.self, forCellWithReuseIdentifier: "InputWeightId")
+        tabCollectionView?.register(DiagramCell.self, forCellWithReuseIdentifier: "DiagramId")
+         tabCollectionView?.register(HistoryCell.self, forCellWithReuseIdentifier:
+            "HistoryId")
         if let flowLayout = tabCollectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
             flowLayout.minimumLineSpacing = 0
@@ -70,15 +74,14 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             
             return cell
         }else if collectionView == self.tabCollectionView {
+            if indexPath.item == 0 {
+                return collectionView.dequeueReusableCell(withReuseIdentifier: "InputWeightId", for: indexPath)
+            }else if indexPath.item == 1 {
+                 return collectionView.dequeueReusableCell(withReuseIdentifier: "DiagramId", for: indexPath)
+            }else {
+                return collectionView.dequeueReusableCell(withReuseIdentifier: "HistoryId", for: indexPath)
+            }
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tabCell", for: indexPath)
-            
-            let colors:[UIColor] = [UIColor.blue, UIColor.red, UIColor.green]
-            
-          
-            cell.backgroundColor = colors[indexPath.row]
-            
-            return cell
         }else {
             return UICollectionViewCell()
         }
@@ -99,19 +102,13 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.collectionView {
-//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//                self.leadingOfNarBarBottom.constant = collectionView.frame.width/3 * CGFloat(indexPath.row)
-//
-//
-//                self.view.layoutIfNeeded()
-//            }, completion: nil)
+
             self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
         }
         
     }
     
     //MARK: - Menu handle
-
 
 }
 
