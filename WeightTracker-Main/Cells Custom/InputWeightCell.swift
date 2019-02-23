@@ -52,9 +52,9 @@ class InputWeightCell: BaseCell{
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
         bt.setTitle("Enter", for: .normal)
         bt.setTitleColor(#colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1), for: .normal)
-        bt.titleLabel?.font = UIFont(name:"Arial", size: 30)
+        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 30)
         bt.layer.cornerRadius = 25
-        bt.layer.borderWidth = 2
+        bt.layer.borderWidth = 1.5
         bt.layer.borderColor =  #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
 
         return bt

@@ -70,7 +70,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuCell", for: indexPath) as! NarBarCollectionViewCell
             
             cell.image.image = UIImage(named: iconColectionViewArray[indexPath.row])?.withRenderingMode(.alwaysTemplate)
-            cell.backgroundColor = #colorLiteral(red: 0.5298348069, green: 0.4216188788, blue: 1, alpha: 1)
+            cell.backgroundColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
             
             return cell
         }else if collectionView == self.tabCollectionView {

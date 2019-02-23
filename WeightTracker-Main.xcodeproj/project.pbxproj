@@ -17,9 +17,11 @@
 		1B11F4DA22198CF00000D9CD /* InputWeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B11F4D922198CF00000D9CD /* InputWeightCell.swift */; };
 		1B11F4DC221992370000D9CD /* DiagramCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B11F4DB221992370000D9CD /* DiagramCell.swift */; };
 		1B11F4DE221993950000D9CD /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B11F4DD221993950000D9CD /* HistoryCell.swift */; };
+		DE7361EB39ABE5EEAF6F7475 /* Pods_WeightTracker_Main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1209598346BE93264699AC00 /* Pods_WeightTracker_Main.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1209598346BE93264699AC00 /* Pods_WeightTracker_Main.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeightTracker_Main.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B11F4B92219199E0000D9CD /* WeightTracker-Main.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WeightTracker-Main.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B11F4BC2219199E0000D9CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B11F4BE2219199E0000D9CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -32,6 +34,8 @@
 		1B11F4D922198CF00000D9CD /* InputWeightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputWeightCell.swift; sourceTree = "<group>"; };
 		1B11F4DB221992370000D9CD /* DiagramCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagramCell.swift; sourceTree = "<group>"; };
 		1B11F4DD221993950000D9CD /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
+		87E05FB5BFA8C7E762DE5AE6 /* Pods-WeightTracker-Main.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightTracker-Main.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeightTracker-Main/Pods-WeightTracker-Main.release.xcconfig"; sourceTree = "<group>"; };
+		916169EDF6F601A617F8C00A /* Pods-WeightTracker-Main.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightTracker-Main.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeightTracker-Main/Pods-WeightTracker-Main.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE7361EB39ABE5EEAF6F7475 /* Pods_WeightTracker_Main.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +55,8 @@
 			children = (
 				1B11F4BB2219199E0000D9CD /* WeightTracker-Main */,
 				1B11F4BA2219199E0000D9CD /* Products */,
+				25DCE5342200FADE28C9DD86 /* Pods */,
+				A4C5EDFA5BF776FAFE6DC057 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,6 +94,23 @@
 			path = "Cells Custom";
 			sourceTree = "<group>";
 		};
+		25DCE5342200FADE28C9DD86 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				916169EDF6F601A617F8C00A /* Pods-WeightTracker-Main.debug.xcconfig */,
+				87E05FB5BFA8C7E762DE5AE6 /* Pods-WeightTracker-Main.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A4C5EDFA5BF776FAFE6DC057 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1209598346BE93264699AC00 /* Pods_WeightTracker_Main.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -94,9 +118,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1B11F4CE221919A00000D9CD /* Build configuration list for PBXNativeTarget "WeightTracker-Main" */;
 			buildPhases = (
+				8CD8D25B3A46B26AAAD32AE1 /* [CP] Check Pods Manifest.lock */,
 				1B11F4B52219199E0000D9CD /* Sources */,
 				1B11F4B62219199E0000D9CD /* Frameworks */,
 				1B11F4B72219199E0000D9CD /* Resources */,
+				3C428E8A0F1DEC4483B70E83 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -152,6 +178,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C428E8A0F1DEC4483B70E83 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-WeightTracker-Main/Pods-WeightTracker-Main-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WeightTracker-Main/Pods-WeightTracker-Main-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8CD8D25B3A46B26AAAD32AE1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WeightTracker-Main-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1B11F4B52219199E0000D9CD /* Sources */ = {
@@ -308,6 +381,7 @@
 		};
 		1B11F4CF221919A00000D9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 916169EDF6F601A617F8C00A /* Pods-WeightTracker-Main.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -326,6 +400,7 @@
 		};
 		1B11F4D0221919A00000D9CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87E05FB5BFA8C7E762DE5AE6 /* Pods-WeightTracker-Main.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
