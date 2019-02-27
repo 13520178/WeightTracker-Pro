@@ -97,15 +97,36 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 }
                 
                 if  cell != nil , cell!.people.count >= 1 {
+                    var sumOfDays = 0
+                    var embedDateForCountInSumOfDay = ""
                     var monthss = [String]()
                     var unitsSolds = [Double]()
                     for i in 0..<cell!.people.count {
-                        monthss.append(cell!.people[i].date ?? "")
+                        let subString = cell!.people[i].date?.prefix(5)
+                        monthss.append(String(subString ?? ""))
                         unitsSolds.append(Double(cell!.people[i].weight))
+                        
+                        if(embedDateForCountInSumOfDay != cell!.people[i].date) {
+                            sumOfDays += 1
+                            embedDateForCountInSumOfDay = cell!.people[i].date!
+                            
+                        }
                     }
                     cell!.months = monthss
                     cell!.unitsSold = unitsSolds
                     cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
+                    
+                    cell!.startKgLabel.text = String(cell!.unitsSold[0]) + "Kg "
+                    cell!.currentKgLabel.text = String(cell!.unitsSold.last!) + "Kg "
+                    cell!.timeStartLabel.text = cell!.people[0].date
+                    // sum of days
+                    
+                    cell!.totalDaysLabel.text = String(sumOfDays)
+                }else {
+                    cell!.startKgLabel.text = "No record"
+                    cell!.currentKgLabel.text = "No record"
+                    cell!.timeStartLabel.text = "No record"
+                    cell!.totalDaysLabel.text = "0"
                 }
                 
                 return cell!

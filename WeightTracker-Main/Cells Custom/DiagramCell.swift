@@ -135,12 +135,31 @@ class DiagramCell: BaseCell {
         axisFormatDelegate = self
 
         if  people.count >= 1 {
+            var sumOfDays = 0
+            var embedDateForCountInSumOfDay = ""
             print(people[people.count-1].weight)
             for i in 0..<people.count {
-                months.append(people[i].date ?? "")
+                let subString = people[i].date?.prefix(5)
+                months.append(String(subString ?? ""))
                 unitsSold.append(Double(people[i].weight))
+                if(embedDateForCountInSumOfDay != people[i].date) {
+                    sumOfDays += 1
+                    embedDateForCountInSumOfDay = people[i].date!
+                    
+                }
             }
+            startKgLabel.text = String(unitsSold[0]) + "Kg "
+            currentKgLabel.text = String(unitsSold.last!) + "Kg "
+            timeStartLabel.text = people[0].date
+            // sum of days
+           
+            totalDaysLabel.text = String(sumOfDays)
             setChart(dataEntryX: months, dataEntryY: unitsSold)
+        }else {
+            startKgLabel.text = "No record"
+            currentKgLabel.text = "No record"
+            timeStartLabel.text = "No record"
+            totalDaysLabel.text = "0"
         }
 
         
@@ -157,7 +176,8 @@ class DiagramCell: BaseCell {
         chartDataSet.colors = [#colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)]
         let chartData = LineChartData(dataSet: chartDataSet)
         viewForChart.data = chartData
-        viewForChart.setVisibleXRangeMaximum(7)
+        viewForChart.setVisibleXRangeMaximum(5)
+        viewForChart.moveViewToX(Double(months.count))
         let xAxisValue = viewForChart.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
         viewForChart.reloadInputViews()
