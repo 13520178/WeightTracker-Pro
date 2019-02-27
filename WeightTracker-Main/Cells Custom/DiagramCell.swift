@@ -8,22 +8,26 @@
 
 import UIKit
 import Charts
+import CoreData
 
 class DiagramCell: BaseCell {
+    
+    var people = [Person]()
     
     let viewForChart:LineChartView = {
         let chart = LineChartView()
         return chart
     }()
     
-    var months: [String]!
+     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var months: [String] = []
     var unitsSold = [Double]()
     weak var axisFormatDelegate: IAxisValueFormatter?
     var topLabelStackView: UIStackView!
     var secondLabelStackView: UIStackView!
-    
     var timeStartStackView: UIStackView!
     var numberOfDaysStackView: UIStackView!
+    
     
     var startKgTitleLabel: UILabel = {
         let lb = UILabel()
@@ -120,12 +124,26 @@ class DiagramCell: BaseCell {
         viewForChart.topAnchor.constraint(equalTo: numberOfDaysStackView.bottomAnchor, constant: 16.0).isActive = true
          viewForChart.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16.0).isActive = true
         viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 10.0).isActive = true
-        
+
+        let request : NSFetchRequest<Person> = Person.fetchRequest()
+        do {
+            try people = context.fetch(request)
+        } catch  {
+            print("Error to fetch Item data")
+        }
         
         axisFormatDelegate = self
-        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 4.0, 18.0, 2.0, 4.0, 5.0, 4.0]
-        setChart(dataEntryX: months, dataEntryY: unitsSold)
+
+        if  people.count >= 1 {
+            print(people[people.count-1].weight)
+            for i in 0..<people.count {
+                months.append(people[i].date ?? "")
+                unitsSold.append(Double(people[i].weight))
+            }
+            setChart(dataEntryX: months, dataEntryY: unitsSold)
+        }
+
+        
     }
     
     func setChart(dataEntryX forX:[String],dataEntryY forY: [Double]) {
@@ -133,16 +151,16 @@ class DiagramCell: BaseCell {
         var dataEntries:[ChartDataEntry] = []
         for i in 0..<forX.count{
             let dataEntry = BarChartDataEntry(x: Double(i), y: Double(forY[i]) , data: months as AnyObject?)
-            //            let dataEntry = ChartDataEntry(x: Double(i), y: Double(forY[i]) )
-            print(dataEntry)
             dataEntries.append(dataEntry)
         }
         let chartDataSet = LineChartDataSet(values: dataEntries, label: "Weight")
         chartDataSet.colors = [#colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)]
         let chartData = LineChartData(dataSet: chartDataSet)
         viewForChart.data = chartData
+        viewForChart.setVisibleXRangeMaximum(7)
         let xAxisValue = viewForChart.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
+        viewForChart.reloadInputViews()
         
     }
 

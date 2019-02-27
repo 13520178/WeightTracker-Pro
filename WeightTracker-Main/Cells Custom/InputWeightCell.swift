@@ -8,25 +8,13 @@
 
 import Foundation
 import UIKit
+import CoreData
 
-class BaseCell: UICollectionViewCell
-{
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setUpView()
-    }
-    
-    func setUpView()
-    {
-        
-    }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init (coder:) has been implemented")
-    }
+protocol InputWeightCellDelegate {
+    func changeAndUpdateCell(didChange: Bool, person:Person)
 }
 
 class InputWeightCell: BaseCell{
-   
     
     let inputWeightTextfield :UITextField = {
         let tf = UITextField()
@@ -59,6 +47,10 @@ class InputWeightCell: BaseCell{
 
         return bt
     }()
+    
+    var delegate: InputWeightCellDelegate?
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func setUpView() {
         super.setUpView()
@@ -95,7 +87,28 @@ class InputWeightCell: BaseCell{
     
     @objc func buttonAction(sender: UIButton!) {
         print("Button tapped")
+        
+        if inputWeightTextfield.text != ""
+        {
+            if let w = inputWeightTextfield.text {
+                if let w = Float(w) {
+                    let person = Person(context: context)
+                    person.weight = w
+                    person.date = Date().string(format: "dd-MM-yyyy")
+                    savePerson()
+                    delegate?.changeAndUpdateCell(didChange: true, person: person)
+                }
+            }
+        }
         inputWeightTextfield.text = ""
+    }
+    
+    func savePerson() {
+        do {
+            try context.save()
+        } catch  {
+            print("Error to saving data")
+        }
     }
 
 }
@@ -109,5 +122,13 @@ extension UITextField {
         self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0.0
+    }
+}
+
+extension Date {
+    func string(format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
     }
 }
