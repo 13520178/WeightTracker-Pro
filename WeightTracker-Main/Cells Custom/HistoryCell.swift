@@ -9,9 +9,15 @@
 import UIKit
 import CoreData
 
+protocol HistoryCellDelegate {
+    func touchToDeleteCell(index : Int)
+}
+
 class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
     
      var people = [Person]()
+    
+    var delegate: HistoryCellDelegate?
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -40,7 +46,25 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
             print("Error to fetch Item data")
         }
         
+        //long press
+        //Long Press
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPressGesture.minimumPressDuration = 0.5
+        longPressGesture.delegate = self as? UIGestureRecognizerDelegate
+        self.tableView.addGestureRecognizer(longPressGesture)
        
+    }
+    
+    @objc func handleLongPress(longPressGesture:UILongPressGestureRecognizer) {
+        let p = longPressGesture.location(in: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: p)
+        if indexPath == nil {
+            print("Long press on table view, not row.")
+        }
+        else if (longPressGesture.state == UIGestureRecognizer.State.began) {
+            print("Long press on row, at \(indexPath!.row)")
+            delegate?.touchToDeleteCell(index: indexPath!.row)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,6 +81,7 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+ 
 }
 
 class MyCell:UITableViewCell {
@@ -77,6 +102,15 @@ class MyCell:UITableViewCell {
         lb.font = lb.font.withSize(16)
         return lb
     }()
+    
+    let deleteButton: UIButton = {
+        let bt = UIButton(type: UIButton.ButtonType.roundedRect)
+        bt.setTitle("Enter", for: .normal)
+        bt.setTitleColor(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), for: .normal)
+        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 15)
+        return bt
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -106,6 +140,15 @@ class MyCell:UITableViewCell {
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: 3.0).isActive = true
         weightLabel.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -30).isActive = true
+        
+        addSubview(deleteButton)
+        deleteButton.isHidden = true
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: 0.0).isActive = true
+        deleteButton.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -40).isActive = true
+        deleteButton.widthAnchor.constraint(equalToConstant: 50)
+        deleteButton.heightAnchor.constraint(equalToConstant: 15)
+        
     }
 
     required init?(coder aDecoder: NSCoder) {

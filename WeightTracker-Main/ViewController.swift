@@ -9,10 +9,6 @@
 import UIKit
 import CoreData
 
-protocol ResetTableViewDelegate {
-    func resetTableView()
-}
-
 class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout  {
 
     //MARK: - Outlet variable
@@ -59,7 +55,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     }
     
 
-     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let indexPath = IndexPath(row: Int(targetContentOffset.pointee.x/view.frame.width), section: 0)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
     }
@@ -116,8 +112,10 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.unitsSold = unitsSolds
                     cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
                     
-                    cell!.startKgLabel.text = String(cell!.unitsSold[0]) + "Kg "
-                    cell!.currentKgLabel.text = String(cell!.unitsSold.last!) + "Kg "
+                    let startKg = round(cell!.unitsSold[0] * 100)/100
+                    let currentKg  = round(cell!.unitsSold.last! * 100)/100
+                    cell!.startKgLabel.text = String(startKg) + " Kg "
+                    cell!.currentKgLabel.text = String(currentKg) + " Kg "
                     cell!.timeStartLabel.text = cell!.people[0].date
                     // sum of days
                     
@@ -127,6 +125,12 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.currentKgLabel.text = "No record"
                     cell!.timeStartLabel.text = "No record"
                     cell!.totalDaysLabel.text = "0"
+                    
+                    let monthss = [""]
+                    let unitsSolds = [0.0]
+                    cell!.months = monthss
+                    cell!.unitsSold = unitsSolds
+                    cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
                 }
                 
                 return cell!
@@ -139,7 +143,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 } catch  {
                     print("Error to fetch Item data")
                 }
-                
+                cell?.delegate = self
                 cell?.tableView.reloadData()
                 return cell!
                 
@@ -182,9 +186,84 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
 extension ViewController: InputWeightCellDelegate {
     func changeAndUpdateCell(didChange: Bool, person:Person) {
         let indexPath = IndexPath(row: 2, section: 0)
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
-         self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
+        
+        DispatchQueue.main.async {
+            self.collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+            
+        }
+        self.collectionView(self.collectionView, didSelectItemAt: indexPath)
+        
+        self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
         collectionView.reloadData()
         tabCollectionView.reloadData()
     }
+    
+    func checkIfWrongInput() {
+        AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight")
+    }
+    
+    func resetData() {
+        let alertController = UIAlertController(title: "Delete All Data ?", message: "Do you want to delete all data ?", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let result = try? self.context.fetch(self.request) {
+                for i in result {
+                    self.context.delete(i)
+                }
+                
+            }
+            do {
+                try self.context.save()
+                let indexPath = IndexPath(row: 1, section: 0)
+                self.collectionView.reloadData()
+                self.tabCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+                }
+                self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
+            } catch {
+                print("Co xoa duoc dau ma xoa")
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true)
+    }
 }
+
+extension ViewController: HistoryCellDelegate {
+    
+    func touchToDeleteCell(index: Int) {
+        let alertController = UIAlertController(title: "Delete This Record", message: "Do you want to delete this record? ", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let result = try? self.context.fetch(self.request) {
+                self.context.delete(result[(result.count - 1) - index])
+                
+            }
+            do {
+                try self.context.save()
+                let indexPath = IndexPath(row: 2, section: 0)
+                DispatchQueue.main.async {
+                    self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+                }
+               
+                self.collectionView.reloadData()
+                self.tabCollectionView.reloadData()
+            } catch {
+                print("Co xoa duoc dau ma xoa")
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true)
+    }
+
+}
+

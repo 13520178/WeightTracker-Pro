@@ -12,6 +12,8 @@ import CoreData
 
 protocol InputWeightCellDelegate {
     func changeAndUpdateCell(didChange: Bool, person:Person)
+    func checkIfWrongInput()
+    func resetData()
 }
 
 class InputWeightCell: BaseCell{
@@ -48,6 +50,15 @@ class InputWeightCell: BaseCell{
         return bt
     }()
     
+    let resetButton: UIButton = {
+        let bt = UIButton(type: UIButton.ButtonType.roundedRect)
+        let image = UIImage(named: "resetIcon")
+        bt.setBackgroundImage(image, for: .normal)
+        bt.layer.cornerRadius = 25
+        bt.layer.borderWidth = 0
+        return bt
+    }()
+    
     var delegate: InputWeightCellDelegate?
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -76,6 +87,15 @@ class InputWeightCell: BaseCell{
         enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
         enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
+        addSubview(resetButton)
+        resetButton.translatesAutoresizingMaskIntoConstraints = false
+        resetButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        resetButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 22).isActive = true
+        resetButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
+         resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
+        
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.addGestureRecognizer(tap)
         
@@ -83,6 +103,10 @@ class InputWeightCell: BaseCell{
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         endEditing(true)
+    }
+    
+    @objc func resetButtonAction(sender: UIButton!) {
+        delegate?.resetData()
     }
     
     @objc func buttonAction(sender: UIButton!) {
@@ -97,8 +121,12 @@ class InputWeightCell: BaseCell{
                     person.date = Date().string(format: "dd-MM-yyyy")
                     savePerson()
                     delegate?.changeAndUpdateCell(didChange: true, person: person)
+                }else {
+                    delegate?.checkIfWrongInput()
                 }
             }
+        }else {
+            delegate?.checkIfWrongInput()
         }
         inputWeightTextfield.text = ""
     }

@@ -17,7 +17,6 @@ class NarBarCollectionViewCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
             image.tintColor = !isHighlighted ? #colorLiteral(red: 0.7289724051, green: 0.6552841139, blue: 1, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-
         }
     }
     

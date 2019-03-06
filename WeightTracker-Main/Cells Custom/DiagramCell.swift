@@ -118,12 +118,7 @@ class DiagramCell: BaseCell {
         setupStartTime()
         setupNumberOfDays()
         
-        addSubview(viewForChart)
-        viewForChart.translatesAutoresizingMaskIntoConstraints = false
-        viewForChart.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        viewForChart.topAnchor.constraint(equalTo: numberOfDaysStackView.bottomAnchor, constant: 16.0).isActive = true
-         viewForChart.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16.0).isActive = true
-        viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 10.0).isActive = true
+        
 
         let request : NSFetchRequest<Person> = Person.fetchRequest()
         do {
@@ -132,7 +127,8 @@ class DiagramCell: BaseCell {
             print("Error to fetch Item data")
         }
         
-        axisFormatDelegate = self
+        
+        
 
         if  people.count >= 1 {
             var sumOfDays = 0
@@ -148,8 +144,10 @@ class DiagramCell: BaseCell {
                     
                 }
             }
-            startKgLabel.text = String(unitsSold[0]) + "Kg "
-            currentKgLabel.text = String(unitsSold.last!) + "Kg "
+            let startKg = round(unitsSold[0] * 100)/100
+            let currentKg  = round(unitsSold.last! * 100)/100
+            startKgLabel.text = String(startKg) + " Kg"
+            currentKgLabel.text = String(currentKg) + " Kg"
             timeStartLabel.text = people[0].date
             // sum of days
            
@@ -166,6 +164,17 @@ class DiagramCell: BaseCell {
     }
     
     func setChart(dataEntryX forX:[String],dataEntryY forY: [Double]) {
+        addSubview(viewForChart)
+        viewForChart.translatesAutoresizingMaskIntoConstraints = false
+        viewForChart.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        viewForChart.topAnchor.constraint(equalTo: numberOfDaysStackView.bottomAnchor, constant: 16.0).isActive = true
+        viewForChart.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16.0).isActive = true
+        viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 10.0).isActive = true
+        
+        layoutIfNeeded()
+        updateConstraintsIfNeeded()
+        
+        axisFormatDelegate = self
         viewForChart.noDataText = "You need to provide data for the chart."
         var dataEntries:[ChartDataEntry] = []
         for i in 0..<forX.count{
@@ -177,6 +186,7 @@ class DiagramCell: BaseCell {
         let chartData = LineChartData(dataSet: chartDataSet)
         viewForChart.data = chartData
         viewForChart.setVisibleXRangeMaximum(5)
+        viewForChart.autoScaleMinMaxEnabled = true
         viewForChart.moveViewToX(Double(months.count))
         let xAxisValue = viewForChart.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
@@ -295,8 +305,7 @@ class DiagramCell: BaseCell {
     
 }
 extension DiagramCell: IAxisValueFormatter {
-    
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        return months[Int(value)]
+        return months[Int(value) % months.count]
     }
 }
