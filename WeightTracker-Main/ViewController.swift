@@ -9,7 +9,11 @@
 import UIKit
 import CoreData
 
+
+//collectionView is the top colection view
+// TabColectionView are big bottom views
 class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout  {
+    
 
     //MARK: - Outlet variable
     @IBOutlet weak var tabCollectionView: UICollectionView!
@@ -18,7 +22,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     @IBOutlet weak var widthOfNarBarBottom: NSLayoutConstraint!
     
     //MARK: - Variable
-    var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon"]
+    var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","toolIcon"]
+    //var iconColectionViewArray = ["scaleIcon","diagramIcon","calculatorIcon"]
      let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<Person> = Person.fetchRequest()
     
@@ -35,6 +40,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         self.collectionView?.selectItem(at: indexPathForFirstRow, animated: true, scrollPosition: .top)
     }
     
+
+    
     func tabCollectionViewSetup() {
         tabCollectionView.delegate = self
         tabCollectionView.dataSource = self
@@ -42,6 +49,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         tabCollectionView?.register(DiagramCell.self, forCellWithReuseIdentifier: "DiagramId")
         tabCollectionView?.register(HistoryCell.self, forCellWithReuseIdentifier:
             "HistoryId")
+        tabCollectionView?.register(ToolCell.self, forCellWithReuseIdentifier:
+            "ToolId")
         if let flowLayout = tabCollectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
             flowLayout.minimumLineSpacing = 0
@@ -51,7 +60,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     //MARK: - ColectionView
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        leadingOfNarBarBottom.constant = scrollView.contentOffset.x/3
+        leadingOfNarBarBottom.constant = scrollView.contentOffset.x/4
+       
     }
     
 
@@ -61,9 +71,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionView {
-            return 3
+            return 4
         }else if collectionView == self.tabCollectionView {
-            return 3
+            return 4
         }else {
             return 0
         }
@@ -111,7 +121,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.months = monthss
                     cell!.unitsSold = unitsSolds
                     cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
-                    
+                    cell!.setChartCandle(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
                     let startKg = round(cell!.unitsSold[0] * 100)/100
                     let currentKg  = round(cell!.unitsSold.last! * 100)/100
                     cell!.startKgLabel.text = String(startKg) + " Kg "
@@ -131,11 +141,12 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.months = monthss
                     cell!.unitsSold = unitsSolds
                     cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
+                    cell!.setChartCandle(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
                 }
                 
                 return cell!
                 
-            }else {
+            }else if indexPath.item == 2 {
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HistoryId", for: indexPath) as? HistoryCell
                 do {
@@ -148,6 +159,12 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 return cell!
                 
             }
+            else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ToolId", for: indexPath) as? ToolCell
+                cell?.delegate = self
+                return cell!
+                
+            }
             
         }else {
             return UICollectionViewCell()
@@ -157,7 +174,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
-            return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height )
+            return CGSize(width: collectionView.frame.width/4, height: collectionView.frame.height )
         }else {
             return CGSize(width: tabCollectionView.frame.width, height: tabCollectionView.frame.height)
         }
@@ -177,15 +194,41 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     func collectionViewSetup() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        widthOfNarBarBottom.constant = collectionView.frame.width/3
+        widthOfNarBarBottom.constant = collectionView.frame.width/4
     }
 
 }
 
+
+
 //MARK: Protocol
+
+extension ViewController: ToolCellDelegate {
+    func checkIfWrongInputToolCell() {
+        AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+    }
+    
+    func enterWeightFirst() {
+        AlertController.showAlert(inController: self, tilte: "Almost done 😜", message: "Please enter your current weight.")
+        let indexPath = IndexPath(row: 0, section: 0)
+        
+        DispatchQueue.main.async {
+            self.collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+            
+        }
+        self.collectionView(self.collectionView, didSelectItemAt: indexPath)
+        
+        self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
+        collectionView.reloadData()
+        tabCollectionView.reloadData()
+    }
+    
+
+}
+
 extension ViewController: InputWeightCellDelegate {
     func changeAndUpdateCell(didChange: Bool, person:Person) {
-        let indexPath = IndexPath(row: 2, section: 0)
+        let indexPath = IndexPath(row: 3, section: 0)
         
         DispatchQueue.main.async {
             self.collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .top)
