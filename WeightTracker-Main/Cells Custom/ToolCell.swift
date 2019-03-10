@@ -133,7 +133,7 @@ class ToolCell: BaseCell {
 
     
     
-    //MARK: - Set up View
+    //MARK: - Setup View
     override func setUpView() {
         super.setUpView()
         backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
@@ -159,7 +159,7 @@ class ToolCell: BaseCell {
         endEditing(true)
     }
     
-    //MARK: - Set up Detail View
+    //MARK: - Setup Detail View
     func setDetailView(){
         detailView.isHidden = true
         addSubview(detailView)
@@ -181,7 +181,7 @@ class ToolCell: BaseCell {
         changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         changeProfileButton.addTarget(self, action: #selector(editProfileButtonAction), for: .touchUpInside)
     }
-    //MARK: - Set up Input View
+    //MARK: - Setup Input View
     func setInputView(){
 
         profileView.layer.cornerRadius = 15.0
@@ -294,14 +294,14 @@ class ToolCell: BaseCell {
             if(people.count > 0) {
                 UIView.animate(withDuration: 0.8, delay: 0, options: [.curveEaseInOut],
                                animations: {
-                                self.profileView.center.y += self.bounds.height
-                                self.cmLabel.center.y += self.bounds.height
-                                self.profileLabel.center.y += self.bounds.height
-                                self.kgLabel.center.y += self.bounds.height
-                                self.inputHeightTextfield.center.y += self.bounds.height
-                                self.desiredWeightTextfield.center.y += self.bounds.height
-                                self.roundView.center.y += self.bounds.height
-                                self.enterButton.center.y += self.bounds.height
+                                self.profileView.isHidden = true
+                                self.cmLabel.isHidden = true
+                                self.profileLabel.isHidden = true
+                                self.kgLabel.isHidden = true
+                                self.inputHeightTextfield.isHidden = true
+                                self.desiredWeightTextfield.isHidden = true
+                                self.roundView.isHidden = true
+                                self.enterButton.isHidden = true
                                 self.profileView.layoutIfNeeded()
                                 
                 },  completion: {(_ completed: Bool) -> Void in
@@ -329,14 +329,14 @@ class ToolCell: BaseCell {
                        animations: {
                         self.detailView.isHidden = true
                         self.changeProfileButton.isHidden = true
-                        self.profileView.center.y -= self.bounds.height
-                        self.cmLabel.center.y -= self.bounds.height
-                        self.profileLabel.center.y -= self.bounds.height
-                        self.kgLabel.center.y -= self.bounds.height
-                        self.inputHeightTextfield.center.y -= self.bounds.height
-                        self.desiredWeightTextfield.center.y -= self.bounds.height
-                        self.roundView.center.y -= self.bounds.height
-                        self.enterButton.center.y -= self.bounds.height
+                        self.profileView.isHidden = false
+                        self.cmLabel.isHidden = false
+                        self.profileLabel.isHidden = false
+                        self.kgLabel.isHidden = false
+                        self.inputHeightTextfield.isHidden = false
+                        self.desiredWeightTextfield.isHidden = false
+                        self.roundView.isHidden = false
+                        self.enterButton.isHidden = false
                         self.profileView.layoutIfNeeded()
                         
         },  completion: {(_ completed: Bool) -> Void in
@@ -347,14 +347,14 @@ class ToolCell: BaseCell {
     func setProfileViewPosition() {
         UIView.animate(withDuration: 0, delay: 0, options: [.curveEaseInOut],
                        animations: {
-                        self.profileView.center.y += self.bounds.height
-                        self.cmLabel.center.y += self.bounds.height
-                        self.profileLabel.center.y += self.bounds.height
-                        self.kgLabel.center.y += self.bounds.height
-                        self.inputHeightTextfield.center.y += self.bounds.height
-                        self.desiredWeightTextfield.center.y += self.bounds.height
-                        self.roundView.center.y += self.bounds.height
-                        self.enterButton.center.y += self.bounds.height
+                        self.profileView.isHidden = true
+                        self.cmLabel.isHidden = true
+                        self.profileLabel.isHidden = true
+                        self.kgLabel.isHidden = true
+                        self.inputHeightTextfield.isHidden = true
+                        self.desiredWeightTextfield.isHidden = true
+                        self.roundView.isHidden = true
+                        self.enterButton.isHidden = true
                         self.profileView.layoutIfNeeded()
                         
         },  completion: {(_ completed: Bool) -> Void in
