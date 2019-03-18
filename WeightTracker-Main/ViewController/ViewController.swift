@@ -22,26 +22,51 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     @IBOutlet weak var widthOfNarBarBottom: NSLayoutConstraint!
     
     //MARK: - Variable
-    var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","toolIcon"]
-    //var iconColectionViewArray = ["scaleIcon","diagramIcon","calculatorIcon"]
-     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var isStart = true
+    var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","toolIcon","setupIcon"]
+    //var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","setupIcon"]
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<Person> = Person.fetchRequest()
+    
+    var indexOfCellSelected = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionViewSetup()
         tabCollectionViewSetup()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(refreshLbl),
+                                               name: NSNotification.Name(rawValue: "refresh"),
+                                               object: nil)
     }
-    
+    @objc func refreshLbl(notification: NSNotification) {
+        print("Received Notification")
+        collectionView.reloadData()
+        tabCollectionView.reloadData()
+        isStart = false
+        let indexPath = IndexPath(row: 2, section: 0)
+        
+        DispatchQueue.main.async {
+            self.collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+            
+        }
+        self.collectionView(self.collectionView, didSelectItemAt: indexPath)
+        
+        self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
+        
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         //auto selected 1st item
-        let indexPathForFirstRow = IndexPath(row: 0, section: 0)
-        self.collectionView?.selectItem(at: indexPathForFirstRow, animated: true, scrollPosition: .top)
+        if isStart {
+            let indexPathForFirstRow = IndexPath(row: 0, section: 0)
+            self.collectionView?.selectItem(at: indexPathForFirstRow, animated: true, scrollPosition: .top)
+        }else {
+            isStart = true
+        }
+        
     }
-    
 
-    
     func tabCollectionViewSetup() {
         tabCollectionView.delegate = self
         tabCollectionView.dataSource = self
@@ -51,6 +76,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             "HistoryId")
         tabCollectionView?.register(ToolCell.self, forCellWithReuseIdentifier:
             "ToolId")
+        tabCollectionView?.register(SetupCell.self, forCellWithReuseIdentifier:
+            "SetupId")
         if let flowLayout = tabCollectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
             flowLayout.minimumLineSpacing = 0
@@ -60,10 +87,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     //MARK: - ColectionView
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        leadingOfNarBarBottom.constant = scrollView.contentOffset.x/4
+        leadingOfNarBarBottom.constant = scrollView.contentOffset.x/5
        
     }
-    
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let indexPath = IndexPath(row: Int(targetContentOffset.pointee.x/view.frame.width), section: 0)
@@ -71,9 +97,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionView {
-            return 4
+            return 5
         }else if collectionView == self.tabCollectionView {
-            return 4
+            return 5
         }else {
             return 0
         }
@@ -123,16 +149,16 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
                     cell!.setChartCandle(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
                     let startKg = round(cell!.unitsSold[0] * 100)/100
-                    let currentKg  = round(cell!.unitsSold.last! * 100)/100
+                    let changeKg  = round((cell!.unitsSold.last! - cell!.unitsSold.first!) * 100)/100
                     cell!.startKgLabel.text = String(startKg) + " Kg "
-                    cell!.currentKgLabel.text = String(currentKg) + " Kg "
+                    cell!.changeKgLabel.text = String(changeKg) + " Kg "
                     cell!.timeStartLabel.text = cell!.people[0].date
                     // sum of days
                     
                     cell!.totalDaysLabel.text = String(sumOfDays)
                 }else {
                     cell!.startKgLabel.text = "No record"
-                    cell!.currentKgLabel.text = "No record"
+                    cell!.changeKgLabel.text = "No record"
                     cell!.timeStartLabel.text = "No record"
                     cell!.totalDaysLabel.text = "0"
                     
@@ -159,11 +185,34 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 return cell!
                 
             }
-            else {
+            else if indexPath.item == 3  {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ToolId", for: indexPath) as? ToolCell
                 cell?.delegate = self
+                do {
+                    try cell?.people = context.fetch(request)
+                } catch  {
+                    print("Error to fetch Item data")
+                }
+                
+                if let h = Double(cell!.inputHeightTextfield.text!) , let w = Double(cell!.desiredWeightTextfield.text!) {
+                        if h != 0 && w != 0 {
+                            cell?.defaults.set(Double(cell!.inputHeightTextfield.text!), forKey: "height")
+                            cell?.defaults.set(Double(cell!.desiredWeightTextfield.text!), forKey: "desizedWeight")
+                        }
+                    }
+               
+                
+                if(cell?.people.count == 0) {
+                    cell?.editProfileButtonAction()
+                }else {
+                    
+                    cell?.calculateAndShowBMIValue()
+                }
                 return cell!
                 
+            }else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SetupId", for: indexPath) as? SetupCell
+                return cell!
             }
             
         }else {
@@ -174,7 +223,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
-            return CGSize(width: collectionView.frame.width/4, height: collectionView.frame.height )
+            return CGSize(width: collectionView.frame.width/5, height: collectionView.frame.height )
         }else {
             return CGSize(width: tabCollectionView.frame.width, height: tabCollectionView.frame.height)
         }
@@ -194,7 +243,15 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     func collectionViewSetup() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        widthOfNarBarBottom.constant = collectionView.frame.width/4
+        widthOfNarBarBottom.constant = collectionView.frame.width/5
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destVC : HistoryDetailVC = segue.destination as! HistoryDetailVC
+        if(indexOfCellSelected != -1) {
+            destVC.indexOfPeople = indexOfCellSelected
+        }
+        
     }
 
 }
@@ -216,8 +273,8 @@ extension ViewController: ToolCellDelegate {
             self.collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .top)
             
         }
-        self.collectionView(self.collectionView, didSelectItemAt: indexPath)
         
+        self.collectionView(self.collectionView, didSelectItemAt: indexPath)
         self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
         collectionView.reloadData()
         tabCollectionView.reloadData()
@@ -227,6 +284,10 @@ extension ViewController: ToolCellDelegate {
 }
 
 extension ViewController: InputWeightCellDelegate {
+    func checkIfOverInput() {
+        AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+    }
+    
     func changeAndUpdateCell(didChange: Bool, person:Person) {
         let indexPath = IndexPath(row: 3, section: 0)
         
@@ -257,13 +318,15 @@ extension ViewController: InputWeightCellDelegate {
             }
             do {
                 try self.context.save()
-                let indexPath = IndexPath(row: 1, section: 0)
+                let indexPath = IndexPath(row: 3, section: 0)
                 self.collectionView.reloadData()
                 self.tabCollectionView.reloadData()
                 DispatchQueue.main.async {
                     self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
                 }
                 self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
+                
+                
             } catch {
                 print("Co xoa duoc dau ma xoa")
             }
@@ -278,6 +341,11 @@ extension ViewController: InputWeightCellDelegate {
 }
 
 extension ViewController: HistoryCellDelegate {
+    func showDetailHistory(index: Int) {
+        indexOfCellSelected = index
+        performSegue(withIdentifier: "showHistoryDetail", sender: nil)
+    }
+    
     
     func touchToDeleteCell(index: Int) {
         let alertController = UIAlertController(title: "Delete This Record", message: "Do you want to delete this record? ", preferredStyle: .alert)
@@ -309,4 +377,6 @@ extension ViewController: HistoryCellDelegate {
     }
 
 }
+
+
 

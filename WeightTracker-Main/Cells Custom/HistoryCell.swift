@@ -11,6 +11,7 @@ import CoreData
 
 protocol HistoryCellDelegate {
     func touchToDeleteCell(index : Int)
+    func showDetailHistory(index : Int)
 }
 
 class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
@@ -81,6 +82,10 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        delegate?.showDetailHistory(index: indexPath.row)
+    }
+    
  
 }
 
@@ -103,13 +108,14 @@ class MyCell:UITableViewCell {
         return lb
     }()
     
-    let deleteButton: UIButton = {
-        let bt = UIButton(type: UIButton.ButtonType.roundedRect)
-        bt.setTitle("Enter", for: .normal)
-        bt.setTitleColor(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), for: .normal)
-        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 15)
-        return bt
+    var showDetailLabel: UILabel = {
+        var lb = UILabel()
+        lb.text = "❯"
+        lb.font = lb.font.withSize(30.0)
+        lb.textColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
+        return lb
     }()
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -139,15 +145,13 @@ class MyCell:UITableViewCell {
         addSubview(weightLabel)
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: 3.0).isActive = true
-        weightLabel.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -30).isActive = true
+        weightLabel.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -60).isActive = true
         
-        addSubview(deleteButton)
-        deleteButton.isHidden = true
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteButton.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: 0.0).isActive = true
-        deleteButton.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -40).isActive = true
-        deleteButton.widthAnchor.constraint(equalToConstant: 50)
-        deleteButton.heightAnchor.constraint(equalToConstant: 15)
+        addSubview(showDetailLabel)
+        showDetailLabel.translatesAutoresizingMaskIntoConstraints = false
+        showDetailLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: -9.0).isActive = true
+        showDetailLabel.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -10).isActive = true
+        
         
     }
 

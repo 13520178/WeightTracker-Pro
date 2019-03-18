@@ -26,6 +26,7 @@ class ToolCell: BaseCell {
     let defaults = UserDefaults.standard
     var height: Double = -1
     var desiredWeight:Double = -1
+    var completedRate: Double = 0.0
     
     //MARK: - Input View Var
    
@@ -56,7 +57,7 @@ class ToolCell: BaseCell {
     
     let cmLabel:UILabel = {
         let label = UILabel()
-        label.text = "kg"
+        label.text = "cm"
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         return label
@@ -117,6 +118,8 @@ class ToolCell: BaseCell {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         v.layer.cornerRadius = 15.0
+        v.layer.borderWidth = 0.5
+        v.layer.borderColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         v.layer.masksToBounds = true
         return v
     }()
@@ -190,7 +193,7 @@ class ToolCell: BaseCell {
     
     let riskLabel:UILabel = {
         let label = UILabel()
-        label.text = "Risks of diseases"
+        label.text = "Risks of diseases (obesity)"
         label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium)
         label.textColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         return label
@@ -204,12 +207,50 @@ class ToolCell: BaseCell {
         return label
     }()
     
+    //Progress View
+    var shapeLayer: CAShapeLayer!
+    var backgoundShapeLayer:CAShapeLayer!
+    let percentlabel : UILabel = {
+        let l = UILabel()
+        l.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+        l.textColor = #colorLiteral(red: 0.7289724051, green: 0.6552841139, blue: 1, alpha: 1)
+        return l
+    }()
+    
+    let currentWeightlabel : UILabel = {
+        let l = UILabel()
+        l.text = "Current weight: 64 kg"
+        l.font = UIFont.systemFont(ofSize: 17)
+        l.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return l
+    }()
+    
+    let initWeightlabel : UILabel = {
+        let l = UILabel()
+        l.text = "70.0 kg"
+        l.font = UIFont.systemFont(ofSize: 17)
+        l.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        return l
+    }()
+    
+    let targetWeightlabel : UILabel = {
+        let l = UILabel()
+        l.text = "60.0 kg"
+        l.font = UIFont.systemFont(ofSize: 17)
+        l.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        return l
+    }()
+    
     //MARK: - Setup View
     override func setUpView() {
         super.setUpView()
         backgroundColor = #colorLiteral(red: 1, green: 0.9446946864, blue: 0.7848783566, alpha: 1)
+
+        
         setInputView()
         setDetailView()
+        setProgressView()
+       
         
         do {
             try people = context.fetch(request)
@@ -221,9 +262,12 @@ class ToolCell: BaseCell {
         self.addGestureRecognizer(tap)
         
         if defaults.bool(forKey: "wasShowInput") == true {
-            print(self.profileView.center.y)
             setProfileViewPosition()
-            print(self.profileView.center.y)
+          
+        }
+        
+        if people.count != 0 {
+            calculateAndShowBMIValue()
         }
         
     }
@@ -231,6 +275,82 @@ class ToolCell: BaseCell {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         endEditing(true)
     }
+    //MARK: - ProgressView SETUP
+    func setProgressView() {
+        backgoundShapeLayer = initialChart(withStrokeColor: #colorLiteral(red: 0.9410408125, green: 0.9459677277, blue: 0.9459677277, alpha: 1), withLineWidth: 8, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 1)
+        
+        shapeLayer = initialChart(withStrokeColor: UIColor.red.cgColor, withLineWidth: 6, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 0)
+        
+        progressView.layer.addSublayer(backgoundShapeLayer)
+        progressView.layer.addSublayer(shapeLayer)
+        
+        //Add % Label
+        progressView.addSubview(percentlabel)
+        percentlabel.translatesAutoresizingMaskIntoConstraints = false
+        percentlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor).isActive = true
+        percentlabel.centerYAnchor.constraint(equalTo: progressView.centerYAnchor).isActive = true
+        
+        
+        // Add currentWeightlabel
+        progressView.addSubview(currentWeightlabel)
+        currentWeightlabel.translatesAutoresizingMaskIntoConstraints = false
+        currentWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor).isActive = true
+        currentWeightlabel.topAnchor.constraint(equalTo: progressView.topAnchor, constant: 5.0).isActive = true
+        
+        // Add currentWeightlabel
+        progressView.addSubview(initWeightlabel)
+        initWeightlabel.translatesAutoresizingMaskIntoConstraints = false
+        initWeightlabel.topAnchor.constraint(equalTo: progressView.centerYAnchor, constant: 15).isActive = true
+        initWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -80.0).isActive = true
+        print("Height : \(progressView.layer.frame.height/2)")
+        
+        // Add targetWeightlabel
+        progressView.addSubview(targetWeightlabel)
+        targetWeightlabel.translatesAutoresizingMaskIntoConstraints = false
+        targetWeightlabel.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: -5.0).isActive = true
+        targetWeightlabel.leadingAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -5).isActive = true
+        print("Width : \(progressView.layer.frame.width/2)")
+        startChart()
+    }
+    
+    
+    //MARK: - Chart SETUP
+    func startChart() {
+        
+        let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        basicAnimation.toValue = completedRate
+        basicAnimation.duration = 2
+
+        //percentlabel.text = String(round(10*(completedRate*100))/10) + "%"
+
+        shapeLayer.strokeColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        
+        basicAnimation.fillMode = CAMediaTimingFillMode.forwards
+        basicAnimation.isRemovedOnCompletion = false
+        
+        shapeLayer.add(basicAnimation, forKey: "urSoBasic")
+    }
+    
+    func initialChart(withStrokeColor strokeColor: CGColor, withLineWidth lineWidth:CGFloat, byFillColor fillColor: CGColor, withStrokeEnd strockEnd:CGFloat)->CAShapeLayer {
+        
+        let centerpoint = CGPoint.zero
+        let circularPath = UIBezierPath(arcCenter: centerpoint, radius: 65, startAngle: CGFloat.pi, endAngle: 2.5 * CGFloat.pi, clockwise: true)
+        
+        let chart = CAShapeLayer()
+        
+        chart.path = circularPath.cgPath
+        chart.strokeColor = strokeColor
+        chart.lineWidth = lineWidth
+        chart.fillColor = fillColor
+        chart.lineCap = CAShapeLayerLineCap.round
+        chart.strokeEnd = strockEnd
+        chart.position = CGPoint(x: self.frame.width/2 - 55/3, y: 100.0)
+        chart.name = "myLayer"
+        print(self.frame.height/2)
+        
+        return chart
+    }
+    
     
     //MARK: - Setup Detail View
     func setDetailView(){
@@ -248,6 +368,12 @@ class ToolCell: BaseCell {
         let backgroundView = UIImageView(image: backgroundImage)
         backgroundView.contentMode = .scaleToFill
         
+        
+        // add image to Progress View
+        let backgroundProgressImage = UIImage(named: "progressBackround")
+        let backgroundProgressView = UIImageView(image: backgroundProgressImage)
+        backgroundProgressView.contentMode = .scaleToFill
+        
 
         self.detailView.addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -263,10 +389,18 @@ class ToolCell: BaseCell {
         progressView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -16).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
+        self.progressView.addSubview(backgroundProgressView)
+        backgroundProgressView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundProgressView.topAnchor.constraint(equalTo: progressView.topAnchor, constant: 0).isActive = true
+        backgroundProgressView.leadingAnchor.constraint(equalTo: progressView.leadingAnchor, constant: 0).isActive = true
+        backgroundProgressView.trailingAnchor.constraint(equalTo: progressView.trailingAnchor, constant: 0).isActive = true
+        backgroundProgressView.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 0).isActive = true
+        
+        
         
         self.detailView.addSubview(BMILabel)
         BMILabel.translatesAutoresizingMaskIntoConstraints = false
-        BMILabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 24).isActive = true
+        BMILabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 15).isActive = true
         BMILabel.centerXAnchor.constraint(equalTo: detailView.centerXAnchor).isActive = true
         
         self.detailView.addSubview(BMIValueLabel)
@@ -285,10 +419,10 @@ class ToolCell: BaseCell {
         
         self.detailView.addSubview(kgCmStackView)
         kgCmStackView.translatesAutoresizingMaskIntoConstraints = false
-        kgCmStackView.topAnchor.constraint(equalTo: BMIValueLabel.bottomAnchor, constant: -20.0).isActive = true
+        kgCmStackView.topAnchor.constraint(equalTo: BMIValueLabel.bottomAnchor, constant: -10.0).isActive = true
         kgCmStackView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -12.0).isActive = true
         kgCmStackView.widthAnchor.constraint(equalToConstant: 75.0).isActive = true
-        kgCmStackView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        kgCmStackView.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
         
         self.detailView.addSubview(kgValueLabel)
         kgValueLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -302,7 +436,7 @@ class ToolCell: BaseCell {
         
         self.detailView.addSubview(lineDetailView)
         lineDetailView.translatesAutoresizingMaskIntoConstraints = false
-        lineDetailView.topAnchor.constraint(equalTo: kgCmStackView.bottomAnchor, constant: 8.0).isActive = true
+        lineDetailView.topAnchor.constraint(equalTo: kgCmStackView.bottomAnchor, constant: 15.0).isActive = true
         lineDetailView.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 32.0).isActive = true
         lineDetailView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -32.0).isActive = true
         lineDetailView.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
@@ -337,8 +471,120 @@ class ToolCell: BaseCell {
         changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         changeProfileButton.addTarget(self, action: #selector(editProfileButtonAction), for: .touchUpInside)
     }
+    
+    func calculateAndShowBMIValue() {
+        let weight = people.last?.weight
+        let height = defaults.double(forKey: "height")
+        
+        if var  weight = weight {
+            weight = round(weight*100)/100
+            let height2 = (height*height)/10000
+            var BMI = Double(weight) / (height2)
+            BMI = round(BMI*100)/100
+            BMIValueLabel.text = String( BMI)
+            kgValueLabel.text = "\(weight) kg"
+            cmValueLabel.text = "\(height) cm"
+            
+            if 0 <= BMI && BMI < 15 {
+                categoryValueLabel.text = "Very severely underweight"
+                riskValueLabel.text = "Low"
+            }else if 15 <= BMI && BMI < 16 {
+                categoryValueLabel.text = "Severely underweight"
+                riskValueLabel.text = "Low"
+            }else if 16 <= BMI && BMI < 18.5 {
+                categoryValueLabel.text = "Underweight"
+                riskValueLabel.text = "Low"
+            }else if 18.5 <= BMI && BMI < 25 {
+                categoryValueLabel.text = "Normal (healthy weight)"
+                riskValueLabel.text = "Medium"
+            }else if 25 <= BMI && BMI < 30 {
+                categoryValueLabel.text = "Overweight"
+                riskValueLabel.text = "High"
+            }else if 30 <= BMI && BMI < 35 {
+                categoryValueLabel.text = "Obese Class I (Moderately obese)"
+                riskValueLabel.text = "High"
+            }else if 35 <= BMI && BMI < 40 {
+                categoryValueLabel.text = "Obese Class II (Severely obese)"
+                riskValueLabel.text = "Very high"
+            }else if 40 <= BMI && BMI < 45 {
+                categoryValueLabel.text = "Obese Class III (Very severely obese)"
+                riskValueLabel.text = "Emergency"
+            }else if 45 <= BMI && BMI < 50 {
+                categoryValueLabel.text = "Obese Class IV (Morbidly Obese)"
+                riskValueLabel.text = "Emergency"
+            }else if 50 <= BMI && BMI < 60 {
+                categoryValueLabel.text = "Obese Class V (Super Obese)"
+                riskValueLabel.text = "Emergency"
+            }else if 60 < BMI {
+                categoryValueLabel.text = "Obese Class VI (Hyper Obese)"
+                riskValueLabel.text = "Emergency"
+            }
+            
+            var targetWeight = defaults.float(forKey: "desizedWeight")
+            targetWeight = round(targetWeight*100)/100
+            currentWeightlabel.text = "Current weight: \(weight) kg"
+            targetWeightlabel.text = "\(targetWeight) kg"
+            if let iw = people.first?.weight {
+                initWeightlabel.text = "\(iw) kg"
+                //set chart and percent
+                if iw > targetWeight {
+                    // Loss weihgt
+                    if (targetWeight <= weight) {
+                        if(iw >= weight) {
+                            var percent = ((iw - weight)/(iw - targetWeight)) * 100
+                            completedRate = Double((iw - weight)/(iw - targetWeight))
+                            startChart()
+                            percent = round(percent * 100)/100
+                            percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+                            percentlabel.text = "\(percent) %"
+                        }else {
+                            percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
+                            percentlabel.text = "😭 "
+                            completedRate = 0
+                            startChart()
+                        }
+                    }else {
+                        percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
+                        percentlabel.text = "🏅 "
+                        completedRate = 1
+                        startChart()
+                    }
+                }else if iw < targetWeight {
+                    if (targetWeight >= weight) {
+                        if(iw <= weight) {
+                            var percent = ((weight - iw)/(targetWeight - iw)) * 100
+                            completedRate = Double((weight - iw)/(targetWeight - iw))
+                            startChart()
+                            percent = round(percent * 100)/100
+                            percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+                            percentlabel.text = "\(percent) %"
+                        }else {
+                            completedRate = 0
+                            percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
+                            percentlabel.text = "😭 "
+                            startChart()
+                        }
+                    }else {
+                        percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
+                        percentlabel.text = "🏅 "
+                        completedRate = 1
+                        startChart()
+                    }
+                }else {
+                    percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+                    percentlabel.text = "100.0 %"
+                    completedRate = 1
+                    startChart()
+                }
+               
+            }
+        }
+    }
+    
     //MARK: - Setup Input View
     func setInputView(){
+        
+        
 
         profileView.layer.cornerRadius = 15.0
         profileView.clipsToBounds = true
@@ -421,8 +667,10 @@ class ToolCell: BaseCell {
         if inputHeightTextfield.text != ""
         {
             if let h = inputHeightTextfield.text {
-                if let _ = Float(h) {
-                   isHeightOK = true
+                if let h = Float(h) {
+                    if h >= 30 && h <= 300 {
+                        isHeightOK = true
+                    }
                 }else {
                     print("height wrong !")
                 }
@@ -434,10 +682,12 @@ class ToolCell: BaseCell {
         if desiredWeightTextfield.text != ""
         {
             if let w = desiredWeightTextfield.text {
-                if let _ = Float(w) {
-                    isWeightOk = true
+                if let w = Float(w) {
+                    if w >= 1 && w <= 400 {
+                        isWeightOk = true
+                    }
                 }else {
-                    print("height wrong !")
+                    print("weight wrong !")
                 }
             }
         }else {
@@ -479,6 +729,8 @@ class ToolCell: BaseCell {
                 defaults.set(true, forKey: "wasShowInput")
                 defaults.set(Double(inputHeightTextfield.text!), forKey: "height")
                 defaults.set(Double(desiredWeightTextfield.text!), forKey: "desizedWeight")
+                startChart()
+                calculateAndShowBMIValue()
                 
             }else {
                 delegate?.enterWeightFirst()

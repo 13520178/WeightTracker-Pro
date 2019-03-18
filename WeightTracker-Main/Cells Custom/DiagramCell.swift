@@ -25,8 +25,10 @@ class DiagramCell: BaseCell {
     
     let charViews: UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-        v.layer.cornerRadius = 8.0
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        v.layer.cornerRadius = 15.0
+        v.layer.borderColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        v.layer.borderWidth = 1.5
         v.clipsToBounds = true
         return v
     }()
@@ -37,10 +39,6 @@ class DiagramCell: BaseCell {
     }()
     
     let viewForChartCandle:BarChartView = {
-//        let v = UIView()
-//        v.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
-//        v.isHidden = true
-//        return v
         
         let chart = BarChartView()
         chart.isHidden = true
@@ -61,7 +59,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "Initial weight"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         return lb
     }()
@@ -69,24 +67,24 @@ class DiagramCell: BaseCell {
     var startKgLabel: UILabel = {
         let lb = UILabel()
         lb.text = "66.0 Kg"
-        lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        lb.font = lb.font.withSize(17.0)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
     }()
     
-    var currentKgTitleLabel: UILabel = {
+    var changeKgTitleLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "Current weight"
+        lb.text = "Change"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
     }()
     
-    var currentKgLabel: UILabel = {
+    var changeKgLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "64.0 Kg"
-        lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        lb.text = "-3.0 Kg"
+        lb.font = lb.font.withSize(17.0)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
     }()
     
@@ -94,15 +92,15 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "Start day"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
     }()
     
     var timeStartLabel: UILabel = {
         let lb = UILabel()
         lb.text = "1/1/2019"
-        lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        lb.font = lb.font.withSize(17.0)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
     }()
 
@@ -110,28 +108,39 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "Total days"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
     }()
     
     var totalDaysLabel: UILabel = {
         let lb = UILabel()
         lb.text = "62"
-        lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        lb.font = lb.font.withSize(17.0)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
     }()
 
     
     var lineView:UIView = {
         var v = UIView()
-        v.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return v
     }()
     
     override func setUpView() {
         super.setUpView()
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        // add image to Detail View
+        let backgroundImage = UIImage(named: "toolCellBackground")
+        let backgroundView = UIImageView(image: backgroundImage)
+        backgroundView.contentMode = .scaleToFill
+        
+        self.addSubview(backgroundView)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
         setupTopLabels()
         setupSecondLabels()
@@ -175,9 +184,9 @@ class DiagramCell: BaseCell {
                 }
             }
             let startKg = round(unitsSold[0] * 100)/100
-            let currentKg  = round(unitsSold.last! * 100)/100
+            let change  = round((unitsSold.last! - unitsSold.first!) * 100)/100
             startKgLabel.text = String(startKg) + " Kg"
-            currentKgLabel.text = String(currentKg) + " Kg"
+            changeKgLabel.text = String(change) + " kg"
             timeStartLabel.text = people[0].date
             // sum of days
            
@@ -187,7 +196,7 @@ class DiagramCell: BaseCell {
             
         }else {
             startKgLabel.text = "No record"
-            currentKgLabel.text = "No record"
+            changeKgLabel.text = "No record"
             timeStartLabel.text = "No record"
             totalDaysLabel.text = "0"
         }
@@ -201,8 +210,8 @@ class DiagramCell: BaseCell {
         charViews.translatesAutoresizingMaskIntoConstraints = false
         charViews.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         charViews.topAnchor.constraint(equalTo: numberOfDaysStackView.bottomAnchor, constant: 8.0).isActive = true
-        charViews.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0).isActive = true
-        charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 10.0).isActive = true
+        charViews.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0).isActive = true
+        charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
     }
     
     func setSegment() {
@@ -235,7 +244,7 @@ class DiagramCell: BaseCell {
         viewForChartCandle.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
         viewForChartCandle.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 0.0).isActive = true
         viewForChartCandle.bottomAnchor.constraint(equalTo: charViews.bottomAnchor, constant: -16.0).isActive = true
-        viewForChartCandle.widthAnchor.constraint(equalToConstant: self.frame.width - 0.0).isActive = true
+        viewForChartCandle.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         
         layoutIfNeeded()
         updateConstraintsIfNeeded()
@@ -268,7 +277,7 @@ class DiagramCell: BaseCell {
         viewForChart.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
         viewForChart.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 0.0).isActive = true
         viewForChart.bottomAnchor.constraint(equalTo: charViews.bottomAnchor, constant: -16.0).isActive = true
-        viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 0.0).isActive = true
+        viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         
         layoutIfNeeded()
         updateConstraintsIfNeeded()
@@ -336,15 +345,15 @@ class DiagramCell: BaseCell {
         secondLabelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         secondLabelStackView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
         
-        addSubview(currentKgTitleLabel)
-        currentKgTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentKgTitleLabel.topAnchor.constraint(equalTo: currentKgTitleLabelView.topAnchor, constant: 0.0).isActive = true
-        currentKgTitleLabel.leadingAnchor.constraint(equalTo: currentKgTitleLabelView.leadingAnchor, constant: 0.0).isActive = true
+        addSubview(changeKgTitleLabel)
+        changeKgTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        changeKgTitleLabel.topAnchor.constraint(equalTo: currentKgTitleLabelView.topAnchor, constant: 0.0).isActive = true
+        changeKgTitleLabel.leadingAnchor.constraint(equalTo: currentKgTitleLabelView.leadingAnchor, constant: 0.0).isActive = true
         
-        addSubview(currentKgLabel)
-        currentKgLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentKgLabel.topAnchor.constraint(equalTo: currentKgLabelView.topAnchor, constant: 0.0).isActive = true
-        currentKgLabel.trailingAnchor.constraint(equalTo: currentKgLabelView.trailingAnchor, constant: -30).isActive = true
+        addSubview(changeKgLabel)
+        changeKgLabel.translatesAutoresizingMaskIntoConstraints = false
+        changeKgLabel.topAnchor.constraint(equalTo: currentKgLabelView.topAnchor, constant: 0.0).isActive = true
+        changeKgLabel.trailingAnchor.constraint(equalTo: currentKgLabelView.trailingAnchor, constant: -30).isActive = true
        
     }
     
