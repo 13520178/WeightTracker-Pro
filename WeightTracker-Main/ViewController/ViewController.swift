@@ -444,29 +444,40 @@ extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
     func setWeightUnit(indexOfWeightUnit: Int) {
         defaults.set(indexOfWeightUnit, forKey: "indexOfWeightUnit")
         self.indexOfUnitWeight = defaults.integer(forKey: "indexOfWeightUnit")
-        var people = [Person]()
-        do {
-            try people = context.fetch(request)
-        } catch  {
-            print("Error to fetch Item data")
-        }
-        if indexOfUnitWeight == 0 {
-            for i in people {
-                i.weight = i.weight * 0.45359237
-                i.weight = round(i.weight*100)/100
+        
+        let alertController = UIAlertController(title: "Convert the previous weight values", message: "Do you want to convert the previous weight values? ", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            var people = [Person]()
+            do {
+                try people = self.context.fetch(self.request)
+            } catch  {
+                print("Error to fetch Item data")
             }
-        }else {
-            for i in people {
-                i.weight = i.weight / 0.45359237
-                i.weight = round(i.weight*100)/100
+            if self.indexOfUnitWeight == 0 {
+                for i in people {
+                    i.weight = i.weight * 0.45359237
+                    i.weight = round(i.weight*100)/100
+                }
+            }else {
+                for i in people {
+                    i.weight = i.weight / 0.45359237
+                    i.weight = round(i.weight*100)/100
+                }
+            }
+            
+            do {
+                try self.context.save()
+            } catch  {
+                print("Error to saving data")
             }
         }
-
-        do {
-            try context.save()
-        } catch  {
-            print("Error to saving data")
-        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true)
 
         
         self.tabCollectionView.reloadData()
