@@ -297,6 +297,7 @@
                         <outlet property="saveButton" destination="HnK-so-wM2" id="wGd-Tq-EZd"/>
                         <outlet property="timeLabel" destination="s1e-RR-Xwp" id="14g-mx-TIC"/>
                         <outlet property="weightTextfield" destination="6lV-Oh-DpH" id="P0J-PA-72p"/>
+                        <outlet property="weightUnitLabel" destination="6mF-gw-MEh" id="W0r-da-KQZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kMp-Fd-JJo" userLabel="First Responder" sceneMemberID="firstResponder"/>

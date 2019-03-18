@@ -16,7 +16,8 @@ protocol HistoryCellDelegate {
 
 class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
     
-     var people = [Person]()
+    var people = [Person]()
+    var weightUnit = ""
     
     var delegate: HistoryCellDelegate?
     
@@ -78,7 +79,7 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         if let date = people[max - indexPath.row].date {
             cell.dateLabel.text = String(date.description)
         }
-        cell.weightLabel.text = String(people[max - indexPath.row].weight) + " Kg"
+        cell.weightLabel.text = "\(String(people[max - indexPath.row].weight)) \(weightUnit)"
         return cell
     }
     

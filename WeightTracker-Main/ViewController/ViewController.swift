@@ -23,13 +23,15 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     @IBOutlet weak var widthOfNarBarBottom: NSLayoutConstraint!
     
     //MARK: - Variable
-    var isStart = true
+    var isStart  = true
     var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","toolIcon","setupIcon"]
     //var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","setupIcon"]
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<Person> = Person.fetchRequest()
     
     var indexOfCellSelected = -1
+    let defaults = UserDefaults.standard
+    var indexOfUnitWeight = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,14 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                                                selector: #selector(refreshLbl),
                                                name: NSNotification.Name(rawValue: "refresh"),
                                                object: nil)
+        
+        if defaults.integer(forKey: "indexOfWeightUnit") == 0 {
+            indexOfUnitWeight = 0
+        }else if defaults.integer(forKey: "indexOfWeightUnit") == 1 {
+            indexOfUnitWeight = 1
+        }else {
+            indexOfUnitWeight = 0
+        }
     }
     @objc func refreshLbl(notification: NSNotification) {
         print("Received Notification")
@@ -120,6 +130,14 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             if indexPath.item == 0 {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InputWeightId", for: indexPath) as? InputWeightCell
                 cell?.delegate = self
+                if indexOfUnitWeight == 0 {
+                    cell?.kgLabel.text = "kg"
+                }else if indexOfUnitWeight == 1  {
+                    cell?.kgLabel.text = "lbs"
+                }else {
+                    cell?.kgLabel.text = "kg"
+                }
+                
                 return cell!
             }else if indexPath.item == 1 {
                  let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "DiagramId", for: indexPath) as? DiagramCell
@@ -130,6 +148,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 }
                 
                 if  cell != nil , cell!.people.count >= 1 {
+                    
                     var sumOfDays = 0
                     var embedDateForCountInSumOfDay = ""
                     var monthss = [String]()
@@ -151,8 +170,20 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.setChartCandle(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
                     let startKg = round(cell!.unitsSold[0] * 100)/100
                     let changeKg  = round((cell!.unitsSold.last! - cell!.unitsSold.first!) * 100)/100
-                    cell!.startKgLabel.text = String(startKg) + " Kg "
-                    cell!.changeKgLabel.text = String(changeKg) + " Kg "
+                    if indexOfUnitWeight == 0 {
+                        cell?.weightUnit = "kg"
+                        cell!.startKgLabel.text = String(startKg) + " kg "
+                        cell!.changeKgLabel.text = String(changeKg) + " kg "
+                    }else if indexOfUnitWeight == 1  {
+                        cell?.weightUnit = "lbs"
+                        cell!.startKgLabel.text = String(startKg) + " lbs "
+                        cell!.changeKgLabel.text = String(changeKg) + " lbs "
+                    }else {
+                        cell?.weightUnit = "kg"
+                        cell!.startKgLabel.text = String(startKg) + " kg "
+                        cell!.changeKgLabel.text = String(changeKg) + " kg "
+                    }
+                   
                     cell!.timeStartLabel.text = cell!.people[0].date
                     // sum of days
                     
@@ -181,6 +212,16 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 } catch  {
                     print("Error to fetch Item data")
                 }
+                if indexOfUnitWeight == 0 {
+                    cell?.weightUnit = "kg"
+                    
+                }else if indexOfUnitWeight == 1  {
+                    cell?.weightUnit = "lbs"
+                    
+                }else {
+                    cell?.weightUnit = "kg"
+                    
+                }
                 cell?.delegate = self
                 cell?.tableView.reloadData()
                 return cell!
@@ -189,6 +230,16 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             else if indexPath.item == 3  {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ToolId", for: indexPath) as? ToolCell
                 cell?.delegate = self
+                if indexOfUnitWeight == 0 {
+                    cell?.weightUnit = "kg"
+                    
+                }else if indexOfUnitWeight == 1  {
+                    cell?.weightUnit = "lbs"
+                    
+                }else {
+                    cell?.weightUnit = "kg"
+                    
+                }
                 do {
                     try cell?.people = context.fetch(request)
                 } catch  {
@@ -252,6 +303,15 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         let destVC : HistoryDetailVC = segue.destination as! HistoryDetailVC
         if(indexOfCellSelected != -1) {
             destVC.indexOfPeople = indexOfCellSelected
+            
+            if indexOfUnitWeight == 0 {
+                destVC.weightUnit = "kg"
+            }else if indexOfUnitWeight == 1  {
+                destVC.weightUnit = "lbs"
+            }else {
+                destVC.weightUnit = "kg"
+            }
+           
         }
         
     }
@@ -381,6 +441,37 @@ extension ViewController: HistoryCellDelegate {
 }
 
 extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
+    func setWeightUnit(indexOfWeightUnit: Int) {
+        defaults.set(indexOfWeightUnit, forKey: "indexOfWeightUnit")
+        self.indexOfUnitWeight = defaults.integer(forKey: "indexOfWeightUnit")
+        var people = [Person]()
+        do {
+            try people = context.fetch(request)
+        } catch  {
+            print("Error to fetch Item data")
+        }
+        if indexOfUnitWeight == 0 {
+            for i in people {
+                i.weight = i.weight * 0.45359237
+                i.weight = round(i.weight*100)/100
+            }
+        }else {
+            for i in people {
+                i.weight = i.weight / 0.45359237
+                i.weight = round(i.weight*100)/100
+            }
+        }
+
+        do {
+            try context.save()
+        } catch  {
+            print("Error to saving data")
+        }
+
+        
+        self.tabCollectionView.reloadData()
+    }
+    
     func isScrollable(scroll: Bool) {
         tabCollectionView.isScrollEnabled = scroll
         collectionView.allowsSelection = scroll

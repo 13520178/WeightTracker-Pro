@@ -23,15 +23,16 @@ class HistoryDetailVC: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var weightTextfield: UITextField!
-     
+    @IBOutlet weak var weightUnitLabel: UILabel!
+    
     var indexOfPeople = -1
+    var weightUnit = ""
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<Person> = Person.fetchRequest()
     var people:[Person] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+   
         saveButton.layer.cornerRadius = 5.0
         saveButton.clipsToBounds = true
         
@@ -62,14 +63,15 @@ class HistoryDetailVC: UIViewController {
             noteTextView.text = historyInfo.note
         }
         
-        
+        weightUnitLabel.text = weightUnit
        
         
         //Set View tab to dismiss keyboard
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)
-
     }
+    
+
     
     @objc func editWeight() {
          AlertController.showAlert(inController: self, tilte: "Almost done 😜", message: "Please enter your current weight.")

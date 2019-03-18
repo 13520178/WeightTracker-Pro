@@ -13,14 +13,17 @@ import MessageUI
 protocol SetupCellDelegate {
     func sentMail()
     func isScrollable(scroll:Bool)
+    func setWeightUnit(indexOfWeightUnit: Int)
     
 }
 
-class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource,MFMailComposeViewControllerDelegate {
+class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     //MARK: - Main View Variable
-     var delegate: SetupCellDelegate?
+    var delegate: SetupCellDelegate?
     var contactStackView: UIStackView!
+    let defaults = UserDefaults.standard
+    var indexWeightUnit = -1
     
     let facebookButton: UIButton = {
         let button = UIButton()
@@ -70,6 +73,12 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource,MFMailComp
     }()
     
     let lineThirdView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        return view
+    }()
+    
+    let settingView: UIView = {
         let view = UIView()
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return view
@@ -149,28 +158,35 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource,MFMailComp
         label.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         return label
     }()
-    
-    
-    
-    var tableView: UITableView = {
-        var tb = UITableView()
-        return tb
+
+    let weightUnitLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Weight unit"
+        label.font = UIFont.systemFont(ofSize:20, weight: UIFont.Weight.medium)
+        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        return label
     }()
     
-    
-    
-   
+    let segmentOfCharts:UISegmentedControl = {
+        let sm = UISegmentedControl (items: ["One","Two"])
+        sm.selectedSegmentIndex = 0
+        sm.setTitle("kg", forSegmentAt: 0)
+        sm.setTitle("lbs", forSegmentAt: 1)
+        sm.tintColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return sm
+    }()
     
     //MARK: - setUpView()
     override func setUpView() {
         super.setUpView()
         self.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(MyCellSetup.self, forCellReuseIdentifier: "cellSetupId")
-        tableView.isScrollEnabled = false;
-        
-        
+        if defaults.integer(forKey: "indexWeightUnit") == 0 {
+            segmentOfCharts.selectedSegmentIndex = 0
+        }else if defaults.integer(forKey: "indexWeightUnit") == 1  {
+            segmentOfCharts.selectedSegmentIndex = 1
+        }else {
+            segmentOfCharts.selectedSegmentIndex = 0
+        }
         setupSetupView()
         let tap = UITapGestureRecognizer(target: self, action: #selector(openSavingMoneySVApp))
         otherAppView.addGestureRecognizer(tap)
@@ -224,24 +240,37 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource,MFMailComp
         settingLabel.topAnchor.constraint(equalTo: lineFirstView.bottomAnchor, constant: 16).isActive = true
         settingLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
         
+        addSubview(settingView)
+        settingView.translatesAutoresizingMaskIntoConstraints = false
+        settingView.topAnchor.constraint(equalTo: settingLabel.bottomAnchor, constant: 4.0).isActive = true
+        settingView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        settingView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        settingView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
+        
+        settingView.addSubview(weightUnitLabel)
+        weightUnitLabel.translatesAutoresizingMaskIntoConstraints = false
+        weightUnitLabel.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 14).isActive = true
+        weightUnitLabel.leadingAnchor.constraint(equalTo: settingView.leadingAnchor, constant: 16).isActive = true
+        
+        settingView.addSubview(segmentOfCharts)
+        segmentOfCharts.translatesAutoresizingMaskIntoConstraints = false
+        segmentOfCharts.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 8).isActive = true
+        segmentOfCharts.trailingAnchor.constraint(equalTo: settingView.trailingAnchor, constant: -12).isActive = true
+        segmentOfCharts.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        segmentOfCharts.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        segmentOfCharts.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
+        
         self.addSubview(lineSecondView)
         lineSecondView.translatesAutoresizingMaskIntoConstraints = false
-        lineSecondView.topAnchor.constraint(equalTo: settingLabel.bottomAnchor, constant: 4.0).isActive = true
+        lineSecondView.topAnchor.constraint(equalTo: settingView.bottomAnchor, constant: 0.0).isActive = true
         lineSecondView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         lineSecondView.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         lineSecondView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
-        
-        addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 0.0).isActive = true
-        tableView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        tableView.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        
-       
+    
         
         self.addSubview(contactUsLabel)
         contactUsLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactUsLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 16).isActive = true
+        contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 16).isActive = true
         contactUsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
         
         
@@ -320,20 +349,7 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource,MFMailComp
     
    
     
-    //MARK: - Table setup
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellSetupId", for: indexPath) as! MyCellSetup
-        cell.selectionStyle = .none
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-    }
-    
+   
     @objc func openSavingMoneySVApp() {
         if let url = URL(string: "https://itunes.apple.com/vn/app/saving-money-sv/id1437390099?l=vi&mt=8&fbclid=IwAR03K9tS0qYDVX9BV5cGLzKgZJn4zg71Xi6KMmWX5_aG-WesCq_4ASJp7CU"),
             UIApplication.shared.canOpenURL(url)
@@ -363,86 +379,20 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource,MFMailComp
         delegate?.sentMail()
     }
     
-}
-
-
-class MyCellSetup:UITableViewCell {
-    
-    var weightStackView: UIStackView!
-    
-    //MARK: - segment setup
-    let segmentOfCharts:UISegmentedControl = {
-        let sm = UISegmentedControl (items: ["One","Two"])
-        sm.selectedSegmentIndex = 0
-        sm.setTitle("Kg", forSegmentAt: 0)
-        sm.setTitle("Lbs", forSegmentAt: 1)
-
-        sm.tintColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
-        return sm
-    }()
-    
-    var weightLabel: UILabel = {
-        var lb = UILabel()
-        lb.text = "Kg"
-        lb.font = lb.font.withSize(18.0)
-        lb.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        return lb
-    }()
-    
-    var dateLabel: UILabel = {
-        var lb = UILabel()
-        lb.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        lb.text = "Weight Unit"
-        lb.font = UIFont.systemFont(ofSize:20, weight: UIFont.Weight.medium)
-        return lb
-    }()
-    
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupView()
-    }
-    
-    func setupView() {
-        let weightTitleLabelView = UIView()
-        
-        let weightLabelView = UIView()
-        
-        weightStackView = UIStackView(arrangedSubviews: [weightTitleLabelView,weightLabelView])
-        weightStackView.axis = .horizontal
-        weightStackView.distribution = .fillEqually
-        
-        addSubview(weightStackView)
-        weightStackView.translatesAutoresizingMaskIntoConstraints = false
-        weightStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 21).isActive = true
-        weightStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
-        weightStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
-        
-        addSubview(dateLabel)
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.centerYAnchor.constraint(equalTo: weightTitleLabelView.centerYAnchor, constant: 0.0).isActive = true
-        dateLabel.leadingAnchor.constraint(equalTo: weightTitleLabelView.leadingAnchor, constant: 24.0).isActive = true
-        
-        addSubview(segmentOfCharts)
-        segmentOfCharts.translatesAutoresizingMaskIntoConstraints = false
-        //segmentOfCharts.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
-        segmentOfCharts.centerYAnchor.constraint(equalTo: weightLabelView.centerYAnchor, constant: 0.0).isActive = true
-        segmentOfCharts.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: 0.0).isActive = true
-        segmentOfCharts.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        segmentOfCharts.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-        segmentOfCharts.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
-    
-    }
-    
-    @objc func segmentedValueChanged(_ sender:UISegmentedControl!)
-    {
+    @objc func segmentedValueChanged(_ sender:UISegmentedControl!){
         print("Selected Segment Index is : \(sender.selectedSegmentIndex)")
-//        if sender.selectedSegmentIndex == 0 {
-//        }else {
-//        }
+        if sender.selectedSegmentIndex == 0 {
+            defaults.set(0, forKey: "indexWeightUnit")
+            indexWeightUnit = 0
+        }else {
+            defaults.set(1, forKey: "indexWeightUnit")
+            indexWeightUnit = 1
+        }
+        
+        delegate?.setWeightUnit(indexOfWeightUnit: sender.selectedSegmentIndex)
+        
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
+
+

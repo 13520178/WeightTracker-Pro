@@ -20,6 +20,7 @@ class ToolCell: BaseCell {
     
     var delegate: ToolCellDelegate?
     var people = [Person]()
+    var weightUnit = ""
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<Person> = Person.fetchRequest()
     
@@ -480,9 +481,13 @@ class ToolCell: BaseCell {
             weight = round(weight*100)/100
             let height2 = (height*height)/10000
             var BMI = Double(weight) / (height2)
-            BMI = round(BMI*100)/100
+            BMI = round(BMI * 100)/100
+            if weightUnit == "lbs" {
+                BMI = BMI * 0.45359237
+                BMI = round(BMI * 100)/100
+            }
             BMIValueLabel.text = String( BMI)
-            kgValueLabel.text = "\(weight) kg"
+            kgValueLabel.text = "\(weight) \(weightUnit)"
             cmValueLabel.text = "\(height) cm"
             
             if 0 <= BMI && BMI < 15 {
@@ -522,10 +527,10 @@ class ToolCell: BaseCell {
             
             var targetWeight = defaults.float(forKey: "desizedWeight")
             targetWeight = round(targetWeight*100)/100
-            currentWeightlabel.text = "Current weight: \(weight) kg"
-            targetWeightlabel.text = "\(targetWeight) kg"
+            currentWeightlabel.text = "Current weight: \(weight) \(weightUnit)"
+            targetWeightlabel.text = "\(targetWeight) \(weightUnit)"
             if let iw = people.first?.weight {
-                initWeightlabel.text = "\(iw) kg"
+                initWeightlabel.text = "\(iw) \(weightUnit)"
                 //set chart and percent
                 if iw > targetWeight {
                     // Loss weihgt

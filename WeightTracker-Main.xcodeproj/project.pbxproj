@@ -97,11 +97,11 @@
 		1B11F4DF221995890000D9CD /* Cells Custom */ = {
 			isa = PBXGroup;
 			children = (
+				1BC789AE2224B97D00B884A6 /* BaseCelll.swift */,
+				1B11F4D122191A190000D9CD /* NarBarCollectionViewCell.swift */,
 				1B11F4D922198CF00000D9CD /* InputWeightCell.swift */,
 				1B11F4DB221992370000D9CD /* DiagramCell.swift */,
 				1B11F4DD221993950000D9CD /* HistoryCell.swift */,
-				1BC789AE2224B97D00B884A6 /* BaseCelll.swift */,
-				1B11F4D122191A190000D9CD /* NarBarCollectionViewCell.swift */,
 				1BC7D199222F5CE5001FFF87 /* ToolCell.swift */,
 				1B305983223E404F0007E934 /* SetupCell.swift */,
 			);

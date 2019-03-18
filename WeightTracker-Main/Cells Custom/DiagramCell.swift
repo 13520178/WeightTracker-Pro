@@ -13,6 +13,7 @@ import CoreData
 class DiagramCell: BaseCell {
     
     var people = [Person]()
+    var weightUnit = ""
     
     let segmentOfCharts:UISegmentedControl = {
         let sm = UISegmentedControl (items: ["One","Two"])
@@ -185,8 +186,8 @@ class DiagramCell: BaseCell {
             }
             let startKg = round(unitsSold[0] * 100)/100
             let change  = round((unitsSold.last! - unitsSold.first!) * 100)/100
-            startKgLabel.text = String(startKg) + " Kg"
-            changeKgLabel.text = String(change) + " kg"
+            startKgLabel.text = "\(String(startKg)) \(weightUnit)"
+            changeKgLabel.text = "\(String(change)) \(weightUnit)"
             timeStartLabel.text = people[0].date
             // sum of days
            
