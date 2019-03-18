@@ -381,6 +381,11 @@ extension ViewController: HistoryCellDelegate {
 }
 
 extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
+    func isScrollable(scroll: Bool) {
+        tabCollectionView.isScrollEnabled = scroll
+        collectionView.allowsSelection = scroll
+    }
+    
     func configureMailController() -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self

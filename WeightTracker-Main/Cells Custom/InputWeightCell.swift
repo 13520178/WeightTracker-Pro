@@ -19,8 +19,6 @@ protocol InputWeightCellDelegate {
 
 class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
    
-    
-    
     let inputWeightView:UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -96,9 +94,6 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     let timePicker: UIPickerView = {
         let picker = UIPickerView()
         picker.isHidden = false
-        //picker.layer.borderColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-        //picker.layer.cornerRadius = 12
-        //picker.layer.borderWidth = 1.5
         return picker
     }()
     
