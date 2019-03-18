@@ -8,10 +8,17 @@
 
 import Foundation
 import UIKit
+import MessageUI
 
-class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
+protocol SetupCellDelegate {
+    func sentMail()
+    
+}
+
+class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource,MFMailComposeViewControllerDelegate {
     
     //MARK: - Variable
+     var delegate: SetupCellDelegate?
     var contactStackView: UIStackView!
     
     let facebookButton: UIButton = {
@@ -160,6 +167,9 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         
         setupSetupView()
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(openSavingMoneySVApp))
+        otherAppView.addGestureRecognizer(tap)
+        
         
 
     }
@@ -256,10 +266,11 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         savingMoneyButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         savingMoneyButton.heightAnchor.constraint(equalToConstant: 80.0).isActive = true
         savingMoneyButton.widthAnchor.constraint(equalToConstant: 80.0).isActive = true
+        savingMoneyButton.addTarget(self, action: #selector(openSavingMoneySVApp), for: .touchUpInside)
         
         self.addSubview(savingMoneyLabel)
         savingMoneyLabel.translatesAutoresizingMaskIntoConstraints = false
-        savingMoneyLabel.topAnchor.constraint(equalTo: otherAppView.topAnchor, constant: 32).isActive = true
+        savingMoneyLabel.topAnchor.constraint(equalTo: otherAppView.topAnchor, constant: 28).isActive = true
         savingMoneyLabel.leadingAnchor.constraint(equalTo: savingMoneyButton.trailingAnchor, constant: 16).isActive = true
         
         self.addSubview(savingMoneyDetailLabel)
@@ -289,6 +300,7 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         facebookButton.centerYAnchor.constraint(equalTo: facebookView.centerYAnchor).isActive = true
         facebookButton.heightAnchor.constraint(equalToConstant: 64).isActive = true
         facebookButton.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        facebookButton.addTarget(self, action: #selector(openMyFacebook), for: .touchUpInside)
 
         
         addSubview(gmailButton)
@@ -297,6 +309,7 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         gmailButton.centerYAnchor.constraint(equalTo: gmailView.centerYAnchor).isActive = true
         gmailButton.heightAnchor.constraint(equalToConstant: 64).isActive = true
         gmailButton.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        gmailButton.addTarget(self, action: #selector(openMail), for: .touchUpInside)
         
         
         
@@ -313,6 +326,35 @@ class SetupCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
        
+    }
+    
+    @objc func openSavingMoneySVApp() {
+        if let url = URL(string: "https://itunes.apple.com/vn/app/saving-money-sv/id1437390099?l=vi&mt=8&fbclid=IwAR03K9tS0qYDVX9BV5cGLzKgZJn4zg71Xi6KMmWX5_aG-WesCq_4ASJp7CU"),
+            UIApplication.shared.canOpenURL(url)
+        {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    
+    @objc func openMyFacebook() {
+        let Username =  "100004649166180"
+        let appURL = URL(string: "fb://profile?app_scoped_user_id=\(Username)")!
+        let application = UIApplication.shared
+        
+        if application.canOpenURL(appURL) {
+            application.open(appURL)
+        } else {
+            let webURL = URL(string: "https://facebook.com/\(Username)")!
+            application.open(webURL)
+        }
+    }
+    
+    @objc func openMail() {
+        delegate?.sentMail()
     }
     
 }

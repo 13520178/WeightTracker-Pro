@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import MessageUI
 
 
 //collectionView is the top colection view
@@ -212,6 +213,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 
             }else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SetupId", for: indexPath) as? SetupCell
+                cell?.delegate = self
                 return cell!
             }
             
@@ -376,6 +378,41 @@ extension ViewController: HistoryCellDelegate {
         self.present(alertController, animated: true)
     }
 
+}
+
+extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
+    func configureMailController() -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        
+        mailComposerVC.setToRecipients(["phannhatd@gmail.com"])
+        mailComposerVC.setSubject("Question about WeChart 1.1")
+        mailComposerVC.setMessageBody("", isHTML: false)
+        
+        return mailComposerVC
+    }
+    
+    func showMailError() {
+        let sendMailErrorAlert = UIAlertController(title: "Could not send email", message: "Your device could not send email", preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        sendMailErrorAlert.addAction(dismiss)
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func sentMail() {
+        let mailComposeViewController = configureMailController()
+        if MFMailComposeViewController.canSendMail() {
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        } else {
+            showMailError()
+        }
+    }
+    
+    
 }
 
 
