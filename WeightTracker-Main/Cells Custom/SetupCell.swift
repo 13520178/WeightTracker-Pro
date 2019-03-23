@@ -14,6 +14,7 @@ protocol SetupCellDelegate {
     func sentMail()
     func isScrollable(scroll:Bool)
     func setWeightUnit(indexOfWeightUnit: Int)
+    func deleteAllRecords()
     
 }
 
@@ -176,6 +177,16 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         return sm
     }()
     
+    let resetAllDataButton:UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Reset all record", for: .normal)
+        btn.setTitleColor(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), for: .normal)
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        btn.clipsToBounds = true
+        return btn
+    }()
+    
     //MARK: - setUpView()
     override func setUpView() {
         super.setUpView()
@@ -212,7 +223,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         self.addSubview(appNameLabel)
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        appNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 24).isActive = true
+        appNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
         appNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
 
         self.addSubview(appVersionLabel)
@@ -229,7 +240,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         self.addSubview(lineFirstView)
         lineFirstView.translatesAutoresizingMaskIntoConstraints = false
-        lineFirstView.topAnchor.constraint(equalTo: self.topAnchor, constant: 100).isActive = true
+        lineFirstView.topAnchor.constraint(equalTo: appCopyrightLabel.bottomAnchor, constant: 8.0).isActive = true
         lineFirstView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         lineFirstView.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         lineFirstView.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 32).isActive = true
@@ -237,24 +248,34 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
 
         self.addSubview(settingLabel)
         settingLabel.translatesAutoresizingMaskIntoConstraints = false
-        settingLabel.topAnchor.constraint(equalTo: lineFirstView.bottomAnchor, constant: 16).isActive = true
+        settingLabel.topAnchor.constraint(equalTo: lineFirstView.bottomAnchor, constant: 8).isActive = true
         settingLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
         
         addSubview(settingView)
         settingView.translatesAutoresizingMaskIntoConstraints = false
         settingView.topAnchor.constraint(equalTo: settingLabel.bottomAnchor, constant: 4.0).isActive = true
         settingView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        settingView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        settingView.heightAnchor.constraint(equalToConstant: 89).isActive = true
         settingView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
         settingView.addSubview(weightUnitLabel)
         weightUnitLabel.translatesAutoresizingMaskIntoConstraints = false
-        weightUnitLabel.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 14).isActive = true
+        weightUnitLabel.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 12).isActive = true
         weightUnitLabel.leadingAnchor.constraint(equalTo: settingView.leadingAnchor, constant: 16).isActive = true
+        
+        settingView.addSubview(resetAllDataButton)
+        resetAllDataButton.translatesAutoresizingMaskIntoConstraints = false
+        resetAllDataButton.topAnchor.constraint(equalTo: weightUnitLabel.bottomAnchor, constant: 9).isActive = true
+        resetAllDataButton.leadingAnchor.constraint(equalTo: settingView.leadingAnchor, constant: -1).isActive = true
+        resetAllDataButton.trailingAnchor.constraint(equalTo: settingView.trailingAnchor, constant: 1).isActive = true
+        resetAllDataButton.bottomAnchor.constraint(equalTo: settingView.bottomAnchor, constant: 1).isActive = true
+        resetAllDataButton.addTarget(self, action: #selector(deleteAllRecord), for: .touchUpInside)
+
+        
         
         settingView.addSubview(segmentOfCharts)
         segmentOfCharts.translatesAutoresizingMaskIntoConstraints = false
-        segmentOfCharts.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 8).isActive = true
+        segmentOfCharts.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 6).isActive = true
         segmentOfCharts.trailingAnchor.constraint(equalTo: settingView.trailingAnchor, constant: -12).isActive = true
         segmentOfCharts.heightAnchor.constraint(equalToConstant: 32).isActive = true
         segmentOfCharts.widthAnchor.constraint(equalToConstant: 100).isActive = true
@@ -270,7 +291,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         self.addSubview(contactUsLabel)
         contactUsLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 16).isActive = true
+        contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 12).isActive = true
         contactUsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
         
         
@@ -278,27 +299,27 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         contactView.translatesAutoresizingMaskIntoConstraints = false
         contactView.topAnchor.constraint(equalTo: contactUsLabel.bottomAnchor, constant: 4).isActive = true
         contactView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        contactView.heightAnchor.constraint(equalToConstant: 96.0).isActive = true
+        contactView.heightAnchor.constraint(equalToConstant: 80.0).isActive = true
         contactView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
         self.addSubview(otherAppLabel)
         otherAppLabel.translatesAutoresizingMaskIntoConstraints = false
-        otherAppLabel.topAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 16).isActive = true
+        otherAppLabel.topAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 12).isActive = true
         otherAppLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
         
         self.addSubview(otherAppView)
         otherAppView.translatesAutoresizingMaskIntoConstraints = false
         otherAppView.topAnchor.constraint(equalTo: otherAppLabel.bottomAnchor, constant: 4).isActive = true
         otherAppView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        otherAppView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
+        otherAppView.heightAnchor.constraint(equalToConstant: 80.0).isActive = true
         otherAppView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
         self.addSubview(savingMoneyButton)
         savingMoneyButton.translatesAutoresizingMaskIntoConstraints = false
         savingMoneyButton.centerYAnchor.constraint(equalTo: otherAppView.centerYAnchor).isActive = true
         savingMoneyButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
-        savingMoneyButton.heightAnchor.constraint(equalToConstant: 80.0).isActive = true
-        savingMoneyButton.widthAnchor.constraint(equalToConstant: 80.0).isActive = true
+        savingMoneyButton.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
+        savingMoneyButton.widthAnchor.constraint(equalToConstant: 64.0).isActive = true
         savingMoneyButton.addTarget(self, action: #selector(openSavingMoneySVApp), for: .touchUpInside)
         
         self.addSubview(savingMoneyLabel)
@@ -347,7 +368,9 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
     }
     
-   
+   @objc func deleteAllRecord() {
+        delegate?.deleteAllRecords()
+    }
     
    
     @objc func openSavingMoneySVApp() {

@@ -300,19 +300,24 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destVC : HistoryDetailVC = segue.destination as! HistoryDetailVC
-        if(indexOfCellSelected != -1) {
-            destVC.indexOfPeople = indexOfCellSelected
-            
-            if indexOfUnitWeight == 0 {
-                destVC.weightUnit = "kg"
-            }else if indexOfUnitWeight == 1  {
-                destVC.weightUnit = "lbs"
-            }else {
-                destVC.weightUnit = "kg"
+        if segue.identifier == "showHistoryDetail" {
+            let destVC : HistoryDetailVC = segue.destination as! HistoryDetailVC
+            if(indexOfCellSelected != -1) {
+                destVC.indexOfPeople = indexOfCellSelected
+                
+                if indexOfUnitWeight == 0 {
+                    destVC.weightUnit = "kg"
+                }else if indexOfUnitWeight == 1  {
+                    destVC.weightUnit = "lbs"
+                }else {
+                    destVC.weightUnit = "kg"
+                }
+                
             }
-           
         }
+        
+        
+        
         
     }
 
@@ -346,6 +351,22 @@ extension ViewController: ToolCellDelegate {
 }
 
 extension ViewController: InputWeightCellDelegate {
+    func showSub1() {
+        performSegue(withIdentifier: "showSub1", sender: nil)
+    }
+    
+    func showSub2() {
+        performSegue(withIdentifier: "showSub2", sender: nil)
+    }
+    
+    func showSub3() {
+        performSegue(withIdentifier: "showSub3", sender: nil)
+    }
+    
+    func showSub4() {
+        performSegue(withIdentifier: "showSub4", sender: nil)
+    }
+    
     func checkIfOverInput() {
         AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
     }
@@ -369,36 +390,7 @@ extension ViewController: InputWeightCellDelegate {
     }
     
     func resetData() {
-        let alertController = UIAlertController(title: "Delete All Data ?", message: "Do you want to delete all data ?", preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            if let result = try? self.context.fetch(self.request) {
-                for i in result {
-                    self.context.delete(i)
-                }
-                
-            }
-            do {
-                try self.context.save()
-                let indexPath = IndexPath(row: 3, section: 0)
-                self.collectionView.reloadData()
-                self.tabCollectionView.reloadData()
-                DispatchQueue.main.async {
-                    self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
-                }
-                self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
-                
-                
-            } catch {
-                print("Co xoa duoc dau ma xoa")
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true)
+        print("Show new controller")
     }
 }
 
@@ -441,6 +433,39 @@ extension ViewController: HistoryCellDelegate {
 }
 
 extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
+    func deleteAllRecords() {
+        let alertController = UIAlertController(title: "Delete All Data ?", message: "Do you want to delete all data ?", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let result = try? self.context.fetch(self.request) {
+                for i in result {
+                    self.context.delete(i)
+                }
+                
+            }
+            do {
+                try self.context.save()
+                let indexPath = IndexPath(row: 3, section: 0)
+                self.collectionView.reloadData()
+                self.tabCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+                }
+                self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
+                
+                
+            } catch {
+                print("Co xoa duoc dau ma xoa")
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true)
+    }
+    
     func setWeightUnit(indexOfWeightUnit: Int) {
         defaults.set(indexOfWeightUnit, forKey: "indexOfWeightUnit")
         self.indexOfUnitWeight = defaults.integer(forKey: "indexOfWeightUnit")

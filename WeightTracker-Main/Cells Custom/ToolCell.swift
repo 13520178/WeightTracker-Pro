@@ -39,6 +39,8 @@ class ToolCell: BaseCell {
         return v
     }()
     
+
+    
     let roundView:UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.9293981611, blue: 0.7403491939, alpha: 1)
@@ -246,7 +248,6 @@ class ToolCell: BaseCell {
     override func setUpView() {
         super.setUpView()
         backgroundColor = #colorLiteral(red: 1, green: 0.9446946864, blue: 0.7848783566, alpha: 1)
-
         
         setInputView()
         setDetailView()

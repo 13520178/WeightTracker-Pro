@@ -189,14 +189,14 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 		UIGraphicsEndImageContext()
 	}
 
-	func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
+	func NSUIImagePNGRepresentation(_ imageView: NSUIImage) -> Data?
     {
-        return image.pngData()
+        return imageView.pngData()
 	}
 
-	func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.8) -> Data?
+	func NSUIImageJPEGRepresentation(_ imageView: NSUIImage, _ quality: CGFloat = 0.8) -> Data?
     {
-		return image.jpegData(compressionQuality: quality)
+		return imageView.jpegData(compressionQuality: quality)
 	}
 
 	func NSUIMainScreen() -> NSUIScreen?

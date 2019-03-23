@@ -15,10 +15,15 @@ protocol InputWeightCellDelegate {
     func checkIfWrongInput()
     func checkIfOverInput()
     func resetData()
+    func showSub1()
+    func showSub2()
+    func showSub3()
+    func showSub4()
 }
 
 class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
    
+    //MARK: - MainView variables
     let inputWeightView:UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -118,16 +123,49 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     let resetButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
-        let image = UIImage(named: "resetIcon")
-        bt.setBackgroundImage(image, for: .normal)
-        bt.layer.cornerRadius = 25
-        bt.layer.borderWidth = 0
+        bt.setTitle("≡", for: .normal)
+        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 45)
+        bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         return bt
+    }()
+    
+    let resetInBlurViewButton: UIButton = {
+        let bt = UIButton(type: UIButton.ButtonType.roundedRect)
+        bt.setTitle("⊗", for: .normal)
+        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 25)
+        bt.setTitleColor(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1), for: .normal)
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        return bt
+    }()
+    
+    let blurView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5497507669)
+        
+        return v
+    }()
+    
+    let caculatorView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.9473781616, green: 0.9473781616, blue: 0.9473781616, alpha: 1)
+        v.layer.cornerRadius = 10
+        v.layer.borderWidth = 1.5
+        v.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        v.clipsToBounds = true
+        return v
     }()
     
     var delegate: InputWeightCellDelegate?
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
+    //MARK: - SubsView Variable
+    let subView1 = InputWeightSubView()
+    let subView2 = InputWeightSubView()
+    let subView3 = InputWeightSubView()
+    let subView4 = InputWeightSubView()
     
     override func setUpView() {
         super.setUpView()
@@ -175,7 +213,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         inputWeightTextfield.widthAnchor.constraint(equalToConstant: selfWidth - 100).isActive = true
         inputWeightTextfield.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
         
-        let trailingTextField = (self.layer.frame.width - 280.0)/(-2)
+        let trailingTextField = (self.layer.frame.width - 240.0)/(-2)
         print(trailingTextField)
         addSubview(kgLabel)
         kgLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -215,27 +253,136 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
         enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
         enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+
         
         addSubview(resetButton)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         resetButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         resetButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
-        resetButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12).isActive = true
+        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        resetButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
         resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
         
+        
+        
+        blurView.isHidden = true
+        addSubview(blurView)
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.widthAnchor.constraint(equalToConstant: self.layer.frame.width ).isActive = true
+        blurView.heightAnchor.constraint(equalToConstant: self.layer.frame.height).isActive = true
+        blurView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        blurView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        
+        
+        addSubview(caculatorView)
+        caculatorView.translatesAutoresizingMaskIntoConstraints = false
+        caculatorView.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 32).isActive = true
+        caculatorView.heightAnchor.constraint(equalToConstant: 380).isActive = true
+        caculatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 380).isActive = true
+        caculatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+       
+
+        caculatorView.addSubview(resetInBlurViewButton)
+        resetInBlurViewButton.translatesAutoresizingMaskIntoConstraints = false
+        resetInBlurViewButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        resetInBlurViewButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        resetInBlurViewButton.topAnchor.constraint(equalTo: caculatorView.topAnchor, constant: 0).isActive = true
+        resetInBlurViewButton.trailingAnchor.constraint(equalTo: caculatorView.trailingAnchor, constant: 2).isActive = true
+        resetInBlurViewButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
+        
+        setupsubsCalculatorView()
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.addGestureRecognizer(tap)
         
     }
+    
+    //MARK: - setup SubsCalculatorView
+    func setupsubsCalculatorView() {
+        let subView1Tap = UITapGestureRecognizer(target: self, action: #selector(subView1HandleTap(_:)))
+        subView1.addGestureRecognizer(subView1Tap)
+        subView1.setupProperty(captionText: "BMI", contentText: "Body mass index",imageName: "lineChart")
+        caculatorView.addSubview(subView1)
+        subView1.translatesAutoresizingMaskIntoConstraints = false
+        subView1.topAnchor.constraint(equalTo: caculatorView.topAnchor, constant: 40.0).isActive = true
+        subView1.centerXAnchor.constraint(equalTo: caculatorView.centerXAnchor).isActive = true
+        subView1.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 58).isActive = true
+        subView1.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
+        
+        
+        let subView2Tap = UITapGestureRecognizer(target: self, action: #selector(subView2HandleTap(_:)))
+        subView2.addGestureRecognizer(subView2Tap)
+        subView2.setupProperty(captionText: "BMR", contentText: "Basal metabolic rate",imageName: "barChart")
+        caculatorView.addSubview(subView2)
+        subView2.translatesAutoresizingMaskIntoConstraints = false
+        subView2.topAnchor.constraint(equalTo: subView1.bottomAnchor, constant: 12.0).isActive = true
+        subView2.centerXAnchor.constraint(equalTo: caculatorView.centerXAnchor).isActive = true
+        subView2.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 58).isActive = true
+        subView2.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
+        
+        
+        let subView3Tap = UITapGestureRecognizer(target: self, action: #selector(subView3HandleTap(_:)))
+        subView3.addGestureRecognizer(subView3Tap)
+        subView3.setupProperty(captionText: "YMCA", contentText: "Body fat calculator",imageName: "YMCA")
+        caculatorView.addSubview(subView3)
+        subView3.translatesAutoresizingMaskIntoConstraints = false
+        subView3.topAnchor.constraint(equalTo: subView2.bottomAnchor, constant: 12.0).isActive = true
+        subView3.centerXAnchor.constraint(equalTo: caculatorView.centerXAnchor).isActive = true
+        subView3.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 58).isActive = true
+        subView3.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
+        
+        
+        let subView4Tap = UITapGestureRecognizer(target: self, action: #selector(subView4HandleTap(_:)))
+        subView4.addGestureRecognizer(subView4Tap)
+        subView4.setupProperty(captionText: "WHR", contentText: "Waist-to-Hip ratio",imageName: "WHR")
+        caculatorView.addSubview(subView4)
+        subView4.translatesAutoresizingMaskIntoConstraints = false
+        subView4.topAnchor.constraint(equalTo: subView3.bottomAnchor, constant: 12.0).isActive = true
+        subView4.centerXAnchor.constraint(equalTo: caculatorView.centerXAnchor).isActive = true
+        subView4.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 58).isActive = true
+        subView4.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
+
+    }
+    
+    
+    //MARK: - Action Handle
+    @objc func subView1HandleTap( _ sender: UITapGestureRecognizer? = nil) {
+        delegate?.showSub1()
+    }
+    
+    @objc func subView2HandleTap(_ sender: UITapGestureRecognizer? = nil) {
+        delegate?.showSub2()
+    }
+    
+    @objc func subView3HandleTap(_ sender: UITapGestureRecognizer? = nil) {
+        delegate?.showSub3()
+    }
+    
+    @objc func subView4HandleTap(_ sender: UITapGestureRecognizer? = nil) {
+        delegate?.showSub4()
+    }
+    
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         endEditing(true)
     }
     
     @objc func resetButtonAction(sender: UIButton!) {
-        delegate?.resetData()
+       if caculatorView.frame.origin.y == self.layer.frame.height {
+            blurView.isHidden = false
+            self.isUserInteractionEnabled = true
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.caculatorView.frame.origin.y -= 360
+            }, completion: nil)
+        }else {
+            blurView.isHidden = true
+            self.isUserInteractionEnabled = true
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.caculatorView.frame.origin.y += 360
+            }, completion: nil)
+        }
+       
     }
     
     @objc func buttonAction(sender: UIButton!) {
