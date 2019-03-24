@@ -817,6 +817,12 @@
                                     <action selector="backPressed:" destination="Bdu-3W-9fQ" eventType="touchUpInside" id="NIA-k3-s3O"/>
                                 </connections>
                             </button>
+                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aa9-aV-6fh">
+                                <rect key="frame" x="0.0" y="368" width="320" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="R8B-PM-FL2"/>
+                                </constraints>
+                            </pickerView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ay1-fX-v7z">
                                 <rect key="frame" x="24" y="246" width="272" height="174"/>
                                 <subviews>
@@ -958,11 +964,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="v8m-qP-o0r" firstAttribute="leading" secondItem="iWX-VL-fS1" secondAttribute="leading" id="28M-of-g1q"/>
+                            <constraint firstItem="aa9-aV-6fh" firstAttribute="leading" secondItem="iWX-VL-fS1" secondAttribute="leading" id="3Di-cO-8iE"/>
                             <constraint firstItem="uvz-nd-8Yf" firstAttribute="top" secondItem="iWX-VL-fS1" secondAttribute="top" constant="12" id="50W-mt-o6W"/>
                             <constraint firstAttribute="trailing" secondItem="LjT-ng-IR5" secondAttribute="trailing" constant="24" id="51S-rD-TIl"/>
+                            <constraint firstItem="aa9-aV-6fh" firstAttribute="trailing" secondItem="iWX-VL-fS1" secondAttribute="trailing" id="DgX-2Z-Nhm"/>
                             <constraint firstItem="ay1-fX-v7z" firstAttribute="top" secondItem="ieB-M3-dEb" secondAttribute="topMargin" constant="226" id="FsK-fE-uZv"/>
                             <constraint firstItem="uvz-nd-8Yf" firstAttribute="leading" secondItem="iWX-VL-fS1" secondAttribute="leading" constant="24" id="IgX-iU-Eyv"/>
                             <constraint firstItem="LjT-ng-IR5" firstAttribute="top" secondItem="pxI-Ot-yRQ" secondAttribute="bottom" constant="12" id="NIL-oo-nNa"/>
+                            <constraint firstItem="iWX-VL-fS1" firstAttribute="bottom" secondItem="aa9-aV-6fh" secondAttribute="bottom" id="NMV-Sa-Dw5"/>
                             <constraint firstItem="iWX-VL-fS1" firstAttribute="trailing" secondItem="ay1-fX-v7z" secondAttribute="trailing" constant="24" id="Wdo-DG-KwL"/>
                             <constraint firstItem="v8m-qP-o0r" firstAttribute="bottom" secondItem="iWX-VL-fS1" secondAttribute="bottom" id="XfB-uT-K9t"/>
                             <constraint firstItem="pxI-Ot-yRQ" firstAttribute="top" secondItem="uvz-nd-8Yf" secondAttribute="bottom" constant="24" id="dKk-b3-lbq"/>
@@ -982,9 +991,13 @@
                         <outlet property="blurView" destination="MlM-GB-TgO" id="H5y-VQ-5dy"/>
                         <outlet property="bottomInputView" destination="QKg-5k-Zwa" id="ZuH-oD-haB"/>
                         <outlet property="cancelButton" destination="JHR-dt-LwL" id="Ag4-5f-5iE"/>
+                        <outlet property="genderPicker" destination="aa9-aV-6fh" id="KpA-RP-Keg"/>
+                        <outlet property="genderTextfield" destination="EL3-dh-93b" id="gFa-X4-Z6e"/>
+                        <outlet property="hipTextfield" destination="ji7-HA-ah6" id="lQV-m0-DsU"/>
                         <outlet property="inpurView" destination="ay1-fX-v7z" id="jQu-5K-mMa"/>
                         <outlet property="okButton" destination="ylB-Gg-Ie9" id="1uH-86-bbK"/>
                         <outlet property="topViewAnchorConstant" destination="FsK-fE-uZv" id="cY2-IN-vph"/>
+                        <outlet property="waistTextfield" destination="Dyn-lb-C1t" id="nuv-ng-bvA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1jk-af-7QJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -8,7 +8,9 @@
 
 import UIKit
 
-class Sub4ViewController: UIViewController {
+class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDelegate {
+   
+    
     
     //MARK: - Outlet variable
     @IBOutlet weak var topViewAnchorConstant: NSLayoutConstraint!
@@ -19,12 +21,38 @@ class Sub4ViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     
     @IBOutlet weak var bottomInputView: NSLayoutConstraint!
+    @IBOutlet weak var genderTextfield: UITextField!
+    @IBOutlet weak var waistTextfield: UITextField!
+    @IBOutlet weak var hipTextfield: UITextField!
     
     
-    
+    var genderIndex = 0
+    var genderArray = ["Female","Male"]
     var textFieldIsChange = UITextField()
     var viewHeight:CGFloat = 0
     var inputViewHeight:CGFloat = 0
+    
+    
+    //MARK: - Picker setup
+    @IBOutlet weak var genderPicker: UIPickerView!
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return genderArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return genderArray[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        genderIndex = row
+        genderTextfield.text = genderArray[row]
+    }
+    
     
     //MARK: - Result View Variable
     let resultView:UIView = {
@@ -107,7 +135,7 @@ class Sub4ViewController: UIViewController {
     }()
     let whrCategoryView1Label: UILabel = {
         let l = UILabel()
-        l.text = "WHR < 0.75"
+        l.text = "WHR < 0.7"
         l.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
         l.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -127,16 +155,17 @@ class Sub4ViewController: UIViewController {
     let whrCategoryView2:UIView = {
         let v = UIView()
         v.clipsToBounds = true
-        v.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        v.layer.borderWidth = 1
+        v.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         return v
     }()
     let whrCategoryView2Label: UILabel = {
         let l = UILabel()
-        l.text = "0.75 ≤ WHR ≤ 0.79 "
+        l.text = "0.7 ≤ WHR < 0.8 "
         l.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
-        l.backgroundColor = UIColor.clear
-        l.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        l.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        l.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         return l
     }()
     let whrCategoryValueView2Label: UILabel = {
@@ -144,8 +173,8 @@ class Sub4ViewController: UIViewController {
         l.text = "Good"
         l.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
-        l.backgroundColor = UIColor.clear
-        l.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        l.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        l.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         return l
     }()
     
@@ -159,7 +188,7 @@ class Sub4ViewController: UIViewController {
     }()
     let whrCategoryView3Label: UILabel = {
         let l = UILabel()
-        l.text = "0.8 ≤ WHR ≤ 0.85"
+        l.text = "0.8 ≤ WHR < 0.85"
         l.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
         l.backgroundColor = UIColor.clear
@@ -186,7 +215,7 @@ class Sub4ViewController: UIViewController {
     }()
     let whrCategoryView4Label: UILabel = {
         let l = UILabel()
-        l.text = "0.85 < WHR"
+        l.text = "0.85 ≤ WHR"
         l.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
         l.backgroundColor = UIColor.clear
@@ -208,6 +237,8 @@ class Sub4ViewController: UIViewController {
 
         viewHeight = view.frame.height
         inputViewHeight = inpurView.frame.height
+        
+        genderPicker.delegate = self
         
         //Setup result view
         resultView.isHidden = true
@@ -277,7 +308,7 @@ class Sub4ViewController: UIViewController {
         whrCategoryValueView1Label.trailingAnchor.constraint(equalTo: whrCategoryView1.trailingAnchor, constant: 0).isActive = true
         whrCategoryValueView1Label.topAnchor.constraint(equalTo: whrCategoryView1.topAnchor, constant: 0).isActive = true
         whrCategoryValueView1Label.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        whrCategoryValueView1Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)-1).isActive = true
+        whrCategoryValueView1Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)).isActive = true
         
         
         //Sub view 2
@@ -300,7 +331,7 @@ class Sub4ViewController: UIViewController {
         whrCategoryValueView2Label.trailingAnchor.constraint(equalTo: whrCategoryView2.trailingAnchor, constant: 0).isActive = true
         whrCategoryValueView2Label.topAnchor.constraint(equalTo: whrCategoryView2.topAnchor, constant: 0).isActive = true
         whrCategoryValueView2Label.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        whrCategoryValueView2Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)-1).isActive = true
+        whrCategoryValueView2Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)).isActive = true
         
         
         //Sub view 3
@@ -323,7 +354,7 @@ class Sub4ViewController: UIViewController {
         whrCategoryValueView3Label.trailingAnchor.constraint(equalTo: whrCategoryView3.trailingAnchor, constant: 0).isActive = true
         whrCategoryValueView3Label.topAnchor.constraint(equalTo: whrCategoryView3.topAnchor, constant: 0).isActive = true
         whrCategoryValueView3Label.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        whrCategoryValueView3Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)-1).isActive = true
+        whrCategoryValueView3Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)).isActive = true
         
         
         //Sub view 4
@@ -346,7 +377,7 @@ class Sub4ViewController: UIViewController {
         whrCategoryValueView4Label.trailingAnchor.constraint(equalTo: whrCategoryView4.trailingAnchor, constant: 0).isActive = true
         whrCategoryValueView4Label.topAnchor.constraint(equalTo: whrCategoryView4.topAnchor, constant: 0).isActive = true
         whrCategoryValueView4Label.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        whrCategoryValueView4Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)-1).isActive = true
+        whrCategoryValueView4Label.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48)/2)).isActive = true
         
         //OK Buton
         resultView.addSubview(okButtonResultView)
@@ -362,6 +393,29 @@ class Sub4ViewController: UIViewController {
     
     //MARK: - Action handle
     @objc func okButtonResultViewPressed() {
+        
+        whrCategoryView1Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryValueView1Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryView1Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        whrCategoryValueView1Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        whrCategoryView2Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryValueView2Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryView2Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        whrCategoryValueView2Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        whrCategoryView3Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryValueView3Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryView3Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        whrCategoryValueView3Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        whrCategoryView4Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryValueView4Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        whrCategoryView4Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        whrCategoryValueView4Label.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.resultView.alpha = 0
             self.inpurView.alpha = 1
@@ -404,6 +458,8 @@ class Sub4ViewController: UIViewController {
         }, completion: { finished in
             self.cancelButton.isHidden = false
             self.okButton.isHidden = false
+            self.genderPicker.isHidden = false
+            self.view.endEditing(true)
         })
         self.blurView.isHidden = false
     }
@@ -411,14 +467,95 @@ class Sub4ViewController: UIViewController {
     
     @IBAction func okPressed(_ sender: UIButton) {
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.resultView.alpha = 1
-            self.inpurView.alpha = 0
-        }, completion: { finished in
-            self.resultView.isHidden = false
-            self.inpurView.isHidden = true
-            self.view.endEditing(true)
-        })
+        if hipTextfield.text == "" || waistTextfield.text == ""  {
+            print("Co nhap weight gi dau ma'")
+            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+        }else {
+            if let hip = Double(hipTextfield.text!) , let waist = Double(waistTextfield.text!) {
+                if (hip > 1 && hip < 400) && (waist > 30 && waist < 300) {
+                    var WHR  = waist / hip
+                    WHR = round(WHR * 100) / 100
+                    
+                    whrResultValueLabel.text = String(WHR)
+                    if genderIndex == 0 {
+                        if WHR < 0.7 {
+                            whrCategoryView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView1Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView1Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }else if 0.7 <= WHR && WHR < 0.8 {
+                            whrCategoryView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView2Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView2Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }else if 0.8 <= WHR && WHR < 0.85 {
+                            whrCategoryView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView3Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView3Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }else if 0.85 <= WHR {
+                            whrCategoryView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView4Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView4Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }
+                        
+                        
+                    }else if genderIndex == 1 {
+                        whrCategoryView1Label.text = "WHR < 0.9"
+                        whrCategoryView2Label.text = "0.9 ≤ WHR < 0.95"
+                        whrCategoryView3Label.text = "0.95 ≤ WHR < 1"
+                        whrCategoryView4Label.text = "1 ≤ WHR"
+                        
+                        if WHR < 0.9 {
+                            whrCategoryView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView1Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView1Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }else if 0.9 <= WHR && WHR < 0.95 {
+                            whrCategoryView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView2Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView2Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }else if 0.95 <= WHR && WHR < 1 {
+                            whrCategoryView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView3Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView3Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }else if 1 <= WHR {
+                            whrCategoryView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            whrCategoryValueView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                            
+                            whrCategoryView4Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                            whrCategoryValueView4Label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                        }
+                    }
+                    
+                    
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                        self.resultView.alpha = 1
+                        self.inpurView.alpha = 0
+                    }, completion: { finished in
+                        self.resultView.isHidden = false
+                        self.inpurView.isHidden = true
+                        self.genderPicker.isHidden = true
+                        self.view.endEditing(true)
+                    })
+                }else {
+                    AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+                }
+                
+            }else {
+                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+            }
+        }
         
     }
     @IBAction func cancelPressed(_ sender: UIButton) {
@@ -430,7 +567,9 @@ class Sub4ViewController: UIViewController {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: { finished in
-            
+            self.genderPicker.isHidden = true
+            self.waistTextfield.text = ""
+            self.hipTextfield.text = ""
         })
         self.blurView.isHidden = true
         view.endEditing(true)

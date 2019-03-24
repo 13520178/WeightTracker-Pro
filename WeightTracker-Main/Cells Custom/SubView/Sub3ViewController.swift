@@ -103,7 +103,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     let bodyFatResultValueLabel: UILabel = {
         let l = UILabel()
         l.text = " 16.5 %"
-        l.font = UIFont.systemFont(ofSize: 35, weight: UIFont.Weight.medium)
+        l.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
         l.layer.borderWidth = 1
         l.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
@@ -115,7 +115,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     let fatMassLabel: UILabel = {
         let l = UILabel()
         l.text = "Fat Mass"
-        l.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.light)
+        l.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.light)
         l.textAlignment = .center
         l.numberOfLines = 0
         l.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
@@ -125,7 +125,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     let fatMassValueLabel: UILabel = {
         let l = UILabel()
         l.text = "9 kg"
-        l.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
+        l.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
         l.textAlignment = .center
         l.numberOfLines = 0
         l.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
@@ -137,7 +137,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     let categoryLabel: UILabel = {
         let l = UILabel()
         l.text = "Category"
-        l.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.light)
+        l.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.light)
         l.textAlignment = .center
         l.numberOfLines = 0
         l.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
@@ -147,7 +147,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     let categoryValueLabel: UILabel = {
         let l = UILabel()
         l.text = "Fit"
-        l.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
+        l.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
         l.textAlignment = .center
         l.numberOfLines = 0
         l.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
@@ -180,7 +180,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         bodyFatResultView.translatesAutoresizingMaskIntoConstraints = false
         bodyFatResultView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         bodyFatResultView.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 24).isActive = true
-        bodyFatResultView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 96).isActive = true
+        bodyFatResultView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 88).isActive = true
         bodyFatResultView.heightAnchor.constraint(equalToConstant: 65).isActive = true
         
         
@@ -188,7 +188,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         bodyFatResultView.addSubview(bodyFatResultValueLabel)
         bodyFatResultValueLabel.translatesAutoresizingMaskIntoConstraints = false
         bodyFatResultValueLabel.trailingAnchor.constraint(equalTo: bodyFatResultView.trailingAnchor, constant: 0).isActive = true
-        bodyFatResultValueLabel.leadingAnchor.constraint(equalTo: bodyFatResultView.leadingAnchor, constant: 122).isActive = true
+        bodyFatResultValueLabel.leadingAnchor.constraint(equalTo: bodyFatResultView.leadingAnchor, constant: 82).isActive = true
         bodyFatResultValueLabel.topAnchor.constraint(equalTo: bodyFatResultView.topAnchor, constant: 0).isActive = true
         bodyFatResultValueLabel.heightAnchor.constraint(equalToConstant: 65).isActive = true
         
@@ -197,7 +197,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         bodyFatResultLabel.leadingAnchor.constraint(equalTo: bodyFatResultView.leadingAnchor, constant: 0).isActive = true
         bodyFatResultLabel.topAnchor.constraint(equalTo: bodyFatResultView.topAnchor, constant: 0).isActive = true
         bodyFatResultLabel.heightAnchor.constraint(equalToConstant: 65).isActive = true
-        bodyFatResultLabel.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        bodyFatResultLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         
   
@@ -315,10 +315,30 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
                     
                     //Category
                     if genderIndex == 0 {
-                        
-                        
+                      //categoryValueLabel
+                        if YMCA < 14 {
+                            categoryValueLabel.text = "Essential Fat"
+                        }else if 14 <= YMCA && YMCA < 20 {
+                            categoryValueLabel.text = "Typical Athletes"
+                        }else if 20 <= YMCA && YMCA < 24 {
+                            categoryValueLabel.text = "Fitness "
+                        }else if 24 <= YMCA && YMCA < 31 {
+                            categoryValueLabel.text = "Acceptable"
+                        }else if 31 <= YMCA  {
+                            categoryValueLabel.text = "Obese"
+                        }
                     }else if genderIndex == 1 {
-                        
+                        if  YMCA < 6 {
+                            categoryValueLabel.text = "Essential Fat"
+                        }else if 6 <= YMCA && YMCA < 13 {
+                            categoryValueLabel.text = "Typical Athletes"
+                        }else if 13 <= YMCA && YMCA < 17 {
+                            categoryValueLabel.text = "Fitness "
+                        }else if 17 <= YMCA && YMCA < 25 {
+                            categoryValueLabel.text = "Acceptable"
+                        }else if 25 <= YMCA  {
+                            categoryValueLabel.text = "Obese"
+                        }
                     }
                     
                     
@@ -351,6 +371,8 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
             self.view.layoutIfNeeded()
         }, completion: { finished in
              self.genderPicker.isHidden = true
+            self.waistTextfield.text = ""
+            self.weightTextfield.text = ""
         })
         self.blurView.isHidden = true
         view.endEditing(true)

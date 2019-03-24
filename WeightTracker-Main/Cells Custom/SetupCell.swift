@@ -40,7 +40,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let gmailButton: UIButton = {
         let button = UIButton()
-        let fbImage = UIImage(named: "gmailIcon")
+        let fbImage = UIImage(named: "emailIcon")
         button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         button.setImage(fbImage, for: UIControl.State.normal)
         button.layer.cornerRadius = 16
