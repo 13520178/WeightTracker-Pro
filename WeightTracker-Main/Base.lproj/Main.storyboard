@@ -534,7 +534,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         <connections>
                                                             <action selector="beginEditingWeightTextfield:" destination="3DY-79-F86" eventType="editingDidBegin" id="VDB-1w-TbI"/>
                                                             <action selector="heightDidBegin:" destination="BNg-LY-WmA" eventType="editingDidBegin" id="gjQ-cx-gJt"/>
@@ -558,7 +558,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                         <connections>
                                                             <action selector="beginEditingHeightTextfield:" destination="3DY-79-F86" eventType="editingDidBegin" id="krI-j1-knb"/>
                                                             <action selector="weightDidBegin:" destination="BNg-LY-WmA" eventType="editingDidBegin" id="6XE-Wa-Gfd"/>
@@ -587,7 +587,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         <connections>
                                                             <action selector="ageDidBegin:" destination="BNg-LY-WmA" eventType="editingDidBegin" id="9wr-Ua-FNz"/>
                                                             <action selector="beginEditingWeightTextfield:" destination="3DY-79-F86" eventType="editingDidBegin" id="Fnq-mp-7j3"/>
@@ -848,7 +848,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         <connections>
                                                             <action selector="beginEditingWeightTextfield:" destination="3DY-79-F86" eventType="editingDidBegin" id="t53-qL-TrR"/>
                                                             <action selector="heightDidBegin:" destination="BNg-LY-WmA" eventType="editingDidBegin" id="w7B-5Z-vRi"/>
@@ -1114,7 +1114,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         <connections>
                                                             <action selector="beginEditingWeightTextfield:" destination="3DY-79-F86" eventType="editingDidBegin" id="xiS-N7-rA8"/>
                                                             <action selector="heightDidBegin:" destination="BNg-LY-WmA" eventType="editingDidBegin" id="x6U-U3-v4B"/>
@@ -1139,7 +1139,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                         <connections>
                                                             <action selector="beginEditingHeightTextfield:" destination="3DY-79-F86" eventType="editingDidBegin" id="CKG-EL-9UF"/>
                                                             <action selector="weightDidBegin:" destination="Bdu-3W-9fQ" eventType="editingDidBegin" id="2dx-mL-KRA"/>

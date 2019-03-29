@@ -349,7 +349,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     func calculateBMR() {
         if weightTextfield.text == "" || heightTextfield.text == "" || ageTextfield.text == "" {
             print("Co nhap weight gi dau ma'")
-            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
         }else {
             if let weight = Float(weightTextfield.text!) , let height = Float(heightTextfield.text!) , let age = Int(ageTextfield.text!){
                 if (weight > 1 && weight < 400) && (height > 30 && height < 250) && (1 <= age && age <= 150) {
@@ -403,7 +403,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 }
                 
             }else {
-                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
             }
         }
     }

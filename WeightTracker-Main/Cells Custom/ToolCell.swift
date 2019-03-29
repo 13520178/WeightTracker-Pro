@@ -13,6 +13,7 @@ import CoreData
 protocol ToolCellDelegate {
     func checkIfWrongInputToolCell()
     func enterWeightFirst()
+    func enterInitialWeight()
 }
 
 
@@ -43,7 +44,7 @@ class ToolCell: BaseCell {
     
     let roundView:UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.9293981611, blue: 0.7403491939, alpha: 1)
+        v.backgroundColor = #colorLiteral(red: 0.839170162, green: 0.7727752205, blue: 0.9737234748, alpha: 0.799091737)
         v.layer.cornerRadius = 6.0
         v.layer.masksToBounds = true
         
@@ -53,7 +54,7 @@ class ToolCell: BaseCell {
     let profileLabel:UILabel = {
         let label = UILabel()
         label.text = "Profile"
-        label.font = UIFont.systemFont(ofSize: 22)
+        label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         return label
     }()
@@ -108,6 +109,22 @@ class ToolCell: BaseCell {
         tf.isUserInteractionEnabled = true
         tf.setBottomBorder()
         return tf
+    }()
+    
+    let heightLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Height"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return label
+    }()
+    
+    let targetWeightLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Desired weight"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return label
     }()
     
     //MARK: - DetailView var
@@ -236,6 +253,18 @@ class ToolCell: BaseCell {
         return l
     }()
     
+    let initWeightButton : UIButton = {
+        let btn = UIButton()
+        let image = UIImage(named: "resetIcon")
+        btn.layer.cornerRadius = 15
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        btn.clipsToBounds = true
+        btn.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.6512054256)
+        btn.setImage(image, for: .normal)
+        return btn
+    }()
+    
     let targetWeightlabel : UILabel = {
         let l = UILabel()
         l.text = "60.0 kg"
@@ -247,7 +276,7 @@ class ToolCell: BaseCell {
     //MARK: - Setup View
     override func setUpView() {
         super.setUpView()
-        backgroundColor = #colorLiteral(red: 1, green: 0.9446946864, blue: 0.7848783566, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.839170162, green: 0.7727752205, blue: 0.9737234748, alpha: 0.799091737)
         
         setInputView()
         setDetailView()
@@ -303,17 +332,30 @@ class ToolCell: BaseCell {
         progressView.addSubview(initWeightlabel)
         initWeightlabel.translatesAutoresizingMaskIntoConstraints = false
         initWeightlabel.topAnchor.constraint(equalTo: progressView.centerYAnchor, constant: 15).isActive = true
-        initWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -80.0).isActive = true
-        print("Height : \(progressView.layer.frame.height/2)")
+        initWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -75.0).isActive = true
+        
+        
+        progressView.addSubview(initWeightButton)
+        initWeightButton.translatesAutoresizingMaskIntoConstraints = false
+        initWeightButton.topAnchor.constraint(equalTo: progressView.centerYAnchor, constant: 10).isActive = true
+        initWeightButton.trailingAnchor.constraint(equalTo: initWeightlabel.leadingAnchor, constant: -5.0).isActive = true
+        initWeightButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+        initWeightButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        initWeightButton.addTarget(self, action: #selector(seInitialWeight), for: .touchUpInside)
+        
+        
+        
+        
         
         // Add targetWeightlabel
         progressView.addSubview(targetWeightlabel)
         targetWeightlabel.translatesAutoresizingMaskIntoConstraints = false
         targetWeightlabel.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: -5.0).isActive = true
         targetWeightlabel.leadingAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -5).isActive = true
-        print("Width : \(progressView.layer.frame.width/2)")
+        
         startChart()
     }
+    
     
     
     //MARK: - Chart SETUP
@@ -351,6 +393,10 @@ class ToolCell: BaseCell {
         print(self.frame.height/2)
         
         return chart
+    }
+    
+    @objc func seInitialWeight() {
+        delegate?.enterInitialWeight()
     }
     
     
@@ -490,6 +536,7 @@ class ToolCell: BaseCell {
             BMIValueLabel.text = String( BMI)
             kgValueLabel.text = "\(weight) \(weightUnit)"
             cmValueLabel.text = "\(height) cm"
+            kgLabel.text = "\(weightUnit)"
             
             if 0 <= BMI && BMI < 15 {
                 categoryValueLabel.text = "Very severely underweight"
@@ -529,6 +576,7 @@ class ToolCell: BaseCell {
             var targetWeight = defaults.float(forKey: "desizedWeight")
             targetWeight = round(targetWeight*100)/100
             currentWeightlabel.text = "Current weight: \(weight) \(weightUnit)"
+
             targetWeightlabel.text = "\(targetWeight) \(weightUnit)"
             if let iw = people.first?.weight {
                 initWeightlabel.text = "\(iw) \(weightUnit)"
@@ -598,9 +646,9 @@ class ToolCell: BaseCell {
 
         addSubview(profileView)
         profileView.translatesAutoresizingMaskIntoConstraints = false
-        profileView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        profileView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -42.0).isActive = true
         profileView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        profileView.heightAnchor.constraint(equalToConstant: 265.0).isActive = true
+        profileView.heightAnchor.constraint(equalToConstant: 300.0).isActive = true
         profileView.widthAnchor.constraint(equalToConstant: self.frame.width - 48.0).isActive = true
         
         //add round to input view
@@ -615,16 +663,26 @@ class ToolCell: BaseCell {
         addSubview(profileLabel)
         profileLabel.translatesAutoresizingMaskIntoConstraints = false
         profileLabel.topAnchor.constraint(equalTo: profileView.topAnchor, constant: 12.0).isActive = true
-        profileLabel.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 48.0).isActive = true
-        profileLabel.widthAnchor.constraint(equalToConstant:  150.0).isActive = true
+        profileLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+
+        
+        
+        //add height label
+        addSubview(heightLabel)
+        heightLabel.translatesAutoresizingMaskIntoConstraints = false
+        heightLabel.topAnchor.constraint(equalTo: profileLabel.bottomAnchor, constant: 12.0).isActive = true
+        heightLabel.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 48.0).isActive = true
+        heightLabel.widthAnchor.constraint(equalToConstant:  150.0).isActive = true
         
         //add height textField
         addSubview(inputHeightTextfield)
         inputHeightTextfield.translatesAutoresizingMaskIntoConstraints = false
-        inputHeightTextfield.topAnchor.constraint(equalTo: profileLabel.bottomAnchor, constant: 22.0).isActive = true
+        inputHeightTextfield.topAnchor.constraint(equalTo: heightLabel.bottomAnchor, constant: 8.0).isActive = true
         inputHeightTextfield.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 45.0).isActive = true
         inputHeightTextfield.trailingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: -45.0).isActive = true
 
+        
+        
 
         
         //add cm label
@@ -635,10 +693,17 @@ class ToolCell: BaseCell {
         cmLabel.widthAnchor.constraint(equalToConstant:  50.0).isActive = true
         
         
+        //add height label
+        addSubview(targetWeightLabel)
+        targetWeightLabel.translatesAutoresizingMaskIntoConstraints = false
+        targetWeightLabel.topAnchor.constraint(equalTo: cmLabel.bottomAnchor, constant: 12.0).isActive = true
+        targetWeightLabel.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 48.0).isActive = true
+        targetWeightLabel.widthAnchor.constraint(equalToConstant:  150.0).isActive = true
+        
         //add desired weight
         addSubview(desiredWeightTextfield)
         desiredWeightTextfield.translatesAutoresizingMaskIntoConstraints = false
-        desiredWeightTextfield.topAnchor.constraint(equalTo: cmLabel.bottomAnchor, constant: 20.0).isActive = true
+        desiredWeightTextfield.topAnchor.constraint(equalTo: targetWeightLabel.bottomAnchor, constant: 8.0).isActive = true
         desiredWeightTextfield.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 45.0).isActive = true
         desiredWeightTextfield.trailingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: -45.0).isActive = true
         
@@ -713,6 +778,8 @@ class ToolCell: BaseCell {
                                 self.cmLabel.alpha = 0
                                 self.profileLabel.alpha = 0
                                 self.kgLabel.alpha = 0
+                                self.heightLabel.alpha = 0
+                                self.targetWeightLabel.alpha = 0
                                 self.inputHeightTextfield.alpha = 0
                                 self.desiredWeightTextfield.alpha = 0
                                 self.roundView.alpha = 0
@@ -729,6 +796,8 @@ class ToolCell: BaseCell {
                     self.kgLabel.isHidden = true
                     self.inputHeightTextfield.isHidden = true
                     self.desiredWeightTextfield.isHidden = true
+                    self.targetWeightLabel.isHidden = true
+                    self.inputHeightTextfield.isHidden = true
                     self.roundView.isHidden = true
                     self.enterButton.isHidden = true
                 })
@@ -761,6 +830,8 @@ class ToolCell: BaseCell {
                         self.cmLabel.alpha = 1
                         self.profileLabel.alpha = 1
                         self.kgLabel.alpha = 1
+                        self.heightLabel.alpha = 1
+                        self.targetWeightLabel.alpha = 1
                         self.inputHeightTextfield.alpha = 1
                         self.desiredWeightTextfield.alpha = 1
                         self.roundView.alpha = 1
@@ -780,6 +851,8 @@ class ToolCell: BaseCell {
                 self.desiredWeightTextfield.isHidden = false
                 self.roundView.isHidden = false
                 self.enterButton.isHidden = false
+                self.heightLabel.isHidden = false
+                self.targetWeightLabel.isHidden = false
                 
                 self.desiredWeightTextfield.text! = String(self.defaults.double(forKey: "desizedWeight"))
                 self.inputHeightTextfield.text! = String(self.defaults.double(forKey: "height"))
@@ -799,5 +872,7 @@ class ToolCell: BaseCell {
         self.desiredWeightTextfield.isHidden = true
         self.roundView.isHidden = true
         self.enterButton.isHidden = true
+        self.heightLabel.isHidden = true
+        self.targetWeightLabel.isHidden = true
     }
 }

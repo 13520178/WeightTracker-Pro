@@ -126,7 +126,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     let resetButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
         bt.setTitle("≡", for: .normal)
-        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 45)
+        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 50)
         bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         return bt
@@ -261,7 +261,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         resetButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         resetButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
         resetButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
         resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
         

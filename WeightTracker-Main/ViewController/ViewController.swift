@@ -35,6 +35,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     var indexOfCellSelected = -1
     let defaults = UserDefaults.standard
     var indexOfUnitWeight = 0
+    var exchangeTF = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -242,6 +243,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell?.weightUnit = "kg"
                     
                 }
+
                 cell?.delegate = self
                 cell?.tableView.reloadData()
                 return cell!
@@ -350,6 +352,57 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
 //MARK: Protocol
 
 extension ViewController: ToolCellDelegate {
+    func enterInitialWeight() {
+        let alertController = UIAlertController(title: "Initial weight settings", message: "Enter the initial weight you want to edit ", preferredStyle: .alert)
+        
+        alertController.addTextField(configurationHandler: exchangeTF)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let w = self.exchangeTF.text {
+                if let w = Float(w) {
+                    if w > 1 && w <= 400 {
+                        if let result = try? self.context.fetch(self.request) {
+                            result.first?.weight = w
+                        }
+                        do {
+                            try self.context.save()
+                            let indexPath = IndexPath(row: 3, section: 0)
+                            DispatchQueue.main.async {
+                                self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+                            }
+                            
+                            self.collectionView.reloadData()
+                            self.tabCollectionView.reloadData()
+                        } catch {
+                            print("Co xoa duoc dau ma xoa")
+                        }
+                    }else {
+                        self.checkIfOverInput()
+                    }
+                }else {
+                    self.checkIfWrongInputToolCell()
+                }
+            }else {
+                self.checkIfWrongInputToolCell()
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+         self.present(alertController, animated: true)
+    }
+    
+    
+    
+    func exchangeTF(textField:UITextField!) {
+        exchangeTF = textField
+        exchangeTF.keyboardType = .decimalPad
+        exchangeTF.placeholder = "Ex. 60.0"
+        
+    }
+    
     func checkIfWrongInputToolCell() {
         AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
     }

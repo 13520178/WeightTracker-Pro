@@ -124,6 +124,19 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
             cell.dateLabel.text = String(date.description)
         }
         cell.weightLabel.text = "\(String(people[max - indexPath.row].weight)) \(weightUnit)"
+        if people[max - indexPath.row].time == "Morning" {
+            cell.timeLabel.text = "M"
+            cell.timeLabel.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        }else if people[max - indexPath.row].time == "Afternoon" {
+            cell.timeLabel.text = "A"
+            cell.timeLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        }else if people[max - indexPath.row].time == "Evening" {
+            cell.timeLabel.text = "E"
+            cell.timeLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        }else {
+            cell.timeLabel.text = "N"
+            cell.timeLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
+        }
         return cell
     }
     
@@ -150,6 +163,14 @@ class MyCell:UITableViewCell {
         lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         lb.text = "22/11/2018"
         lb.font = lb.font.withSize(16)
+        return lb
+    }()
+    
+    var timeLabel : UILabel = {
+        var lb = UILabel()
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        lb.text = "M"
+        lb.font = lb.font.withSize(18)
         return lb
     }()
     
@@ -190,15 +211,24 @@ class MyCell:UITableViewCell {
         weightStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
         weightStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         
+
         addSubview(dateLabel)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.topAnchor.constraint(equalTo: weightTitleLabelView.topAnchor, constant: 5.0).isActive = true
         dateLabel.leadingAnchor.constraint(equalTo: weightTitleLabelView.leadingAnchor, constant: 0.0).isActive = true
-
+        dateLabel.widthAnchor.constraint(equalToConstant: 105.0).isActive = true 
+        
+        
         addSubview(weightLabel)
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: 5.0).isActive = true
         weightLabel.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -60).isActive = true
+        
+
+        addSubview(timeLabel)
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.topAnchor.constraint(equalTo: weightTitleLabelView.topAnchor, constant: 4.0).isActive = true
+        timeLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 5.0).isActive = true
         
         addSubview(showDetailLabel)
         showDetailLabel.translatesAutoresizingMaskIntoConstraints = false

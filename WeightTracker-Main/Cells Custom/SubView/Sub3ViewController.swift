@@ -295,7 +295,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         
         if weightTextfield.text == "" || waistTextfield.text == ""  {
             print("Co nhap weight gi dau ma'")
-            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
         }else {
             if var weight = Double(weightTextfield.text!) , var waist = Double(waistTextfield.text!) {
                 if (weight > 1 && weight < 400) && (waist > 30 && waist < 300) {
@@ -367,7 +367,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
                 }
                 
             }else {
-                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
             }
         }
         
