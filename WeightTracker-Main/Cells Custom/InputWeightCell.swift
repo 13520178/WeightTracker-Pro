@@ -14,6 +14,8 @@ protocol InputWeightCellDelegate {
     func changeAndUpdateCell(didChange: Bool, person:Person)
     func checkIfWrongInput()
     func checkIfOverInput()
+    func disableUserInteraction()
+    func enableUserInteraction()
     func resetData()
     func showSub1()
     func showSub2()
@@ -372,16 +374,20 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
        if caculatorView.frame.origin.y == self.layer.frame.height {
             blurView.isHidden = false
             self.isUserInteractionEnabled = true
+            delegate?.disableUserInteraction()
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 self.caculatorView.frame.origin.y -= 360
             }, completion: nil)
         }else {
             blurView.isHidden = true
             self.isUserInteractionEnabled = true
+            delegate?.enableUserInteraction()
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                 self.caculatorView.frame.origin.y += 360
             }, completion: nil)
         }
+        
+        
        
     }
     

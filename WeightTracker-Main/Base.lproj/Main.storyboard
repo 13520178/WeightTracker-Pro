@@ -287,6 +287,7 @@
                         <viewLayoutGuide key="safeArea" id="BQh-2f-ar1"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="x0T-1x-YsT" id="dcs-AH-IA5"/>
                         <outlet property="blurView" destination="lqX-SE-0fL" id="vFc-IP-Xkx"/>
                         <outlet property="bottomInputView" destination="4Ft-LC-BWi" id="6wy-ES-Mhg"/>
                         <outlet property="cancelButton" destination="jCH-zR-kSs" id="q1N-Ic-3HP"/>
@@ -753,6 +754,7 @@
                         <outlet property="activityPicker" destination="3Nj-JO-qEm" id="d4L-Xd-EHk"/>
                         <outlet property="activityTextfield" destination="Lpr-ii-sFc" id="KVl-AY-7VQ"/>
                         <outlet property="ageTextfield" destination="vM5-0E-pTv" id="EVW-Iu-Wpg"/>
+                        <outlet property="backButton" destination="VuG-BT-sx6" id="klF-fH-yMH"/>
                         <outlet property="blurView" destination="aie-hv-zke" id="DYn-kf-DxH"/>
                         <outlet property="bottomInputView" destination="j9X-h7-xyf" id="MKd-2z-tBn"/>
                         <outlet property="cancelButton" destination="7uA-ZD-4gp" id="UIr-Bc-Hj2"/>
@@ -988,6 +990,7 @@
                         <viewLayoutGuide key="safeArea" id="iWX-VL-fS1"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="uvz-nd-8Yf" id="G3s-NK-tCe"/>
                         <outlet property="blurView" destination="MlM-GB-TgO" id="H5y-VQ-5dy"/>
                         <outlet property="bottomInputView" destination="QKg-5k-Zwa" id="ZuH-oD-haB"/>
                         <outlet property="cancelButton" destination="JHR-dt-LwL" id="Ag4-5f-5iE"/>
@@ -1251,6 +1254,7 @@
                         <viewLayoutGuide key="safeArea" id="4h9-sB-G7s"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="L0t-Ih-Qbd" id="Bch-qr-B76"/>
                         <outlet property="blurView" destination="1Qc-CS-f1K" id="Inv-gs-dCO"/>
                         <outlet property="bottomInputView" destination="IyU-az-j2h" id="7Rs-n8-h4N"/>
                         <outlet property="cancelButton" destination="sxk-hi-lru" id="ICM-OR-gZr"/>

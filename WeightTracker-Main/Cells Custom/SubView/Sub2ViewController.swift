@@ -29,6 +29,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     @IBOutlet weak var heightTextfield: UITextField!
     @IBOutlet weak var weightTextfield: UITextField!
     @IBOutlet weak var ageTextfield: UITextField!
+    @IBOutlet weak var backButton: UIButton!
     
     var textFieldIsChange = UITextField()
     var viewHeight:CGFloat = 0
@@ -246,6 +247,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     
     //MARK: - Action handle
     @objc func okButtonResultViewPressed() {
+        backButton.isHidden = true
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.resultView.alpha = 0
             self.inpurView.alpha = 1
@@ -261,6 +263,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
 
     @IBAction func heightDidBegin(_ sender: UITextField) {
+        backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -274,6 +277,8 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     
     @IBAction func weightDidBegin(_ sender: UITextField) {
         
+        backButton.isHidden = true
+
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -286,6 +291,8 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     @IBAction func ageDidBegin(_ sender: UITextField) {
         
+        backButton.isHidden = true
+
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -298,6 +305,8 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     
     @IBAction func genderDidBegin(_ sender: UITextField) {
+
+        backButton.isHidden = true
 
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
@@ -314,6 +323,8 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     @IBAction func activityLevel(_ sender: UITextField) {
         
+        backButton.isHidden = true
+
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -342,6 +353,9 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         }else {
             if let weight = Float(weightTextfield.text!) , let height = Float(heightTextfield.text!) , let age = Int(ageTextfield.text!){
                 if (weight > 1 && weight < 400) && (height > 30 && height < 250) && (1 <= age && age <= 150) {
+                    
+                    
+
                     var bmrValue = 0.0
                     if genderIndex == 0 {
                         let weightPart = 9.6 * weight
@@ -380,6 +394,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         self.inpurView.isHidden = true
                         self.activityPicker.isHidden = true
                         self.genderPicker.isHidden = true
+                        self.backButton.isHidden = false
                         self.view.endEditing(true)
                     })
                    
@@ -407,6 +422,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             self.heightTextfield.text = ""
             self.weightTextfield.text = ""
             self.ageTextfield.text = ""
+            self.backButton.isHidden = false
         })
         self.blurView.isHidden = true
         view.endEditing(true)

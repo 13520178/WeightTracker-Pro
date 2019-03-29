@@ -25,7 +25,24 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView = {
         var tb = UITableView()
+        tb.backgroundColor = UIColor.clear
+        tb.separatorStyle = .none
+       
         return tb
+    }()
+    
+    let headerTable:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.6987634202)
+        return v
+    }()
+    
+    let headerTableLabel:UILabel = {
+        let l = UILabel()
+        l.text = "Daily records"
+        l.font = UIFont.systemFont(ofSize: 30)
+        l.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        return l
     }()
     
     override func setUpView() {
@@ -35,11 +52,38 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource {
         
         tableView.register(MyCell.self, forCellReuseIdentifier: "cellId")
         
+        let backgroundImage = UIImage(named: "toolCellBackground")
+        let backgroundView = UIImageView(image: backgroundImage)
+        backgroundView.contentMode = .scaleToFill
+        
+        self.addSubview(backgroundView)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        
+        addSubview(headerTable)
+        headerTable.translatesAutoresizingMaskIntoConstraints = false
+        headerTable.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
+        headerTable.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        headerTable.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        
+        addSubview(headerTableLabel)
+        headerTableLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerTableLabel.centerXAnchor.constraint(equalTo: headerTable.centerXAnchor).isActive = true
+        headerTableLabel.centerYAnchor.constraint(equalTo: headerTable.centerYAnchor).isActive = true
+
+        
         addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8.0).isActive = true
+        tableView.topAnchor.constraint(equalTo: self.topAnchor, constant: 50).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         tableView.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        
+        
+        
+        
         
         let request : NSFetchRequest<Person> = Person.fetchRequest()
         do {
@@ -97,13 +141,13 @@ class MyCell:UITableViewCell {
         var lb = UILabel()
         lb.text = "64.0 kg"
         lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
     var dateLabel: UILabel = {
         var lb = UILabel()
-        lb.textColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         lb.text = "22/11/2018"
         lb.font = lb.font.withSize(16)
         return lb
@@ -113,8 +157,14 @@ class MyCell:UITableViewCell {
         var lb = UILabel()
         lb.text = "❯"
         lb.font = lb.font.withSize(30.0)
-        lb.textColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return lb
+    }()
+    
+    var lineView:UIView = {
+        var view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.6465802339)
+        return view
     }()
     
     
@@ -124,9 +174,11 @@ class MyCell:UITableViewCell {
     }
     
     func setupView() {
-        let weightTitleLabelView = UIView()
         
+        let weightTitleLabelView = UIView()
         let weightLabelView = UIView()
+        
+        backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.2987202837)
         
         weightStackView = UIStackView(arrangedSubviews: [weightTitleLabelView,weightLabelView])
         weightStackView.axis = .horizontal
@@ -140,18 +192,25 @@ class MyCell:UITableViewCell {
         
         addSubview(dateLabel)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.topAnchor.constraint(equalTo: weightTitleLabelView.topAnchor, constant: 3.0).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: weightTitleLabelView.topAnchor, constant: 5.0).isActive = true
         dateLabel.leadingAnchor.constraint(equalTo: weightTitleLabelView.leadingAnchor, constant: 0.0).isActive = true
 
         addSubview(weightLabel)
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
-        weightLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: 3.0).isActive = true
+        weightLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: 5.0).isActive = true
         weightLabel.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -60).isActive = true
         
         addSubview(showDetailLabel)
         showDetailLabel.translatesAutoresizingMaskIntoConstraints = false
-        showDetailLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: -9.0).isActive = true
+        showDetailLabel.topAnchor.constraint(equalTo: weightLabelView.topAnchor, constant: -5.0).isActive = true
         showDetailLabel.trailingAnchor.constraint(equalTo: weightLabelView.trailingAnchor, constant: -10).isActive = true
+        
+        addSubview(lineView)
+        lineView.translatesAutoresizingMaskIntoConstraints = false
+        lineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        lineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        lineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        lineView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0)
         
         
     }

@@ -26,6 +26,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     let defaults = UserDefaults.standard
     var indexWeightUnit = -1
     
+    
     let facebookButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
@@ -201,6 +202,9 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         setupSetupView()
         let tap = UITapGestureRecognizer(target: self, action: #selector(openSavingMoneySVApp))
         otherAppView.addGestureRecognizer(tap)
+        
+        
+       
 
     }
     

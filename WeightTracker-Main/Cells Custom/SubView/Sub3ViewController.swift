@@ -21,6 +21,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     @IBOutlet weak var cancelButton: UIButton!
     
     @IBOutlet weak var bottomInputView: NSLayoutConstraint!
+    @IBOutlet weak var backButton: UIButton!
     
     @IBOutlet weak var genderTextfield: UITextField!
     @IBOutlet weak var waistTextfield: UITextField!
@@ -244,12 +245,14 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         }, completion: { finished in
             self.resultView.isHidden = true
             self.inpurView.isHidden = false
+            self.backButton.isHidden = true
         })
         
     }
     
     @IBAction func waistDidBegin(_ sender: UITextField) {
         bottomInputView.constant = 10
+        self.backButton.isHidden = true
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
@@ -262,6 +265,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     
     @IBAction func weightDidBegin(_ sender: UITextField) {
         bottomInputView.constant = 10
+        self.backButton.isHidden = true
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
@@ -273,6 +277,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }
     @IBAction func genderDidBegin(_ sender: UITextField) {
         bottomInputView.constant = 10
+        self.backButton.isHidden = true
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
@@ -310,7 +315,12 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
                     
                     YMCA = YMCA * 100
                     YMCA = round(YMCA*100)/100
-                    bodyFatResultValueLabel.text = " \(YMCA) %"
+                    if (YMCA >= 0 ) {
+                        
+                        bodyFatResultValueLabel.text = " \(YMCA) %"
+                    }else {
+                        bodyFatResultValueLabel.text = " 0.0 %"
+                    }
                     
                     
                     //Category
@@ -349,6 +359,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
                         self.resultView.isHidden = false
                         self.inpurView.isHidden = true
                         self.genderPicker.isHidden = true
+                        self.backButton.isHidden = false
                         self.view.endEditing(true)
                     })
                 }else {
@@ -373,6 +384,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
              self.genderPicker.isHidden = true
             self.waistTextfield.text = ""
             self.weightTextfield.text = ""
+            self.backButton.isHidden = false
         })
         self.blurView.isHidden = true
         view.endEditing(true)

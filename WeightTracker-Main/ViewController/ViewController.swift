@@ -22,10 +22,13 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     @IBOutlet weak var leadingOfNarBarBottom: NSLayoutConstraint!
     @IBOutlet weak var widthOfNarBarBottom: NSLayoutConstraint!
     
+    
     //MARK: - Variable
+    var spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
     var isStart  = true
+    var isStartAtView5 = false
     var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","toolIcon","setupIcon"]
-    //var iconColectionViewArray = ["scaleIcon","diagramIcon","historyIcon","setupIcon"]
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<Person> = Person.fetchRequest()
     
@@ -49,6 +52,13 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         }else {
             indexOfUnitWeight = 0
         }
+        
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spinner)
+        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self.spinner.transform = CGAffineTransform(scaleX: 2, y: 2)
+        
     }
     @objc func refreshLbl(notification: NSNotification) {
         print("Received Notification")
@@ -73,7 +83,16 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             let indexPathForFirstRow = IndexPath(row: 0, section: 0)
             self.collectionView?.selectItem(at: indexPathForFirstRow, animated: true, scrollPosition: .top)
         }else {
-            isStart = true
+            if isStartAtView5 {
+                let indexPathForFirstRow = IndexPath(row: 4, section: 0)
+                self.collectionView?.selectItem(at: indexPathForFirstRow, animated: true, scrollPosition: .top)
+                isStart = true
+                isStartAtView5 = false
+            }else {
+                let indexPathForFirstRow = IndexPath(row: 2, section: 0)
+                self.collectionView?.selectItem(at: indexPathForFirstRow, animated: true, scrollPosition: .top)
+                isStart = true
+            }
         }
         
     }
@@ -105,6 +124,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let indexPath = IndexPath(row: Int(targetContentOffset.pointee.x/view.frame.width), section: 0)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+        view.endEditing(true)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionView {
@@ -289,6 +309,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.collectionView {
             self.tabCollectionView?.scrollToItem(at: indexPath, at: [], animated: true)
+            view.endEditing(true)
         }
         
     }
@@ -296,7 +317,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     func collectionViewSetup() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        widthOfNarBarBottom.constant = collectionView.frame.width/5
+        //widthOfNarBarBottom.constant = collectionView.frame.width/5
+        widthOfNarBarBottom.constant = view.frame.width/5
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -351,6 +373,16 @@ extension ViewController: ToolCellDelegate {
 }
 
 extension ViewController: InputWeightCellDelegate {
+    func enableUserInteraction() {
+        collectionView.isUserInteractionEnabled = true
+        tabCollectionView.isScrollEnabled = true
+    }
+    
+    func disableUserInteraction() {
+        collectionView.isUserInteractionEnabled = false
+        tabCollectionView.isScrollEnabled = false
+    }
+    
     func showSub1() {
         performSegue(withIdentifier: "showSub1", sender: nil)
     }
@@ -433,6 +465,7 @@ extension ViewController: HistoryCellDelegate {
 }
 
 extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
+    
     func deleteAllRecords() {
         let alertController = UIAlertController(title: "Delete All Data ?", message: "Do you want to delete all data ?", preferredStyle: .alert)
         
@@ -473,29 +506,36 @@ extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
         let alertController = UIAlertController(title: "Convert the previous weight values", message: "Do you want to convert the previous weight values? ", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            var people = [Person]()
-            do {
-                try people = self.context.fetch(self.request)
-            } catch  {
-                print("Error to fetch Item data")
-            }
-            if self.indexOfUnitWeight == 0 {
-                for i in people {
-                    i.weight = i.weight * 0.45359237
-                    i.weight = round(i.weight*100)/100
+
+            self.spinner.startAnimating()
+            DispatchQueue.main.async() {
+                var people = [Person]()
+                do {
+                    try people = self.context.fetch(self.request)
+                } catch  {
+                    print("Error to fetch Item data")
                 }
-            }else {
-                for i in people {
-                    i.weight = i.weight / 0.45359237
-                    i.weight = round(i.weight*100)/100
+                if self.indexOfUnitWeight == 0 {
+                    for i in people {
+                        i.weight = i.weight * 0.45359237
+                        i.weight = round(i.weight*100)/100
+                    }
+                }else {
+                    for i in people {
+                        i.weight = i.weight / 0.45359237
+                        i.weight = round(i.weight*100)/100
+                    }
                 }
+                
+                do {
+                    try self.context.save()
+                } catch  {
+                    print("Error to saving data")
+                }
+                self.spinner.stopAnimating()
             }
+        
             
-            do {
-                try self.context.save()
-            } catch  {
-                print("Error to saving data")
-            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
@@ -542,6 +582,9 @@ extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
         } else {
             showMailError()
         }
+        isStart = false
+        isStartAtView5 = true
+        
     }
     
     

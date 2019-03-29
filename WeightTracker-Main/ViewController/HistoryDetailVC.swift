@@ -83,7 +83,7 @@ class HistoryDetailVC: UIViewController {
     }
     
     @IBAction func backPressed(_ sender: UIButton) {
-        
+         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refresh"), object: nil)
         dismiss(animated: true, completion: nil)
     }
     

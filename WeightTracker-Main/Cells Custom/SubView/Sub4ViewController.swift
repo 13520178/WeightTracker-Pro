@@ -19,6 +19,7 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
     
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
     
     @IBOutlet weak var bottomInputView: NSLayoutConstraint!
     @IBOutlet weak var genderTextfield: UITextField!
@@ -422,11 +423,13 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
         }, completion: { finished in
             self.resultView.isHidden = true
             self.inpurView.isHidden = false
+            self.backButton.isHidden = true
         })
         
     }
     
     @IBAction func waistDidBegin(_ sender: UITextField) {
+        self.backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -439,6 +442,7 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
     }
     
     @IBAction func hipDidBegin(_ sender: UITextField) {
+        self.backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -451,6 +455,7 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
     }
     
     @IBAction func genderDidBegin(_ sender: UITextField) {
+        self.backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -472,12 +477,18 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
             AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
         }else {
             if let hip = Double(hipTextfield.text!) , let waist = Double(waistTextfield.text!) {
-                if (hip > 1 && hip < 400) && (waist > 30 && waist < 300) {
+                if (hip > 30 && hip < 400) && (waist > 30 && waist < 300) {
                     var WHR  = waist / hip
                     WHR = round(WHR * 100) / 100
                     
                     whrResultValueLabel.text = String(WHR)
                     if genderIndex == 0 {
+                        
+                        whrCategoryView1Label.text = "WHR < 0.7"
+                        whrCategoryView2Label.text = "0.7 ≤ WHR < 0.8"
+                        whrCategoryView3Label.text = "0.8 ≤ WHR < 0.85"
+                        whrCategoryView4Label.text = "0.85 ≤ WHR"
+                        
                         if WHR < 0.7 {
                             whrCategoryView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                             whrCategoryValueView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -546,6 +557,7 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
                         self.resultView.isHidden = false
                         self.inpurView.isHidden = true
                         self.genderPicker.isHidden = true
+                        self.backButton.isHidden = false
                         self.view.endEditing(true)
                     })
                 }else {
@@ -570,6 +582,7 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
             self.genderPicker.isHidden = true
             self.waistTextfield.text = ""
             self.hipTextfield.text = ""
+            self.backButton.isHidden = false
         })
         self.blurView.isHidden = true
         view.endEditing(true)

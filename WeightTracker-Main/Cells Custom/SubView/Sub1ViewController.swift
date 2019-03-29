@@ -19,6 +19,8 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
+    @IBOutlet weak var backButton: UIButton!
+    
     @IBOutlet weak var bottomInputView: NSLayoutConstraint!
     
     @IBOutlet weak var weightTextfield: UITextField!
@@ -32,7 +34,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
     //MARK: - Result View Variable
     let resultView:UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         v.layer.cornerRadius = 10
         v.clipsToBounds = true
         return v
@@ -122,7 +124,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
     }()
     let bmiCategoryView2Label: UILabel = {
         let l = UILabel()
-        l.text = "18.5 < BMI ≤ 24.9 "
+        l.text = "18.5 < BMI ≤ 25 "
         l.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
         l.backgroundColor = UIColor.clear
@@ -149,7 +151,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
     }()
     let bmiCategoryView3Label: UILabel = {
         let l = UILabel()
-        l.text = "25 ≤ BMI ≤ 29.9"
+        l.text = "25 < BMI ≤ 30"
         l.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         l.textAlignment = NSTextAlignment.center
         l.backgroundColor = UIColor.clear
@@ -352,6 +354,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
         }, completion: { finished in
             self.resultView.isHidden = true
             self.inpurView.isHidden = false
+            self.backButton.isHidden = true
         })
         
             bmiCategoryView1.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -391,11 +394,11 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
                         bmiCategoryView1.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
                         bmiCategoryView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                         bmiCategoryValueView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                    }else if 18.5 < bmiValue && bmiValue <= 24.9 {
+                    }else if 18.5 < bmiValue && bmiValue <= 25 {
                         bmiCategoryView2.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
                         bmiCategoryView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                         bmiCategoryValueView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                    }else if 25 < bmiValue && bmiValue < 29.9 {
+                    }else if 25 < bmiValue && bmiValue <= 30 {
                         bmiCategoryView3.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
                         bmiCategoryView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                         bmiCategoryValueView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -412,6 +415,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
                     }, completion: { finished in
                         self.resultView.isHidden = false
                         self.inpurView.isHidden = true
+                        self.backButton.isHidden = false
                         self.view.endEditing(true)
                     })
                 }else {
@@ -431,6 +435,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
 
     @IBAction func beginEditingWeightTextfield(_ sender: UITextField) {
         
+        self.backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -438,6 +443,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
         }, completion: { finished in
             self.cancelButton.isHidden = false
             self.okButton.isHidden = false
+            
         })
         self.blurView.isHidden = false
         
@@ -445,6 +451,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
 
     @IBAction func beginEditingHeightTextfield(_ sender: UITextField) {
         
+        self.backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -452,6 +459,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
         }, completion: { finished in
             self.cancelButton.isHidden = false
             self.okButton.isHidden = false
+            
         })
         self.blurView.isHidden = false
     }
@@ -466,6 +474,7 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
         }, completion: { finished in
             self.weightTextfield.text = ""
             self.heightTextfield.text = ""
+            self.backButton.isHidden = false
         })
          self.blurView.isHidden = true
         view.endEditing(true)
