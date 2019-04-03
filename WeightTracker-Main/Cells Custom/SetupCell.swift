@@ -108,7 +108,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let appVersionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Version: 1.1.2"
+        label.text = "Version: 1.1.5"
         label.font = UIFont.systemFont(ofSize:13, weight: UIFont.Weight.light)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label

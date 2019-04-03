@@ -592,14 +592,14 @@ class ToolCell: BaseCell {
                             percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
                             percentlabel.text = "\(percent) %"
                         }else {
-                            percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
-                            percentlabel.text = "😭 "
+                            percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+                            percentlabel.text = "0.0 % "
                             completedRate = 0
                             startChart()
                         }
                     }else {
-                        percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
-                        percentlabel.text = "🏅 "
+                        percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+                        percentlabel.text = "100.0 % "
                         completedRate = 1
                         startChart()
                     }
@@ -614,13 +614,13 @@ class ToolCell: BaseCell {
                             percentlabel.text = "\(percent) %"
                         }else {
                             completedRate = 0
-                            percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
-                            percentlabel.text = "😭 "
+                            percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+                            percentlabel.text = "0.0 % "
                             startChart()
                         }
                     }else {
-                        percentlabel.font = UIFont.systemFont(ofSize: 60, weight: UIFont.Weight.medium)
-                        percentlabel.text = "🏅 "
+                        percentlabel.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
+                        percentlabel.text = "100.0 % "
                         completedRate = 1
                         startChart()
                     }

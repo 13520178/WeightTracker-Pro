@@ -243,7 +243,7 @@ class DiagramCell: BaseCell {
         addSubview(viewForChartCandle)
         viewForChartCandle.translatesAutoresizingMaskIntoConstraints = false
         viewForChartCandle.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
-        viewForChartCandle.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 0.0).isActive = true
+        viewForChartCandle.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 5.0).isActive = true
         viewForChartCandle.bottomAnchor.constraint(equalTo: charViews.bottomAnchor, constant: -16.0).isActive = true
         viewForChartCandle.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         
@@ -276,7 +276,7 @@ class DiagramCell: BaseCell {
         addSubview(viewForChart)
         viewForChart.translatesAutoresizingMaskIntoConstraints = false
         viewForChart.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
-        viewForChart.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 0.0).isActive = true
+        viewForChart.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 5.0).isActive = true
         viewForChart.bottomAnchor.constraint(equalTo: charViews.bottomAnchor, constant: -16.0).isActive = true
         viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         

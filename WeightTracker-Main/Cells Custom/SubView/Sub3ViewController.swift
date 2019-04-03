@@ -27,6 +27,17 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     @IBOutlet weak var waistTextfield: UITextField!
     @IBOutlet weak var weightTextfield: UITextField!
     
+    //Segment setup
+    
+    @IBOutlet weak var segmentUnit: UISegmentedControl!
+    @IBOutlet weak var metricStackView: UIStackView!
+    @IBOutlet weak var imperialStackView: UIStackView!
+    
+    // Outlet in imperial Unit
+    @IBOutlet weak var inTextfield: UITextField!
+    @IBOutlet weak var lbsWeightTextField: UITextField!
+    @IBOutlet weak var genderInImperialTextfield: UITextField!
+    
     
     var textFieldIsChange = UITextField()
     var viewHeight:CGFloat = 0
@@ -51,6 +62,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         genderIndex = row
         genderTextfield.text = genderArray[row]
+        genderInImperialTextfield.text = genderArray[row]
     }
     
     
@@ -238,6 +250,24 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     
     
     //MARK: - Action handle
+    
+    @IBAction func segmentValueChange(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            metricStackView.isHidden = false
+            imperialStackView.isHidden = true
+            genderPicker.selectRow(0, inComponent: 0, animated: true)
+            
+            genderTextfield.text = genderArray[0]
+        }else {
+            metricStackView.isHidden = true
+            imperialStackView.isHidden = false
+            genderPicker.selectRow(0, inComponent: 0, animated: true)
+           
+            genderInImperialTextfield.text = genderArray[0]
+        }
+        
+    }
+    
     @objc func okButtonResultViewPressed() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.resultView.alpha = 0
@@ -250,7 +280,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         
     }
     
-    @IBAction func waistDidBegin(_ sender: UITextField) {
+    func textFieldDidBegin() {
         bottomInputView.constant = 10
         self.backButton.isHidden = true
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
@@ -263,17 +293,12 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         self.blurView.isHidden = false
     }
     
+    @IBAction func waistDidBegin(_ sender: UITextField) {
+       textFieldDidBegin()
+    }
+    
     @IBAction func weightDidBegin(_ sender: UITextField) {
-        bottomInputView.constant = 10
-        self.backButton.isHidden = true
-        self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: { finished in
-            self.cancelButton.isHidden = false
-            self.okButton.isHidden = false
-        })
-        self.blurView.isHidden = false
+       textFieldDidBegin()
     }
     @IBAction func genderDidBegin(_ sender: UITextField) {
         bottomInputView.constant = 10
@@ -290,86 +315,168 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
         self.blurView.isHidden = false
     }
     
+    @IBAction func inTextfieldDidBegin(_ sender: UITextField) {
+        textFieldDidBegin()
+    }
     
-    @IBAction func okPressed(_ sender: UIButton) {
-        
-        if weightTextfield.text == "" || waistTextfield.text == ""  {
-            print("Co nhap weight gi dau ma'")
-            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
-        }else {
-            if var weight = Double(weightTextfield.text!) , var waist = Double(waistTextfield.text!) {
-                if (weight > 1 && weight < 400) && (waist > 30 && waist < 300) {
-                    weight = weight * 2.2
-                    waist = waist / 2.54
-                    var YMCA = 0.0
-                    if genderIndex == 0 {
-                        YMCA = (-76.76 + 4.15 * waist - 0.082 * weight)/weight
-                        
-                    }else if genderIndex == 1 {
-                        YMCA = (-98.42 + 4.15 * waist - 0.082 * weight)/weight
-                    }
-                    
-                    var fatMass = (weight / 2.2) * YMCA
-                    fatMass = round(fatMass*100)/100
-                    fatMassValueLabel.text = "\(fatMass) kg"
-                    
-                    YMCA = YMCA * 100
-                    YMCA = round(YMCA*100)/100
-                    if (YMCA >= 0 ) {
-                        
-                        bodyFatResultValueLabel.text = " \(YMCA) %"
-                    }else {
-                        bodyFatResultValueLabel.text = " 0.0 %"
-                    }
-                    
-                    
-                    //Category
-                    if genderIndex == 0 {
-                      //categoryValueLabel
-                        if YMCA < 14 {
-                            categoryValueLabel.text = "Essential Fat"
-                        }else if 14 <= YMCA && YMCA < 20 {
-                            categoryValueLabel.text = "Typical Athletes"
-                        }else if 20 <= YMCA && YMCA < 24 {
-                            categoryValueLabel.text = "Fitness "
-                        }else if 24 <= YMCA && YMCA < 31 {
-                            categoryValueLabel.text = "Acceptable"
-                        }else if 31 <= YMCA  {
-                            categoryValueLabel.text = "Obese"
-                        }
-                    }else if genderIndex == 1 {
-                        if  YMCA < 6 {
-                            categoryValueLabel.text = "Essential Fat"
-                        }else if 6 <= YMCA && YMCA < 13 {
-                            categoryValueLabel.text = "Typical Athletes"
-                        }else if 13 <= YMCA && YMCA < 17 {
-                            categoryValueLabel.text = "Fitness "
-                        }else if 17 <= YMCA && YMCA < 25 {
-                            categoryValueLabel.text = "Acceptable"
-                        }else if 25 <= YMCA  {
-                            categoryValueLabel.text = "Obese"
-                        }
-                    }
-                    
-                    
-                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                        self.resultView.alpha = 1
-                        self.inpurView.alpha = 0
-                    }, completion: { finished in
-                        self.resultView.isHidden = false
-                        self.inpurView.isHidden = true
-                        self.genderPicker.isHidden = true
-                        self.backButton.isHidden = false
-                        self.view.endEditing(true)
-                    })
-                }else {
-                    AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
-                }
-                
-            }else {
-                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+    @IBAction func lbsTextfieldDidBegin(_ sender: UITextField) {
+        textFieldDidBegin()
+    }
+    @IBAction func genderInImperialTextfieldDidBegin(_ sender: UITextField) {
+        bottomInputView.constant = 10
+        self.backButton.isHidden = true
+        self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { finished in
+            self.cancelButton.isHidden = false
+            self.okButton.isHidden = false
+            self.genderPicker.isHidden = false
+            self.view.endEditing(true)
+        })
+        self.blurView.isHidden = false
+    }
+    
+    func displaySetupAfterOkButtonPressed (YMCA:Double) {
+        //Category
+        if genderIndex == 0 {
+            //categoryValueLabel
+            if YMCA < 14 {
+                categoryValueLabel.text = "Essential Fat"
+            }else if 14 <= YMCA && YMCA < 20 {
+                categoryValueLabel.text = "Typical Athletes"
+            }else if 20 <= YMCA && YMCA < 24 {
+                categoryValueLabel.text = "Fitness "
+            }else if 24 <= YMCA && YMCA < 31 {
+                categoryValueLabel.text = "Acceptable"
+            }else if 31 <= YMCA  {
+                categoryValueLabel.text = "Obese"
+            }
+        }else if genderIndex == 1 {
+            if  YMCA < 6 {
+                categoryValueLabel.text = "Essential Fat"
+            }else if 6 <= YMCA && YMCA < 13 {
+                categoryValueLabel.text = "Typical Athletes"
+            }else if 13 <= YMCA && YMCA < 17 {
+                categoryValueLabel.text = "Fitness "
+            }else if 17 <= YMCA && YMCA < 25 {
+                categoryValueLabel.text = "Acceptable"
+            }else if 25 <= YMCA  {
+                categoryValueLabel.text = "Obese"
             }
         }
+        
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.resultView.alpha = 1
+            self.inpurView.alpha = 0
+        }, completion: { finished in
+            self.resultView.isHidden = false
+            self.inpurView.isHidden = true
+            self.genderPicker.isHidden = true
+            self.backButton.isHidden = false
+            self.view.endEditing(true)
+        })
+    }
+    
+    @IBAction func okPressed(_ sender: UIButton) {
+        if segmentUnit.selectedSegmentIndex == 0 {
+            if weightTextfield.text == "" || waistTextfield.text == ""  {
+                print("Co nhap weight gi dau ma'")
+                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+            }else {
+                
+                if var weight = Double(weightTextfield.text!) , var waist = Double(waistTextfield.text!) {
+                    if (weight > 1 && weight < 400) && (waist > 30 && waist < 300) {
+                        weight = weight * 2.2
+                        waist = waist / 2.54
+                        var YMCA = 0.0
+                        if genderIndex == 0 {
+                            YMCA = (-76.76 + 4.15 * waist - 0.082 * weight)/weight
+                            
+                        }else if genderIndex == 1 {
+                            YMCA = (-98.42 + 4.15 * waist - 0.082 * weight)/weight
+                        }
+                        
+                        var fatMass = (weight / 2.2) * YMCA
+                        fatMass = round(fatMass*100)/100
+                        fatMassValueLabel.text = "\(fatMass) kg"
+                        
+                        YMCA = YMCA * 100
+                        YMCA = round(YMCA*100)/100
+                        if (YMCA >= 0 && YMCA <= 100 ) {
+                            bodyFatResultValueLabel.text = " \(YMCA) %"
+                             fatMassValueLabel.text = "\(fatMass) kg"
+                        }else {
+                            if YMCA > 100 {
+                                bodyFatResultValueLabel.text = " 100.0 %"
+                                fatMassValueLabel.text = "\(weight/2.2) kg"
+                            }else {
+                                bodyFatResultValueLabel.text = " 0.0 %"
+                                fatMassValueLabel.text = "0 kg"
+                            }
+                            
+                        }
+                        
+                        displaySetupAfterOkButtonPressed(YMCA: YMCA)
+                        
+                    }else {
+                        AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+                    }
+                    
+                }else {
+                    AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+                }
+            }
+        }else {
+            if lbsWeightTextField.text == "" || inTextfield.text == ""  {
+                print("Co nhap weight gi dau ma'")
+                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+            }else {
+                
+                if let weight = Double(lbsWeightTextField.text!) , let waist = Double(inTextfield.text!) {
+                    if (weight > 1 && weight < 400) && (waist > 5 && waist < 150) {
+                        var YMCA = 0.0
+                        if genderIndex == 0 {
+                            YMCA = (-76.76 + 4.15 * waist - 0.082 * weight)/weight
+                            
+                        }else if genderIndex == 1 {
+                            YMCA = (-98.42 + 4.15 * waist - 0.082 * weight)/weight
+                        }
+                        
+                        var fatMass = (weight / 2.2) * YMCA
+                        fatMass = round(fatMass*100)/100
+                        fatMassValueLabel.text = "\(fatMass) kg"
+                        
+                        YMCA = YMCA * 100
+                        YMCA = round(YMCA*100)/100
+                        
+                        if (YMCA >= 0 && YMCA <= 100 ) {
+                            bodyFatResultValueLabel.text = " \(YMCA) %"
+                            fatMassValueLabel.text = "\(fatMass) kg"
+                        }else {
+                            if YMCA > 100 {
+                                bodyFatResultValueLabel.text = " 100.0 %"
+                                fatMassValueLabel.text = "\(weight) kg"
+                            }else {
+                                bodyFatResultValueLabel.text = " 0.0 %"
+                                fatMassValueLabel.text = "0 kg"
+                            }
+                            
+                        }
+                        
+                        displaySetupAfterOkButtonPressed(YMCA: YMCA)
+                        
+                    }else {
+                        AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+                    }
+                    
+                }else {
+                    AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+                }
+            }
+        }
+        
         
       
     }
@@ -384,6 +491,8 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
              self.genderPicker.isHidden = true
             self.waistTextfield.text = ""
             self.weightTextfield.text = ""
+            self.inTextfield.text = ""
+            self.lbsWeightTextField.text = ""
             self.backButton.isHidden = false
         })
         self.blurView.isHidden = true

@@ -611,7 +611,7 @@ extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
         mailComposerVC.mailComposeDelegate = self
         
         mailComposerVC.setToRecipients(["phannhatd@gmail.com"])
-        mailComposerVC.setSubject("Question about WeChart 1.1")
+        mailComposerVC.setSubject("Question about WeChart 1.1.5")
         mailComposerVC.setMessageBody("", isHTML: false)
         
         return mailComposerVC

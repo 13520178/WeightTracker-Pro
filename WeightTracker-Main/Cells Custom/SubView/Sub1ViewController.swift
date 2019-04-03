@@ -27,6 +27,24 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
     
     @IBOutlet weak var heightTextfield: UITextField!
     
+    
+    // Outlet in imperial Unit
+    
+    @IBOutlet weak var ftTextfield: UITextField!
+    @IBOutlet weak var inTextfield: UITextField!
+    @IBOutlet weak var weightInLbsTextfield: UITextField!
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField ==  ftTextfield {
+            return range.location <= 4
+        } else if textField ==  inTextfield {
+            return range.location <= 4
+        }
+        else {
+            return range.location <= 10
+        }
+    }
+    
     var textFieldIsChange = UITextField()
     var viewHeight:CGFloat = 0
     var inputViewHeight:CGFloat = 0
@@ -195,11 +213,18 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
         return l
     }()
     
+    //Segment Setup
+    @IBOutlet weak var segmentUnit: UISegmentedControl!
+    @IBOutlet weak var metricStackView: UIStackView!
+    @IBOutlet weak var imperialStackView: UIStackView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewHeight = view.frame.height
         inputViewHeight = inpurView.frame.height
-        
+        ftTextfield.delegate = self
+        inTextfield.delegate = self
         
         //Setup result view
         resultView.isHidden = true
@@ -347,6 +372,17 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
     
   
     //MARK: - Action handle
+    
+    @IBAction func selectValueOfSegment(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            metricStackView.isHidden = false
+            imperialStackView.isHidden = true
+        }else {
+            metricStackView.isHidden = true
+            imperialStackView.isHidden = false
+        }
+    }
+    
     @objc func okButtonResultViewPressed() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
             self.resultView.alpha = 0
@@ -371,70 +407,113 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
             bmiCategoryValueView4Label.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
     }
     
+    func bmiDisplayCategory(bmiValue:Float) {
+        if bmiValue <= 18.5 {
+            bmiCategoryView1.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            bmiCategoryView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            bmiCategoryValueView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }else if 18.5 < bmiValue && bmiValue <= 25 {
+            bmiCategoryView2.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            bmiCategoryView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            bmiCategoryValueView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }else if 25 < bmiValue && bmiValue <= 30 {
+            bmiCategoryView3.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            bmiCategoryView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            bmiCategoryValueView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }else {
+            bmiCategoryView4.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+            bmiCategoryView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            bmiCategoryValueView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }
+    }
+    
     @IBAction func backPressed(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func okPressed(_ sender: UIButton) {
-        if weightTextfield.text == "" || heightTextfield.text == ""  {
-            print("Co nhap weight gi dau ma'")
-            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
-        }else {
-            if let weight = Float(weightTextfield.text!) , var height = Float(heightTextfield.text!) {
-                if (weight > 1 && weight < 400) && (height > 30 && height < 250) {
-                    
-                    //Calculate the BMI value
-                    height = height/100
-                    
-                    var bmiValue = weight / (height*height)
-                    bmiValue = round(bmiValue*100)/100
-                    bmiResultValueLabel.text = String(bmiValue)
-                    
-                    if bmiValue <= 18.5 {
-                        bmiCategoryView1.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-                        bmiCategoryView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                        bmiCategoryValueView1Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                    }else if 18.5 < bmiValue && bmiValue <= 25 {
-                        bmiCategoryView2.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-                        bmiCategoryView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                        bmiCategoryValueView2Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                    }else if 25 < bmiValue && bmiValue <= 30 {
-                        bmiCategoryView3.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-                        bmiCategoryView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                        bmiCategoryValueView3Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        if segmentUnit.selectedSegmentIndex == 0 {
+            if weightTextfield.text == "" || heightTextfield.text == ""  {
+                print("Co nhap weight gi dau ma'")
+                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+            }else {
+                if let weight = Float(weightTextfield.text!) , var height = Float(heightTextfield.text!) {
+                    if (weight > 1 && weight < 400) && (height > 30 && height < 250) {
+                        
+                        //Calculate the BMI value
+                        height = height/100
+                        
+                        var bmiValue = weight / (height*height)
+                        bmiValue = round(bmiValue*100)/100
+                        bmiResultValueLabel.text = String(bmiValue)
+                        
+                       bmiDisplayCategory(bmiValue: bmiValue)
+                        
+                        
+                        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                            self.resultView.alpha = 1
+                            self.inpurView.alpha = 0
+                        }, completion: { finished in
+                            self.resultView.isHidden = false
+                            self.inpurView.isHidden = true
+                            self.backButton.isHidden = false
+                            self.view.endEditing(true)
+                        })
                     }else {
-                        bmiCategoryView4.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-                        bmiCategoryView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-                        bmiCategoryValueView4Label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                        AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
                     }
                     
-                    
-                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                        self.resultView.alpha = 1
-                        self.inpurView.alpha = 0
-                    }, completion: { finished in
-                        self.resultView.isHidden = false
-                        self.inpurView.isHidden = true
-                        self.backButton.isHidden = false
-                        self.view.endEditing(true)
-                    })
                 }else {
-                    AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+                    AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
                 }
-               
-            }else {
+            }
+        }else {
+            print("Chua co code dong nao ong oi !")
+            if weightInLbsTextfield.text == "" || ftTextfield.text == "" || inTextfield.text == "" {
+                print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+            }else {
+                if let weight = Float(weightInLbsTextfield.text!) , let ftHeight = Float(ftTextfield.text!) , let inHeight = Float(inTextfield.text!){
+                    if (weight > 10 && weight < 800) && (ftHeight > 0 && ftHeight < 11) && (inHeight >= 0 && inHeight < 100) {
+                        
+                        //Calculate the BMI value
+                        var height = ftHeight * 30.48 + inHeight * 2.54
+                        height = height/100
+                        
+                        var bmiValue = (weight * 0.45359237) / (height*height)
+                        bmiValue = round(bmiValue*100)/100
+                        bmiResultValueLabel.text = String(bmiValue)
+                        
+                        bmiDisplayCategory(bmiValue: bmiValue)
+                        
+                        
+                        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                            self.resultView.alpha = 1
+                            self.inpurView.alpha = 0
+                        }, completion: { finished in
+                            self.resultView.isHidden = false
+                            self.inpurView.isHidden = true
+                            self.backButton.isHidden = false
+                            self.view.endEditing(true)
+                        })
+                    }else {
+                        AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+                    }
+                    
+                }else {
+                    AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
+                }
             }
         }
+       
       
         
        
        
     }
     
-
-    @IBAction func beginEditingWeightTextfield(_ sender: UITextField) {
-        
+    func setUpBeginEditTF() {
         self.backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
@@ -446,23 +525,29 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
             
         })
         self.blurView.isHidden = false
-        
+    }
+
+    @IBAction func beginEditingWeightTextfield(_ sender: UITextField) {
+        setUpBeginEditTF()
     }
 
     @IBAction func beginEditingHeightTextfield(_ sender: UITextField) {
-        
-        self.backButton.isHidden = true
-        bottomInputView.constant = 10
-        self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: { finished in
-            self.cancelButton.isHidden = false
-            self.okButton.isHidden = false
-            
-        })
-        self.blurView.isHidden = false
+        setUpBeginEditTF()
     }
+    
+    // Imperial edit
+    @IBAction func beginEditingImperialHeightTextfield(_ sender: UITextField) {
+        setUpBeginEditTF()
+    }
+    
+    @IBAction func beginEditingImperialFtTextfield(_ sender: UITextField) {
+        setUpBeginEditTF()
+    }
+    
+    @IBAction func beginEditingImperialTextfield(_ sender: UITextField) {
+        setUpBeginEditTF()
+    }
+    
     @IBAction func cancelPressed(_ sender: UIButton) {
         
         bottomInputView.constant = -20
@@ -475,6 +560,10 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
             self.weightTextfield.text = ""
             self.heightTextfield.text = ""
             self.backButton.isHidden = false
+            
+            self.inTextfield.text = ""
+            self.ftTextfield.text = ""
+            self.weightInLbsTextfield.text = ""
         })
          self.blurView.isHidden = true
         view.endEditing(true)

@@ -8,16 +8,19 @@
 
 import UIKit
 
-class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    
-    
-    
-    
+class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource,UITextFieldDelegate {
+
     //MARK: - Outlet variable
     @IBOutlet weak var topViewAnchorConstant: NSLayoutConstraint!
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var inpurView: UIView!
+    
+    //Segment setup
+    
+    @IBOutlet weak var segmentUnit: UISegmentedControl!
+    @IBOutlet weak var metricStackView: UIStackView!
+    @IBOutlet weak var imperialStackView: UIStackView!
+    
     
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
@@ -30,6 +33,28 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     @IBOutlet weak var weightTextfield: UITextField!
     @IBOutlet weak var ageTextfield: UITextField!
     @IBOutlet weak var backButton: UIButton!
+    
+    // Outlet in imperial Unit
+    @IBOutlet weak var ftTextfield: UITextField!
+    @IBOutlet weak var inTextfield: UITextField!
+    @IBOutlet weak var lbsWeightTextField: UITextField!
+    @IBOutlet weak var ageInImperialTextfield: UITextField!
+    @IBOutlet weak var genderInImperialTextfield: UITextField!
+    @IBOutlet weak var sedentaryInImperialTextfield: UITextField!
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField ==  ftTextfield {
+            return range.location <= 1
+        } else if textField ==  inTextfield {
+            return range.location <= 1
+        }
+        else {
+            return range.location <= 10
+        }
+    }
+    
+
     
     var textFieldIsChange = UITextField()
     var viewHeight:CGFloat = 0
@@ -73,9 +98,11 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         if pickerView == genderPicker {
             genderIndex = row
             genderTextfield.text = genderArray[row]
+            genderInImperialTextfield.text = genderArray[row]
         }else if pickerView == activityPicker {
             activityIndex = row
             activityTextfield.text = activityArray[row]
+            sedentaryInImperialTextfield.text = activityArray[row]
         }
         
     }
@@ -175,6 +202,8 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         inputViewHeight = inpurView.frame.height
         genderPicker.delegate = self
         activityPicker.delegate = self
+        ftTextfield.delegate = self
+        inTextfield.delegate = self
         
         //Setup result view
         resultView.isHidden = true
@@ -246,6 +275,25 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     
     
     //MARK: - Action handle
+    
+    @IBAction func segmentValueChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            metricStackView.isHidden = false
+            imperialStackView.isHidden = true
+            genderPicker.selectRow(0, inComponent: 0, animated: true)
+            activityPicker.selectRow(0, inComponent: 0, animated: true)
+            genderTextfield.text = genderArray[0]
+            activityTextfield.text = activityArray[0]
+        }else {
+            metricStackView.isHidden = true
+            imperialStackView.isHidden = false
+            genderPicker.selectRow(0, inComponent: 0, animated: true)
+            activityPicker.selectRow(0, inComponent: 0, animated: true)
+            genderInImperialTextfield.text = genderArray[0]
+            sedentaryInImperialTextfield.text = activityArray[0]
+        }
+    }
+    
     @objc func okButtonResultViewPressed() {
         backButton.isHidden = true
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -261,8 +309,8 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     @IBAction func backPressed(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-
-    @IBAction func heightDidBegin(_ sender: UITextField) {
+    
+    func textFieldTextDidBegin() {
         backButton.isHidden = true
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
@@ -273,35 +321,19 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             self.okButton.isHidden = false
         })
         self.blurView.isHidden = false
+    }
+
+    @IBAction func heightDidBegin(_ sender: UITextField) {
+        textFieldTextDidBegin()
     }
     
     @IBAction func weightDidBegin(_ sender: UITextField) {
         
-        backButton.isHidden = true
-
-        bottomInputView.constant = 10
-        self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: { finished in
-            self.cancelButton.isHidden = false
-            self.okButton.isHidden = false
-        })
-        self.blurView.isHidden = false
+       textFieldTextDidBegin()
     }
     @IBAction func ageDidBegin(_ sender: UITextField) {
         
-        backButton.isHidden = true
-
-        bottomInputView.constant = 10
-        self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: { finished in
-            self.cancelButton.isHidden = false
-            self.okButton.isHidden = false
-        })
-        self.blurView.isHidden = false
+       textFieldTextDidBegin()
     }
     
     @IBAction func genderDidBegin(_ sender: UITextField) {
@@ -321,10 +353,11 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         })
         self.blurView.isHidden = false
     }
+    
     @IBAction func activityLevel(_ sender: UITextField) {
         
         backButton.isHidden = true
-
+        
         bottomInputView.constant = 10
         self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
@@ -339,6 +372,55 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         self.blurView.isHidden = false
     }
     
+    //Imperial did begin
+    @IBAction func ftTextfieldDidBegin(_ sender: UITextField) {
+        textFieldTextDidBegin()
+    }
+    @IBAction func inTextfieldDidBegin(_ sender: UITextField) {
+        textFieldTextDidBegin()
+    }
+    @IBAction func lbsWeightTextfieldDidBegin(_ sender: UITextField) {
+        textFieldTextDidBegin()
+    }
+    @IBAction func ageInImperialTextfieldDidBegin(_ sender: Any) {
+        textFieldTextDidBegin()
+    }
+    @IBAction func genderImperialTextfieldDidBegin(_ sender: UITextField) {
+        backButton.isHidden = true
+        
+        bottomInputView.constant = 10
+        self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { finished in
+            self.cancelButton.isHidden = false
+            self.okButton.isHidden = false
+            self.genderPicker.isHidden = false
+            self.activityPicker.isHidden = true
+            self.view.endEditing(true)
+        })
+        self.blurView.isHidden = false
+    }
+    @IBAction func activityImperialTextfieldDidBegin(_ sender: UITextField) {
+        backButton.isHidden = true
+        
+        bottomInputView.constant = 10
+        self.topViewAnchorConstant.constant = (self.viewHeight/2 - self.inputViewHeight)
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { finished in
+            self.cancelButton.isHidden = false
+            self.okButton.isHidden = false
+            self.genderPicker.isHidden = true
+            self.activityPicker.isHidden = false
+            self.view.endEditing(true)
+        })
+        self.blurView.isHidden = false
+    }
+    
+    
+  
+    
     @IBAction func okPressed(_ sender: UIButton) {
         activityPicker.isHidden = true
         genderPicker.isHidden = true 
@@ -346,66 +428,113 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
        
     }
     
+    func displayResultAfterOKButtonPressed(bmrValue:Double) {
+        if activityIndex == 0 {
+            calorieValuePerDayLabel.text = String(round((bmrValue*1.2)*100)/100)
+        }else if activityIndex == 1 {
+            calorieValuePerDayLabel.text = String(round((bmrValue*1.375)*100)/100)
+        }else if activityIndex == 2 {
+            calorieValuePerDayLabel.text = String(round((bmrValue*1.55)*100)/100)
+        }else if activityIndex == 3 {
+            calorieValuePerDayLabel.text = String(round((bmrValue*1.725)*100)/100)
+        }else if activityIndex == 4 {
+            calorieValuePerDayLabel.text = String(round((bmrValue*1.9)*100)/100)
+        }
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.resultView.alpha = 1
+            self.inpurView.alpha = 0
+        }, completion: { finished in
+            self.resultView.isHidden = false
+            self.inpurView.isHidden = true
+            self.activityPicker.isHidden = true
+            self.genderPicker.isHidden = true
+            self.backButton.isHidden = false
+            self.view.endEditing(true)
+        })
+    }
+    
     func calculateBMR() {
-        if weightTextfield.text == "" || heightTextfield.text == "" || ageTextfield.text == "" {
-            print("Co nhap weight gi dau ma'")
-            AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
-        }else {
-            if let weight = Float(weightTextfield.text!) , let height = Float(heightTextfield.text!) , let age = Int(ageTextfield.text!){
-                if (weight > 1 && weight < 400) && (height > 30 && height < 250) && (1 <= age && age <= 150) {
-                    
-                    
-
-                    var bmrValue = 0.0
-                    if genderIndex == 0 {
-                        let weightPart = 9.6 * weight
-                        let heightPart = 1.8 * height
-                        let agePart =  4.7 * Float(age)
-                        bmrValue = Double(655.1 + weightPart + heightPart - agePart)
-                        print(bmrValue)
-                        bmrResultValueLabel.text = String(round(bmrValue*100)/100)
-   
-                    }else if genderIndex == 1 {
-                        let weightPart = 13.7 * weight
-                        let heightPart = 5 * height
-                        let agePart =  6.8 * Float(age)
-                        bmrValue = Double(66.47 + weightPart + heightPart - agePart)
-                        print(bmrValue)
-                        bmrResultValueLabel.text = String(round(bmrValue*100)/100)
-                    }
-                    
-                    if activityIndex == 0 {
-                        calorieValuePerDayLabel.text = String(round((bmrValue*1.2)*100)/100)
-                    }else if activityIndex == 1 {
-                        calorieValuePerDayLabel.text = String(round((bmrValue*1.375)*100)/100)
-                    }else if activityIndex == 2 {
-                        calorieValuePerDayLabel.text = String(round((bmrValue*1.55)*100)/100)
-                    }else if activityIndex == 3 {
-                        calorieValuePerDayLabel.text = String(round((bmrValue*1.725)*100)/100)
-                    }else if activityIndex == 4 {
-                        calorieValuePerDayLabel.text = String(round((bmrValue*1.9)*100)/100)
-                    }
-                    
-                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                        self.resultView.alpha = 1
-                        self.inpurView.alpha = 0
-                    }, completion: { finished in
-                        self.resultView.isHidden = false
-                        self.inpurView.isHidden = true
-                        self.activityPicker.isHidden = true
-                        self.genderPicker.isHidden = true
-                        self.backButton.isHidden = false
-                        self.view.endEditing(true)
-                    })
-                   
-                }else {
-                    AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
-                }
-                
-            }else {
+        if segmentUnit.selectedSegmentIndex == 0 {
+            if weightTextfield.text == "" || heightTextfield.text == "" || ageTextfield.text == "" {
+                print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+            }else {
+                if let weight = Float(weightTextfield.text!) , let height = Float(heightTextfield.text!) , let age = Int(ageTextfield.text!){
+                    if (weight > 1 && weight < 400) && (height > 30 && height < 250) && (1 <= age && age <= 150) {
+                        
+                        
+                        
+                        var bmrValue = 0.0
+                        if genderIndex == 0 {
+                            let weightPart = 9.6 * weight
+                            let heightPart = 1.8 * height
+                            let agePart =  4.7 * Float(age)
+                            bmrValue = Double(655.1 + weightPart + heightPart - agePart)
+                            print(bmrValue)
+                            bmrResultValueLabel.text = String(round(bmrValue*100)/100)
+                            
+                        }else if genderIndex == 1 {
+                            let weightPart = 13.7 * weight
+                            let heightPart = 5 * height
+                            let agePart =  6.8 * Float(age)
+                            bmrValue = Double(66.47 + weightPart + heightPart - agePart)
+                            print(bmrValue)
+                            bmrResultValueLabel.text = String(round(bmrValue*100)/100)
+                        }
+                        
+                        displayResultAfterOKButtonPressed(bmrValue: bmrValue)
+                       
+                        
+                    }else {
+                        AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+                    }
+                    
+                }else {
+                    AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+                }
+            }
+        }else {
+            if lbsWeightTextField.text == "" || ftTextfield.text == "" || inTextfield.text == "" || ageInImperialTextfield.text == "" {
+                print("Co nhap weight gi dau ma'")
+                AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+            }else {
+                if let weight = Float(lbsWeightTextField.text!) , let ftHeight = Float(ftTextfield.text!),let inHeight = Float(inTextfield.text!) , let age = Int(ageInImperialTextfield.text!){
+                    if (weight > 1 && weight < 800) && (ftHeight > 0 && ftHeight < 11) && (inHeight >= 0 && inHeight < 100) && (1 <= age && age <= 150) {
+                        
+                        let height = ftHeight * 30.48 + inHeight * 2.54
+                        
+                        var bmrValue = 0.0
+                        if genderIndex == 0 {
+                            let weightPart = 9.6 * (weight * 0.45359237)
+                            let heightPart = 1.8 * height
+                            let agePart =  4.7 * Float(age)
+                            bmrValue = Double(655.1 + weightPart + heightPart - agePart)
+                            print(bmrValue)
+                            bmrResultValueLabel.text = String(round(bmrValue*100)/100)
+                            
+                        }else if genderIndex == 1 {
+                            let weightPart = 13.7 * (weight * 0.45359237)
+                            let heightPart = 5 * height
+                            let agePart =  6.8 * Float(age)
+                            bmrValue = Double(66.47 + weightPart + heightPart - agePart)
+                            print(bmrValue)
+                            bmrResultValueLabel.text = String(round(bmrValue*100)/100)
+                        }
+                        
+                        displayResultAfterOKButtonPressed(bmrValue: bmrValue)
+                        
+                        
+                    }else {
+                        AlertController.showAlert(inController: self, tilte: "Something is not reasonable", message: "It looks like you entered an unreasonable value 🙄 ")
+                    }
+                    
+                }else {
+                    AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
+                }
             }
         }
+        
     }
     
     @IBAction func cancelPressed(_ sender: UIButton) {
@@ -422,6 +551,10 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             self.heightTextfield.text = ""
             self.weightTextfield.text = ""
             self.ageTextfield.text = ""
+            self.lbsWeightTextField.text = ""
+            self.ftTextfield.text = ""
+            self.inTextfield.text = ""
+            self.ageInImperialTextfield.text = ""
             self.backButton.isHidden = false
         })
         self.blurView.isHidden = true

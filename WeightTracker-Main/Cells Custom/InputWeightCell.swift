@@ -136,7 +136,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
         bt.setTitle("⊗", for: .normal)
         bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 25)
-        bt.setTitleColor(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1), for: .normal)
+        bt.setTitleColor(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), for: .normal)
         bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         return bt
     }()
