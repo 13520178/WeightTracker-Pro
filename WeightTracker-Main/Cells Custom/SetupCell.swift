@@ -14,6 +14,7 @@ protocol SetupCellDelegate {
     func sentMail()
     func isScrollable(scroll:Bool)
     func setWeightUnit(indexOfWeightUnit: Int)
+    func setHeightUnit(indexOfHeightUnit: Int)
     func deleteAllRecords()
     
 }
@@ -25,6 +26,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     var contactStackView: UIStackView!
     let defaults = UserDefaults.standard
     var indexWeightUnit = -1
+    var indexHeightUnit = -1
     
     
     let facebookButton: UIButton = {
@@ -76,7 +78,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let lineThirdView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         return view
     }()
     
@@ -101,7 +103,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     let appNameLabel: UILabel = {
         let label = UILabel()
         label.text = "WeChart"
-        label.font = UIFont.systemFont(ofSize:32, weight: UIFont.Weight.medium)
+        label.font = UIFont.systemFont(ofSize:30, weight: UIFont.Weight.medium)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
     }()
@@ -178,6 +180,26 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         return sm
     }()
     
+    // heightUnitLabel
+    
+    
+    let heightUnitLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Height unit"
+        label.font = UIFont.systemFont(ofSize:20, weight: UIFont.Weight.light)
+        label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        return label
+    }()
+    
+    let heightSegmentOfCharts:UISegmentedControl = {
+        let sm = UISegmentedControl (items: ["One","Two"])
+        sm.selectedSegmentIndex = 0
+        sm.setTitle("cm", forSegmentAt: 0)
+        sm.setTitle("ft:in", forSegmentAt: 1)
+        sm.tintColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return sm
+    }()
+    
     let resetAllDataButton:UIButton = {
         let btn = UIButton()
         btn.setTitle("Reset all record", for: .normal)
@@ -198,6 +220,14 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
             segmentOfCharts.selectedSegmentIndex = 1
         }else {
             segmentOfCharts.selectedSegmentIndex = 0
+        }
+        
+        if defaults.integer(forKey: "indexHeightUnit") == 0 {
+            heightSegmentOfCharts.selectedSegmentIndex = 0
+        }else if defaults.integer(forKey: "indexHeightUnit") == 1  {
+            heightSegmentOfCharts.selectedSegmentIndex = 1
+        }else {
+            heightSegmentOfCharts.selectedSegmentIndex = 0
         }
         setupSetupView()
         let tap = UITapGestureRecognizer(target: self, action: #selector(openSavingMoneySVApp))
@@ -227,7 +257,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         self.addSubview(appNameLabel)
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        appNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
+        appNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 12).isActive = true
         appNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
 
         self.addSubview(appVersionLabel)
@@ -259,17 +289,31 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         settingView.translatesAutoresizingMaskIntoConstraints = false
         settingView.topAnchor.constraint(equalTo: settingLabel.bottomAnchor, constant: 4.0).isActive = true
         settingView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        settingView.heightAnchor.constraint(equalToConstant: 89).isActive = true
+        settingView.heightAnchor.constraint(equalToConstant: 125).isActive = true
         settingView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
         settingView.addSubview(weightUnitLabel)
         weightUnitLabel.translatesAutoresizingMaskIntoConstraints = false
-        weightUnitLabel.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 12).isActive = true
+        weightUnitLabel.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 9).isActive = true
         weightUnitLabel.leadingAnchor.constraint(equalTo: settingView.leadingAnchor, constant: 16).isActive = true
+        
+        settingView.addSubview(lineThirdView)
+        lineThirdView.translatesAutoresizingMaskIntoConstraints = false
+        lineThirdView.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 40).isActive = true
+        lineThirdView.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 24).isActive = true
+        lineThirdView.heightAnchor.constraint(equalToConstant: 1.5).isActive = true
+        lineThirdView.centerXAnchor.constraint(equalTo: settingView.centerXAnchor).isActive = true
+        
+        settingView.addSubview(heightUnitLabel)
+        heightUnitLabel.translatesAutoresizingMaskIntoConstraints = false
+        heightUnitLabel.topAnchor.constraint(equalTo: weightUnitLabel.bottomAnchor, constant: 14).isActive = true
+        heightUnitLabel.leadingAnchor.constraint(equalTo: settingView.leadingAnchor, constant: 16).isActive = true
+        
+        
         
         settingView.addSubview(resetAllDataButton)
         resetAllDataButton.translatesAutoresizingMaskIntoConstraints = false
-        resetAllDataButton.topAnchor.constraint(equalTo: weightUnitLabel.bottomAnchor, constant: 9).isActive = true
+        resetAllDataButton.topAnchor.constraint(equalTo: heightUnitLabel.bottomAnchor, constant: 9).isActive = true
         resetAllDataButton.leadingAnchor.constraint(equalTo: settingView.leadingAnchor, constant: -1).isActive = true
         resetAllDataButton.trailingAnchor.constraint(equalTo: settingView.trailingAnchor, constant: 1).isActive = true
         resetAllDataButton.bottomAnchor.constraint(equalTo: settingView.bottomAnchor, constant: 1).isActive = true
@@ -281,9 +325,17 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         segmentOfCharts.translatesAutoresizingMaskIntoConstraints = false
         segmentOfCharts.topAnchor.constraint(equalTo: settingView.topAnchor, constant: 6).isActive = true
         segmentOfCharts.trailingAnchor.constraint(equalTo: settingView.trailingAnchor, constant: -12).isActive = true
-        segmentOfCharts.heightAnchor.constraint(equalToConstant: 32).isActive = true
-        segmentOfCharts.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        segmentOfCharts.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        segmentOfCharts.widthAnchor.constraint(equalToConstant: 80).isActive = true
         segmentOfCharts.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
+        
+        settingView.addSubview(heightSegmentOfCharts)
+        heightSegmentOfCharts.translatesAutoresizingMaskIntoConstraints = false
+        heightSegmentOfCharts.topAnchor.constraint(equalTo: weightUnitLabel.bottomAnchor, constant: 13).isActive = true
+        heightSegmentOfCharts.trailingAnchor.constraint(equalTo: settingView.trailingAnchor, constant: -12).isActive = true
+        heightSegmentOfCharts.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        heightSegmentOfCharts.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        heightSegmentOfCharts.addTarget(self, action: #selector(heightSegmentedValueChanged(_:)), for: .valueChanged)
         
         self.addSubview(lineSecondView)
         lineSecondView.translatesAutoresizingMaskIntoConstraints = false
@@ -295,7 +347,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         self.addSubview(contactUsLabel)
         contactUsLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 12).isActive = true
+        contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 10).isActive = true
         contactUsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
         
         
@@ -308,14 +360,14 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         self.addSubview(otherAppLabel)
         otherAppLabel.translatesAutoresizingMaskIntoConstraints = false
-        otherAppLabel.topAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 12).isActive = true
+        otherAppLabel.topAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 10).isActive = true
         otherAppLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
         
         self.addSubview(otherAppView)
         otherAppView.translatesAutoresizingMaskIntoConstraints = false
         otherAppView.topAnchor.constraint(equalTo: otherAppLabel.bottomAnchor, constant: 4).isActive = true
         otherAppView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        otherAppView.heightAnchor.constraint(equalToConstant: 80.0).isActive = true
+        otherAppView.heightAnchor.constraint(equalToConstant: 75.0).isActive = true
         otherAppView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
         self.addSubview(savingMoneyButton)
@@ -418,6 +470,19 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         delegate?.setWeightUnit(indexOfWeightUnit: sender.selectedSegmentIndex)
         
+    }
+    
+    @objc func heightSegmentedValueChanged(_ sender:UISegmentedControl!) {
+        if sender.selectedSegmentIndex == 0 {
+            defaults.set(0, forKey: "indexHeightUnit")
+            indexHeightUnit = 0
+        }else {
+            defaults.set(1, forKey: "indexHeightUnit")
+            indexHeightUnit = 1
+        }
+        
+        delegate?.setHeightUnit(indexOfHeightUnit: sender.selectedSegmentIndex)
+        print(heightSegmentOfCharts.selectedSegmentIndex)
     }
     
 }

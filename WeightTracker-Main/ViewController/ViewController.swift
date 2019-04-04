@@ -35,7 +35,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     var indexOfCellSelected = -1
     let defaults = UserDefaults.standard
     var indexOfUnitWeight = 0
+    var indexOfUnitHeight = 0
     var exchangeTF = UITextField()
+    var showInputViewInToolCellWhenChangeHeightUnit = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +54,14 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             indexOfUnitWeight = 1
         }else {
             indexOfUnitWeight = 0
+        }
+        
+        if defaults.integer(forKey: "indexOfHeightUnit") == 0 {
+            indexOfUnitHeight = 0
+        }else if defaults.integer(forKey: "indexOfHeightUnit") == 1 {
+            indexOfUnitHeight = 1
+        }else {
+            indexOfUnitHeight = 0
         }
         
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -254,14 +264,54 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 cell?.delegate = self
                 if indexOfUnitWeight == 0 {
                     cell?.weightUnit = "kg"
+                    cell?.kgLabel.text = "kg"
                     
                 }else if indexOfUnitWeight == 1  {
                     cell?.weightUnit = "lbs"
+                    cell?.kgLabel.text = "lbs"
                     
                 }else {
                     cell?.weightUnit = "kg"
+                    cell?.kgLabel.text = "kg"
                     
                 }
+
+                if self.indexOfUnitHeight == 0 {
+                    cell?.heightUnit = "cm"
+                    cell?.ftLabel.isHidden = true
+                    cell?.inputFtHeightTextfield.isHidden = true
+                    cell?.inLabel.isHidden = true
+                    cell?.inputInHeightTextfield.isHidden = true
+                    cell?.cmLabel.isHidden = false
+                    cell?.inputHeightTextfield.isHidden = false
+                    
+                }else if self.indexOfUnitHeight == 1  {
+                    cell?.heightUnit = "ft:in"
+                    cell?.ftLabel.isHidden = false
+                    cell?.inputFtHeightTextfield.isHidden = false
+                    cell?.inLabel.isHidden = false
+                    cell?.inputInHeightTextfield.isHidden = false
+                    cell?.cmLabel.isHidden = true
+                    cell?.inputHeightTextfield.isHidden = true
+                    
+                }else {
+                    cell?.heightUnit = "cm"
+                    cell?.ftLabel.isHidden = true
+                    cell?.inputFtHeightTextfield.isHidden = true
+                    cell?.inLabel.isHidden = true
+                    cell?.inputInHeightTextfield.isHidden = true
+                    cell?.cmLabel.isHidden = false
+                    cell?.inputHeightTextfield.isHidden = false
+                    
+                }
+                if self.showInputViewInToolCellWhenChangeHeightUnit == true {
+                    cell?.editProfileButtonAction()
+                    self.showInputViewInToolCellWhenChangeHeightUnit = false
+                }
+                
+                
+                cell?.layoutIfNeeded()
+
                 do {
                     try cell?.people = context.fetch(request)
                 } catch  {
@@ -518,6 +568,8 @@ extension ViewController: HistoryCellDelegate {
 }
 
 extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
+  
+    
     
     func deleteAllRecords() {
         let alertController = UIAlertController(title: "Delete All Data ?", message: "Do you want to delete all data ?", preferredStyle: .alert)
@@ -598,6 +650,14 @@ extension ViewController:SetupCellDelegate,MFMailComposeViewControllerDelegate {
         self.present(alertController, animated: true)
 
         
+        self.tabCollectionView.reloadData()
+    }
+    
+    func setHeightUnit(indexOfHeightUnit: Int) {
+        print("May set duoc roi ne")
+        showInputViewInToolCellWhenChangeHeightUnit = true
+        defaults.set(indexOfHeightUnit, forKey: "indexOfHeightUnit")
+        self.indexOfUnitHeight = defaults.integer(forKey: "indexOfHeightUnit")        
         self.tabCollectionView.reloadData()
     }
     

@@ -284,7 +284,7 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="88" height="30"/>
                                                                         <nil key="textColor"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                         <connections>
                                                                             <action selector="beginEditingImperialTextfield:" destination="3DY-79-F86" eventType="editingDidBegin" id="u7u-i0-UXA"/>
                                                                         </connections>
@@ -819,7 +819,7 @@
                                                                                 </constraints>
                                                                                 <nil key="textColor"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                                 <connections>
                                                                                     <action selector="inTextfieldDidBegin:" destination="BNg-LY-WmA" eventType="editingDidBegin" id="m6U-h9-WCs"/>
                                                                                 </connections>
@@ -1243,7 +1243,7 @@
                                                                 </constraints>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
                                                                     <action selector="waistInImperialTextfieldDidBegin:" destination="Olf-LX-6it" eventType="editingDidBegin" id="jhf-oL-V6g"/>
                                                                 </connections>
@@ -1266,7 +1266,7 @@
                                                                 </constraints>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
                                                                     <action selector="hipInImperialTextfieldDidBegin:" destination="Olf-LX-6it" eventType="editingDidBegin" id="PWA-d4-0Sf"/>
                                                                 </connections>
@@ -1602,7 +1602,7 @@
                                                                 </constraints>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                                 <connections>
                                                                     <action selector="inTextfieldDidBegin:" destination="Bdu-3W-9fQ" eventType="editingDidBegin" id="ve9-wE-ovB"/>
                                                                 </connections>

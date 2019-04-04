@@ -344,7 +344,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
             if YMCA < 14 {
                 categoryValueLabel.text = "Essential Fat"
             }else if 14 <= YMCA && YMCA < 20 {
-                categoryValueLabel.text = "Typical Athletes"
+                categoryValueLabel.text = "Athletes"
             }else if 20 <= YMCA && YMCA < 24 {
                 categoryValueLabel.text = "Fitness "
             }else if 24 <= YMCA && YMCA < 31 {
@@ -356,7 +356,7 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
             if  YMCA < 6 {
                 categoryValueLabel.text = "Essential Fat"
             }else if 6 <= YMCA && YMCA < 13 {
-                categoryValueLabel.text = "Typical Athletes"
+                categoryValueLabel.text = "Athletes"
             }else if 13 <= YMCA && YMCA < 17 {
                 categoryValueLabel.text = "Fitness "
             }else if 17 <= YMCA && YMCA < 25 {
@@ -502,7 +502,4 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
     @IBAction func backPressed(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-
-   
-
 }

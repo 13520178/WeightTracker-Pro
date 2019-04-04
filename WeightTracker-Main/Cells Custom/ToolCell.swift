@@ -17,16 +17,19 @@ protocol ToolCellDelegate {
 }
 
 
-class ToolCell: BaseCell {
+class ToolCell: BaseCell,UITextFieldDelegate {
     
     var delegate: ToolCellDelegate?
     var people = [Person]()
     var weightUnit = ""
+    var heightUnit = ""
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<Person> = Person.fetchRequest()
     
     let defaults = UserDefaults.standard
     var height: Double = -1
+    var ftHeight:Double = -1
+    var inHeight:Double = -1
     var desiredWeight:Double = -1
     var completedRate: Double = 0.0
     
@@ -97,6 +100,47 @@ class ToolCell: BaseCell {
         tf.isUserInteractionEnabled = true
         tf.setBottomBorder()
         return tf
+    }()
+    
+    // ft vs in input
+    let inputFtHeightTextfield :UITextField = {
+        let tf = UITextField()
+        tf.attributedPlaceholder = NSAttributedString(string:" ", attributes:[NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1),NSAttributedString.Key.font :UIFont(name: "Arial", size: 18)!])
+        tf.font = UIFont.systemFont(ofSize: 18)
+        tf.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        tf.textAlignment = .center
+        tf.keyboardType = .numberPad
+        tf.isUserInteractionEnabled = true
+        tf.setBottomBorder()
+        return tf
+    }()
+    
+    let inputInHeightTextfield :UITextField = {
+        let tf = UITextField()
+        tf.attributedPlaceholder = NSAttributedString(string:" ", attributes:[NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1),NSAttributedString.Key.font :UIFont(name: "Arial", size: 18)!])
+        tf.font = UIFont.systemFont(ofSize: 18)
+        tf.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        tf.textAlignment = .center
+        tf.keyboardType = .decimalPad
+        tf.isUserInteractionEnabled = true
+        tf.setBottomBorder()
+        return tf
+    }()
+    
+    let ftLabel:UILabel = {
+        let label = UILabel()
+        label.text = "ft"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return label
+    }()
+    
+    let inLabel:UILabel = {
+        let label = UILabel()
+        label.text = "in"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return label
     }()
     
     let desiredWeightTextfield :UITextField = {
@@ -273,10 +317,23 @@ class ToolCell: BaseCell {
         return l
     }()
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField ==  inputFtHeightTextfield {
+            return range.location <= 1
+        } else if textField ==  inputInHeightTextfield {
+            return range.location <= 2
+        }
+        else {
+            return range.location <= 10
+        }
+    }
     //MARK: - Setup View
     override func setUpView() {
         super.setUpView()
         backgroundColor = #colorLiteral(red: 0.839170162, green: 0.7727752205, blue: 0.9737234748, alpha: 0.799091737)
+        
+        inputInHeightTextfield.delegate = self
+        inputFtHeightTextfield.delegate = self
         
         setInputView()
         setDetailView()
@@ -332,7 +389,7 @@ class ToolCell: BaseCell {
         progressView.addSubview(initWeightlabel)
         initWeightlabel.translatesAutoresizingMaskIntoConstraints = false
         initWeightlabel.topAnchor.constraint(equalTo: progressView.centerYAnchor, constant: 15).isActive = true
-        initWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -75.0).isActive = true
+        initWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -60.0).isActive = true
         
         
         progressView.addSubview(initWeightButton)
@@ -523,10 +580,17 @@ class ToolCell: BaseCell {
     func calculateAndShowBMIValue() {
         let weight = people.last?.weight
         let height = defaults.double(forKey: "height")
+        let ftHeight =  defaults.integer(forKey: "ftHeight")
+        let inHeight =  defaults.double(forKey: "inHeight")
         
         if var  weight = weight {
             weight = round(weight*100)/100
-            let height2 = (height*height)/10000
+            var height2 = (height*height)/10000
+            if heightUnit == "ft:in" {
+                let heightToCm = Double(ftHeight) * 30.48 + inHeight * 2.54
+                height2 = (heightToCm*heightToCm)/10000
+            }
+            
             var BMI = Double(weight) / (height2)
             BMI = round(BMI * 100)/100
             if weightUnit == "lbs" {
@@ -535,8 +599,17 @@ class ToolCell: BaseCell {
             }
             BMIValueLabel.text = String( BMI)
             kgValueLabel.text = "\(weight) \(weightUnit)"
-            cmValueLabel.text = "\(height) cm"
+
+            
             kgLabel.text = "\(weightUnit)"
+            
+            if heightUnit == "cm" {
+                cmValueLabel.text = "\(height) cm"
+            }else if heightUnit == "ft:in" {
+                cmValueLabel.text = "\(ftHeight) ft \(inHeight) in"
+            }else {
+                cmValueLabel.text = "\(height) cm"
+            }
             
             if 0 <= BMI && BMI < 15 {
                 categoryValueLabel.text = "Very severely underweight"
@@ -674,6 +747,7 @@ class ToolCell: BaseCell {
         heightLabel.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 48.0).isActive = true
         heightLabel.widthAnchor.constraint(equalToConstant:  150.0).isActive = true
         
+        
         //add height textField
         addSubview(inputHeightTextfield)
         inputHeightTextfield.translatesAutoresizingMaskIntoConstraints = false
@@ -681,8 +755,6 @@ class ToolCell: BaseCell {
         inputHeightTextfield.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 45.0).isActive = true
         inputHeightTextfield.trailingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: -45.0).isActive = true
 
-        
-        
 
         
         //add cm label
@@ -692,8 +764,41 @@ class ToolCell: BaseCell {
         cmLabel.trailingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: -24.0).isActive = true
         cmLabel.widthAnchor.constraint(equalToConstant:  50.0).isActive = true
         
+        //add ft height textfield
+        inputFtHeightTextfield.isHidden = true
+        addSubview(inputFtHeightTextfield)
+        inputFtHeightTextfield.translatesAutoresizingMaskIntoConstraints = false
+        inputFtHeightTextfield.topAnchor.constraint(equalTo: heightLabel.bottomAnchor, constant: 8.0).isActive = true
+        inputFtHeightTextfield.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 45.0).isActive = true
+        inputFtHeightTextfield.widthAnchor.constraint(equalToConstant: self.layer.frame.height/4 - 60).isActive = true
         
-        //add height label
+        //add ft label
+        ftLabel.isHidden = true
+        addSubview(ftLabel)
+        ftLabel.translatesAutoresizingMaskIntoConstraints = false
+        ftLabel.topAnchor.constraint(equalTo: inputFtHeightTextfield.bottomAnchor, constant: 3.0).isActive = true
+        ftLabel.leadingAnchor.constraint(equalTo: inputFtHeightTextfield.trailingAnchor, constant: 0.0).isActive = true
+        ftLabel.widthAnchor.constraint(equalToConstant:  30.0).isActive = true
+        
+        
+        //add in height textfield
+        inputInHeightTextfield.isHidden = true
+        addSubview(inputInHeightTextfield)
+        inputInHeightTextfield.translatesAutoresizingMaskIntoConstraints = false
+        inputInHeightTextfield.topAnchor.constraint(equalTo: heightLabel.bottomAnchor, constant: 8.0).isActive = true
+        inputInHeightTextfield.trailingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: -45.0).isActive = true
+        inputInHeightTextfield.widthAnchor.constraint(equalToConstant: self.layer.frame.height/4 - 60).isActive = true
+        
+        //add in label
+        inLabel.isHidden = true
+        addSubview(inLabel)
+        inLabel.translatesAutoresizingMaskIntoConstraints = false
+        inLabel.topAnchor.constraint(equalTo: inputFtHeightTextfield.bottomAnchor, constant: 3.0).isActive = true
+        inLabel.leadingAnchor.constraint(equalTo: inputInHeightTextfield.trailingAnchor, constant: 0.0).isActive = true
+        inLabel.widthAnchor.constraint(equalToConstant:  30.0).isActive = true
+        
+        
+        //add targetWeightLabel
         addSubview(targetWeightLabel)
         targetWeightLabel.translatesAutoresizingMaskIntoConstraints = false
         targetWeightLabel.topAnchor.constraint(equalTo: cmLabel.bottomAnchor, constant: 12.0).isActive = true
@@ -737,15 +842,39 @@ class ToolCell: BaseCell {
         
         if inputHeightTextfield.text != ""
         {
-            if let h = inputHeightTextfield.text {
-                if let h = Float(h) {
-                    if h >= 30 && h <= 300 {
-                        isHeightOK = true
+            if heightUnit == "cm" {
+                if let h = inputHeightTextfield.text {
+                    if let h = Float(h) {
+                        if h >= 30 && h <= 300 {
+                            isHeightOK = true
+                        }
+                    }else {
+                        print("height wrong !")
                     }
-                }else {
-                    print("height wrong !")
+                }
+            }else if heightUnit == "ft:in" {
+                if let ftH = inputFtHeightTextfield.text , let inH = inputInHeightTextfield.text {
+                    if let ftH = Float(ftH) ,let inH = Float(inH) {
+                        if ftH > 0 && ftH < 11 && inH >= 0 && inH <= 20 {
+                            isHeightOK = true
+                        }
+                    }else {
+                        print("height wrong !")
+                    }
+
+                }
+            }else {
+                if let h = inputHeightTextfield.text {
+                    if let h = Float(h) {
+                        if h >= 30 && h <= 300 {
+                            isHeightOK = true
+                        }
+                    }else {
+                        print("height wrong !")
+                    }
                 }
             }
+            
         }else {
             print("Blank")
         }
@@ -770,17 +899,20 @@ class ToolCell: BaseCell {
                 UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut],
                                animations: {
                                 
+                            
                                 self.detailView.alpha = 1
                                 self.changeProfileButton.alpha = 1
-                                
-                                
                                 self.profileView.alpha = 0
                                 self.cmLabel.alpha = 0
+                                self.ftLabel.alpha = 0
+                                self.inLabel.alpha = 0
                                 self.profileLabel.alpha = 0
                                 self.kgLabel.alpha = 0
                                 self.heightLabel.alpha = 0
                                 self.targetWeightLabel.alpha = 0
                                 self.inputHeightTextfield.alpha = 0
+                                self.inputFtHeightTextfield.alpha = 0
+                                self.inputInHeightTextfield.alpha = 0
                                 self.desiredWeightTextfield.alpha = 0
                                 self.roundView.alpha = 0
                                 self.enterButton.alpha = 0
@@ -792,17 +924,23 @@ class ToolCell: BaseCell {
                     
                     self.profileView.isHidden = true
                     self.cmLabel.isHidden = true
+                    self.ftLabel.isHidden = true
+                    self.inLabel.isHidden = true
                     self.profileLabel.isHidden = true
                     self.kgLabel.isHidden = true
                     self.inputHeightTextfield.isHidden = true
+                    self.inputFtHeightTextfield.isHidden = true
+                    self.inputInHeightTextfield.isHidden = true
                     self.desiredWeightTextfield.isHidden = true
                     self.targetWeightLabel.isHidden = true
-                    self.inputHeightTextfield.isHidden = true
                     self.roundView.isHidden = true
                     self.enterButton.isHidden = true
+                    self.layoutIfNeeded()
                 })
                 defaults.set(true, forKey: "wasShowInput")
                 defaults.set(Double(inputHeightTextfield.text!), forKey: "height")
+                defaults.set(Int(inputFtHeightTextfield.text!), forKey: "ftHeight")
+                defaults.set(Double(inputInHeightTextfield.text!), forKey: "inHeight")
                 defaults.set(Double(desiredWeightTextfield.text!), forKey: "desizedWeight")
                 startChart()
                 calculateAndShowBMIValue()
@@ -825,14 +963,25 @@ class ToolCell: BaseCell {
                         
                         self.detailView.alpha = 0
                         self.changeProfileButton.alpha = 0
-                        
+                        if self.heightUnit == "cm" {
+                            self.cmLabel.alpha = 1
+                            self.inputHeightTextfield.alpha = 1
+                        }else if self.heightUnit == "ft:in" {
+                            self.ftLabel.alpha = 1
+                            self.inLabel.alpha = 1
+                            self.inputFtHeightTextfield.alpha = 1
+                            self.inputInHeightTextfield.alpha = 1
+                        }else {
+                            self.cmLabel.alpha = 1
+                            self.inputHeightTextfield.alpha = 1
+                        }
                         self.profileView.alpha = 1
-                        self.cmLabel.alpha = 1
+                        
                         self.profileLabel.alpha = 1
                         self.kgLabel.alpha = 1
                         self.heightLabel.alpha = 1
                         self.targetWeightLabel.alpha = 1
-                        self.inputHeightTextfield.alpha = 1
+                        
                         self.desiredWeightTextfield.alpha = 1
                         self.roundView.alpha = 1
                         self.enterButton.alpha = 1
@@ -843,11 +992,22 @@ class ToolCell: BaseCell {
                 self.detailView.isHidden = true
                 self.changeProfileButton.isHidden = true
                 
+                if self.heightUnit == "cm" {
+                    self.cmLabel.isHidden = false
+                    self.inputHeightTextfield.isHidden = false
+                }else if self.heightUnit == "ft:in" {
+                    self.ftLabel.isHidden = false
+                    self.inLabel.isHidden = false
+                    self.inputFtHeightTextfield.isHidden = false
+                    self.inputInHeightTextfield.isHidden = false
+                }else {
+                    self.cmLabel.isHidden = false
+                    self.inputHeightTextfield.isHidden = false
+                }
+                
                 self.profileView.isHidden = false
-                self.cmLabel.isHidden = false
                 self.profileLabel.isHidden = false
                 self.kgLabel.isHidden = false
-                self.inputHeightTextfield.isHidden = false
                 self.desiredWeightTextfield.isHidden = false
                 self.roundView.isHidden = false
                 self.enterButton.isHidden = false
@@ -857,6 +1017,8 @@ class ToolCell: BaseCell {
                 self.desiredWeightTextfield.text! = String(self.defaults.double(forKey: "desizedWeight"))
                 self.inputHeightTextfield.text! = String(self.defaults.double(forKey: "height"))
                 
+                self.layoutIfNeeded()
+                
             })
     }
     
@@ -864,15 +1026,29 @@ class ToolCell: BaseCell {
         self.detailView.isHidden = false
         self.changeProfileButton.isHidden = false
         
+        
+        if self.heightUnit == "cm" {
+            self.cmLabel.isHidden = false
+            self.inputHeightTextfield.isHidden = false
+        }else if self.heightUnit == "ft:in" {
+            self.ftLabel.isHidden = false
+            self.inLabel.isHidden = false
+            self.inputFtHeightTextfield.isHidden = false
+            self.inputInHeightTextfield.isHidden = false
+        }else {
+            self.cmLabel.isHidden = false
+            self.inputHeightTextfield.isHidden = false
+        }
+        
         self.profileView.isHidden = true
-        self.cmLabel.isHidden = true
         self.profileLabel.isHidden = true
         self.kgLabel.isHidden = true
-        self.inputHeightTextfield.isHidden = true
         self.desiredWeightTextfield.isHidden = true
         self.roundView.isHidden = true
         self.enterButton.isHidden = true
         self.heightLabel.isHidden = true
         self.targetWeightLabel.isHidden = true
+        
+        self.layoutIfNeeded()
     }
 }

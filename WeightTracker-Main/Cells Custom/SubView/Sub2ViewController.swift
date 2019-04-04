@@ -47,7 +47,7 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         if textField ==  ftTextfield {
             return range.location <= 1
         } else if textField ==  inTextfield {
-            return range.location <= 1
+            return range.location <= 2
         }
         else {
             return range.location <= 10
