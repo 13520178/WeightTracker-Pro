@@ -67,8 +67,8 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         tv.font = UIFont.systemFont(ofSize: 18)
         tv.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         tv.layer.cornerRadius = 12.0
-        tv.layer.borderWidth = 1.5
-        tv.layer.borderColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         tv.layer.masksToBounds = true
         return tv
     }()
@@ -195,7 +195,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         inputWeightView.layer.cornerRadius = 15.0
         inputWeightView.layer.borderWidth = 1.5
-        inputWeightView.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        inputWeightView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         inputWeightView.layer.masksToBounds = true
         
         

@@ -28,7 +28,7 @@ class DiagramCell: BaseCell {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         v.layer.cornerRadius = 15.0
-        v.layer.borderColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        v.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         v.layer.borderWidth = 1.5
         v.clipsToBounds = true
         return v

@@ -367,7 +367,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     func setProgressView() {
         backgoundShapeLayer = initialChart(withStrokeColor: #colorLiteral(red: 0.9410408125, green: 0.9459677277, blue: 0.9459677277, alpha: 1), withLineWidth: 8, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 1)
         
-        shapeLayer = initialChart(withStrokeColor: UIColor.red.cgColor, withLineWidth: 6, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 0)
+        shapeLayer = initialChart(withStrokeColor: UIColor.red.cgColor, withLineWidth: 5, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 0)
         
         progressView.layer.addSublayer(backgoundShapeLayer)
         progressView.layer.addSublayer(shapeLayer)
@@ -424,7 +424,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
 
         //percentlabel.text = String(round(10*(completedRate*100))/10) + "%"
 
-        shapeLayer.strokeColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        shapeLayer.strokeColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         
         basicAnimation.fillMode = CAMediaTimingFillMode.forwards
         basicAnimation.isRemovedOnCompletion = false
