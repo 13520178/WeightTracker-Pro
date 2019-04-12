@@ -209,7 +209,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     let BMILabel:UILabel = {
         let label = UILabel()
         label.text = "BMI"
-        label.font = UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold)
+        label.font = UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.bold)
         label.textColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         return label
     }()
@@ -219,6 +219,9 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         label.text = "20.54"
         label.font = UIFont.systemFont(ofSize: 52, weight: UIFont.Weight.bold)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        label.layer.borderColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        label.layer.borderWidth = 1.5
+        label.layer.cornerRadius = 5.0
         return label
     }()
     
@@ -531,7 +534,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         
         self.detailView.addSubview(BMIValueLabel)
         BMIValueLabel.translatesAutoresizingMaskIntoConstraints = false
-        BMIValueLabel.topAnchor.constraint(equalTo: BMILabel.bottomAnchor, constant: -4).isActive = true
+        BMIValueLabel.topAnchor.constraint(equalTo: BMILabel.bottomAnchor, constant: 0).isActive = true
         BMIValueLabel.centerXAnchor.constraint(equalTo: detailView.centerXAnchor).isActive = true
        
         
@@ -618,7 +621,8 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                 BMI = BMI * 0.45359237
                 BMI = round(BMI * 100)/100
             }
-            BMIValueLabel.text = String( BMI)
+    
+            BMIValueLabel.text = " \(BMI) "
             kgValueLabel.text = "\(weight) \(weightUnit)"
 
             
@@ -917,6 +921,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         
         if isHeightOK , isWeightOk {
             if(people.count > 0) {
+                dismissKeyboard()
                 UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut],
                                animations: {
                                 

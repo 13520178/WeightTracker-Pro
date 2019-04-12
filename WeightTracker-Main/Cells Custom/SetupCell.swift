@@ -405,7 +405,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         mainView.addSubview(savingMoneyLabel)
         savingMoneyLabel.translatesAutoresizingMaskIntoConstraints = false
-        savingMoneyLabel.topAnchor.constraint(equalTo: otherAppView.topAnchor, constant: 28).isActive = true
+        savingMoneyLabel.topAnchor.constraint(equalTo: otherAppView.topAnchor, constant: 16).isActive = true
         savingMoneyLabel.leadingAnchor.constraint(equalTo: savingMoneyButton.trailingAnchor, constant: 16).isActive = true
         
         mainView.addSubview(savingMoneyDetailLabel)
