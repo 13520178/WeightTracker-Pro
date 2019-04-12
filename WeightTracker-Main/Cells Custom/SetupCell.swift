@@ -195,14 +195,14 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         let sm = UISegmentedControl (items: ["One","Two"])
         sm.selectedSegmentIndex = 0
         sm.setTitle("cm", forSegmentAt: 0)
-        sm.setTitle("ft:in", forSegmentAt: 1)
+        sm.setTitle("ft", forSegmentAt: 1)
         sm.tintColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         return sm
     }()
     
     let resetAllDataButton:UIButton = {
         let btn = UIButton()
-        btn.setTitle("Reset all record", for: .normal)
+        btn.setTitle("Reset all records", for: .normal)
         btn.setTitleColor(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), for: .normal)
         btn.layer.borderWidth = 1
         btn.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)

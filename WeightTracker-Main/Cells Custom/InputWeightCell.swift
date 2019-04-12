@@ -86,10 +86,8 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         bt.setTitle("Enter", for: .normal)
         bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         bt.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 35)
-        bt.layer.cornerRadius = 28
-        bt.layer.borderWidth = 1.5
-        bt.layer.borderColor =  #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 30)
+        bt.layer.cornerRadius = 23
 
         return bt
     }()
@@ -250,7 +248,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         addSubview(enterButton)
         enterButton.translatesAutoresizingMaskIntoConstraints = false
-        enterButton.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        enterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
         enterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12).isActive = true
         enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
         enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
@@ -259,8 +257,8 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         addSubview(resetButton)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
-        resetButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        resetButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        resetButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        resetButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
         resetButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
         resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
@@ -437,7 +435,7 @@ extension UITextField {
         self.layer.backgroundColor = UIColor.white.cgColor
         self.layer.masksToBounds = false
         self.layer.shadowColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.5)
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 1)
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0.0
     }

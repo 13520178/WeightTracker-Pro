@@ -27,7 +27,7 @@ class DiagramCell: BaseCell {
     let charViews: UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        v.layer.cornerRadius = 15.0
+        v.layer.cornerRadius = 10
         v.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         v.layer.borderWidth = 1.5
         v.clipsToBounds = true
@@ -56,11 +56,19 @@ class DiagramCell: BaseCell {
     var numberOfDaysStackView: UIStackView!
     
     
+    var aboveView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3973471051)
+        v.clipsToBounds = true
+        v.layer.cornerRadius = 10
+        return v
+    }()
+    
     var startKgTitleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "Initial weight"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         
         return lb
     }()
@@ -69,7 +77,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "66.0 Kg"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         return lb
     }()
     
@@ -77,7 +85,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "Change"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         return lb
     }()
     
@@ -85,7 +93,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "-3.0 Kg"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         return lb
     }()
     
@@ -93,7 +101,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "Start day"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         return lb
     }()
     
@@ -101,7 +109,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "1/1/2019"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         return lb
     }()
 
@@ -109,7 +117,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "Total days"
         lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         return lb
     }()
     
@@ -117,7 +125,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "62"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
         return lb
     }()
 
@@ -143,12 +151,19 @@ class DiagramCell: BaseCell {
         backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
+        self.addSubview(aboveView)
+        aboveView.translatesAutoresizingMaskIntoConstraints = false
+        aboveView.topAnchor.constraint(equalTo: self.topAnchor, constant: 12).isActive = true
+        aboveView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
+        aboveView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
+        aboveView.heightAnchor.constraint(equalToConstant: 102).isActive = true
+        
         setupTopLabels()
         setupSecondLabels()
         
         addSubview(lineView)
         lineView.translatesAutoresizingMaskIntoConstraints = false
-        lineView.topAnchor.constraint(equalTo: secondLabelStackView.bottomAnchor, constant: 5.0).isActive = true
+        lineView.topAnchor.constraint(equalTo: secondLabelStackView.bottomAnchor, constant: 0.0).isActive = true
         lineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
         lineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
@@ -314,20 +329,20 @@ class DiagramCell: BaseCell {
         
         addSubview(topLabelStackView)
         topLabelStackView.translatesAutoresizingMaskIntoConstraints = false
-        topLabelStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16.0).isActive = true
-        topLabelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
+        topLabelStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 14.0).isActive = true
+        topLabelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22.0).isActive = true
         topLabelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         topLabelStackView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
         
         addSubview(startKgTitleLabel)
         startKgTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         startKgTitleLabel.topAnchor.constraint(equalTo: topLabelStackView.topAnchor, constant: 3.0).isActive = true
-        startKgTitleLabel.leadingAnchor.constraint(equalTo: topLabelStackView.leadingAnchor, constant: 0.0).isActive = true
+        startKgTitleLabel.leadingAnchor.constraint(equalTo: topLabelStackView.leadingAnchor, constant: 8.0).isActive = true
         
         addSubview(startKgLabel)
         startKgLabel.translatesAutoresizingMaskIntoConstraints = false
         startKgLabel.topAnchor.constraint(equalTo: startKgLabelView.topAnchor, constant: 3.0).isActive = true
-        startKgLabel.trailingAnchor.constraint(equalTo: startKgLabelView.trailingAnchor, constant: -30).isActive = true
+        startKgLabel.trailingAnchor.constraint(equalTo: startKgLabelView.trailingAnchor, constant: -22).isActive = true
     }
     
     fileprivate func setupSecondLabels() {
@@ -341,20 +356,20 @@ class DiagramCell: BaseCell {
         
         addSubview(secondLabelStackView)
         secondLabelStackView.translatesAutoresizingMaskIntoConstraints = false
-        secondLabelStackView.topAnchor.constraint(equalTo: topLabelStackView.bottomAnchor, constant: 3.0).isActive = true
-        secondLabelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
+        secondLabelStackView.topAnchor.constraint(equalTo: topLabelStackView.bottomAnchor, constant: 0.0).isActive = true
+        secondLabelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22.0).isActive = true
         secondLabelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         secondLabelStackView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
         
         addSubview(changeKgTitleLabel)
         changeKgTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         changeKgTitleLabel.topAnchor.constraint(equalTo: currentKgTitleLabelView.topAnchor, constant: 0.0).isActive = true
-        changeKgTitleLabel.leadingAnchor.constraint(equalTo: currentKgTitleLabelView.leadingAnchor, constant: 0.0).isActive = true
+        changeKgTitleLabel.leadingAnchor.constraint(equalTo: currentKgTitleLabelView.leadingAnchor, constant: 8.0).isActive = true
         
         addSubview(changeKgLabel)
         changeKgLabel.translatesAutoresizingMaskIntoConstraints = false
         changeKgLabel.topAnchor.constraint(equalTo: currentKgLabelView.topAnchor, constant: 0.0).isActive = true
-        changeKgLabel.trailingAnchor.constraint(equalTo: currentKgLabelView.trailingAnchor, constant: -30).isActive = true
+        changeKgLabel.trailingAnchor.constraint(equalTo: currentKgLabelView.trailingAnchor, constant: -22).isActive = true
        
     }
     
@@ -368,21 +383,21 @@ class DiagramCell: BaseCell {
         
         addSubview(timeStartStackView)
         timeStartStackView.translatesAutoresizingMaskIntoConstraints = false
-        timeStartStackView.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 6.0).isActive = true
-        timeStartStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
-        timeStartStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
+        timeStartStackView.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 2.0).isActive = true
+        timeStartStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22.0).isActive = true
+        timeStartStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12.0).isActive = true
         timeStartStackView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
         
         addSubview(timeStartTitleLabel)
         timeStartTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         timeStartTitleLabel.topAnchor.constraint(equalTo: timeStartStackView.topAnchor, constant: 3.0).isActive = true
-        timeStartTitleLabel.leadingAnchor.constraint(equalTo: timeStartStackView.leadingAnchor, constant: 0.0).isActive = true
+        timeStartTitleLabel.leadingAnchor.constraint(equalTo: timeStartStackView.leadingAnchor, constant: 8.0).isActive = true
 
 
         addSubview(timeStartLabel)
         timeStartLabel.translatesAutoresizingMaskIntoConstraints = false
         timeStartLabel.topAnchor.constraint(equalTo: timeStartLabelView.topAnchor, constant: 3.0).isActive = true
-        timeStartLabel.trailingAnchor.constraint(equalTo: timeStartLabelView.trailingAnchor, constant: -30).isActive = true
+        timeStartLabel.trailingAnchor.constraint(equalTo: timeStartLabelView.trailingAnchor, constant: -22).isActive = true
     }
     
     fileprivate func setupNumberOfDays() {
@@ -395,21 +410,21 @@ class DiagramCell: BaseCell {
         
         addSubview(numberOfDaysStackView)
         numberOfDaysStackView.translatesAutoresizingMaskIntoConstraints = false
-        numberOfDaysStackView.topAnchor.constraint(equalTo: timeStartStackView.bottomAnchor, constant: 3.0).isActive = true
-        numberOfDaysStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
-        numberOfDaysStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
+        numberOfDaysStackView.topAnchor.constraint(equalTo: timeStartStackView.bottomAnchor, constant: 0.0).isActive = true
+        numberOfDaysStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22.0).isActive = true
+        numberOfDaysStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12.0).isActive = true
         numberOfDaysStackView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
         
         addSubview(totalDaysTitleLabel)
         totalDaysTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         totalDaysTitleLabel.topAnchor.constraint(equalTo: numberOfDaysStackView.topAnchor, constant: 3.0).isActive = true
-        totalDaysTitleLabel.leadingAnchor.constraint(equalTo: numberOfDaysStackView.leadingAnchor, constant: 0.0).isActive = true
+        totalDaysTitleLabel.leadingAnchor.constraint(equalTo: numberOfDaysStackView.leadingAnchor, constant: 8.0).isActive = true
 
 
         addSubview(totalDaysLabel)
         totalDaysLabel.translatesAutoresizingMaskIntoConstraints = false
         totalDaysLabel.topAnchor.constraint(equalTo: numberOfDaysStackView.topAnchor, constant: 3.0).isActive = true
-        totalDaysLabel.trailingAnchor.constraint(equalTo: numberOfDaysStackView.trailingAnchor, constant: -30).isActive = true
+        totalDaysLabel.trailingAnchor.constraint(equalTo: numberOfDaysStackView.trailingAnchor, constant: -22).isActive = true
     }
     
 }

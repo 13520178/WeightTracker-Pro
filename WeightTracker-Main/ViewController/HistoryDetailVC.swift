@@ -38,8 +38,6 @@ class HistoryDetailVC: UIViewController {
         
         detailView.layer.cornerRadius = 15
         
-        detailView.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-        detailView.layer.borderWidth = 1.5
         
         let viewHeight = self.view.layer.frame.height
         
