@@ -276,6 +276,7 @@ class DiagramCell: BaseCell {
         let chartDataSet = BarChartDataSet(values: dataEntries, label: "Weight")
         chartDataSet.colors = [#colorLiteral(red: 0.7289724051, green: 0.6552841139, blue: 1, alpha: 1)]
         let chartData = BarChartData(dataSet: chartDataSet)
+        chartData.setDrawValues(false)
         viewForChartCandle.data = chartData
         viewForChartCandle.setVisibleXRangeMaximum(20)
         viewForChartCandle.autoScaleMinMaxEnabled = true
@@ -308,10 +309,12 @@ class DiagramCell: BaseCell {
         let chartDataSet = LineChartDataSet(values: dataEntries, label: "Weight")
         chartDataSet.colors = [#colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)]
         let chartData = LineChartData(dataSet: chartDataSet)
+        chartData.setDrawValues(false)
         viewForChart.data = chartData
         viewForChart.setVisibleXRangeMaximum(20)
         viewForChart.autoScaleMinMaxEnabled = true
         viewForChart.moveViewToX(Double(months.count))
+
         let xAxisValue = viewForChart.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
         viewForChart.reloadInputViews()

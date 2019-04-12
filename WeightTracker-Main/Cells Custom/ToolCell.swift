@@ -172,9 +172,17 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     }()
     
     //MARK: - DetailView var
+    let scrollView : UIScrollView = {
+        let sV = UIScrollView()
+        sV.translatesAutoresizingMaskIntoConstraints = false
+        sV.contentSize.height = 580
+        
+        return sV
+    }()
+    
     let detailView:UIView = {
        let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         return v
     }()
     
@@ -234,7 +242,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
 
     let lineDetailView:UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.9991492523)
         
         return v
     }()
@@ -460,18 +468,36 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     //MARK: - Setup Detail View
     func setDetailView(){
         
-        detailView.isHidden = true
-        addSubview(detailView)
-        detailView.translatesAutoresizingMaskIntoConstraints = false
-        detailView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-        detailView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
-        detailView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
-        detailView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        addSubview(scrollView)
+        scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
         // add image to Detail View
         let backgroundImage = UIImage(named: "toolCellBackground")
         let backgroundView = UIImageView(image: backgroundImage)
         backgroundView.contentMode = .scaleToFill
+        
+        
+        scrollView.isHidden = true
+        self.scrollView.addSubview(backgroundView)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        
+        
+        scrollView.addSubview(detailView)
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        detailView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
+        detailView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0).isActive = true
+        detailView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
+        //detailView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        detailView.heightAnchor.constraint(equalToConstant: 580).isActive = true
+        
+        
         
         
         // add image to Progress View
@@ -480,12 +506,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         backgroundProgressView.contentMode = .scaleToFill
         
 
-        self.detailView.addSubview(backgroundView)
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.topAnchor.constraint(equalTo: detailView.topAnchor, constant: 0).isActive = true
-        backgroundView.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 0).isActive = true
-        backgroundView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: 0).isActive = true
-        backgroundView.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: 0).isActive = true
+       
         
         self.detailView.addSubview(progressView)
         progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -900,7 +921,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                                animations: {
                                 
                             
-                                self.detailView.alpha = 1
+                                self.scrollView.alpha = 1
                                 self.changeProfileButton.alpha = 1
                                 self.profileView.alpha = 0
                                 self.cmLabel.alpha = 0
@@ -919,7 +940,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                                 self.layoutIfNeeded()
                                 
                 },  completion: {(_ completed: Bool) -> Void in
-                    self.detailView.isHidden = false
+                    self.scrollView.isHidden = false
                     self.changeProfileButton.isHidden = false
                     
                     self.profileView.isHidden = true
@@ -961,7 +982,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut],
                        animations: {
                         
-                        self.detailView.alpha = 0
+                        self.scrollView.alpha = 0
                         self.changeProfileButton.alpha = 0
                         if self.heightUnit == "cm" {
                             self.cmLabel.alpha = 1
@@ -989,7 +1010,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                     
                         
             },  completion: {(_ completed: Bool) -> Void in
-                self.detailView.isHidden = true
+                self.scrollView.isHidden = true
                 self.changeProfileButton.isHidden = true
                 
                 if self.heightUnit == "cm" {
@@ -1023,7 +1044,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     }
     
     func setProfileViewPosition() {
-        self.detailView.isHidden = false
+        self.scrollView.isHidden = false
         self.changeProfileButton.isHidden = false
         
         

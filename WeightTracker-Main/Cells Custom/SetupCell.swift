@@ -28,6 +28,19 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     var indexWeightUnit = -1
     var indexHeightUnit = -1
     
+    let scrollView : UIScrollView = {
+        let sc = UIScrollView()
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.contentSize.height = 530
+        return sc
+    }()
+    
+    let mainView: UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        return v
+    }()
+    
     
     let facebookButton: UIButton = {
         let button = UIButton()
@@ -245,50 +258,62 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         let backgroundImage = UIImage(named: "toolCellBackground")
         let backgroundView = UIImageView(image: backgroundImage)
         backgroundView.contentMode = .scaleToFill
+        
+        self.addSubview(scrollView)
+        scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
      
-        self.addSubview(backgroundView)
+        scrollView.addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
+        scrollView.addSubview(mainView)
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        mainView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
+        mainView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0).isActive = true
+        mainView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
+        mainView.heightAnchor.constraint(equalToConstant: 530).isActive = true
        
         
-        self.addSubview(appNameLabel)
+        mainView.addSubview(appNameLabel)
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        appNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 12).isActive = true
-        appNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        appNameLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 12).isActive = true
+        appNameLabel.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
 
-        self.addSubview(appVersionLabel)
+        mainView.addSubview(appVersionLabel)
         appVersionLabel.translatesAutoresizingMaskIntoConstraints = false
         appVersionLabel.topAnchor.constraint(equalTo: appNameLabel.bottomAnchor, constant: -4).isActive = true
-        appVersionLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        appVersionLabel.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         
         self.addSubview(appCopyrightLabel)
         appCopyrightLabel.translatesAutoresizingMaskIntoConstraints = false
         appCopyrightLabel.topAnchor.constraint(equalTo: appVersionLabel.bottomAnchor, constant: 0).isActive = true
-        appCopyrightLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        appCopyrightLabel.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         
 
         
-        self.addSubview(lineFirstView)
+        mainView.addSubview(lineFirstView)
         lineFirstView.translatesAutoresizingMaskIntoConstraints = false
         lineFirstView.topAnchor.constraint(equalTo: appCopyrightLabel.bottomAnchor, constant: 8.0).isActive = true
-        lineFirstView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        lineFirstView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         lineFirstView.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         lineFirstView.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 32).isActive = true
         
 
-        self.addSubview(settingLabel)
+        mainView.addSubview(settingLabel)
         settingLabel.translatesAutoresizingMaskIntoConstraints = false
         settingLabel.topAnchor.constraint(equalTo: lineFirstView.bottomAnchor, constant: 8).isActive = true
-        settingLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
+        settingLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
         
-        addSubview(settingView)
+        mainView.addSubview(settingView)
         settingView.translatesAutoresizingMaskIntoConstraints = false
         settingView.topAnchor.constraint(equalTo: settingLabel.bottomAnchor, constant: 4.0).isActive = true
-        settingView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        settingView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         settingView.heightAnchor.constraint(equalToConstant: 125).isActive = true
         settingView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
@@ -337,74 +362,73 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         heightSegmentOfCharts.widthAnchor.constraint(equalToConstant: 80).isActive = true
         heightSegmentOfCharts.addTarget(self, action: #selector(heightSegmentedValueChanged(_:)), for: .valueChanged)
         
-        self.addSubview(lineSecondView)
+        mainView.addSubview(lineSecondView)
         lineSecondView.translatesAutoresizingMaskIntoConstraints = false
         lineSecondView.topAnchor.constraint(equalTo: settingView.bottomAnchor, constant: 0.0).isActive = true
-        lineSecondView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        lineSecondView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         lineSecondView.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
         lineSecondView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
     
         
-        self.addSubview(contactUsLabel)
+        mainView.addSubview(contactUsLabel)
         contactUsLabel.translatesAutoresizingMaskIntoConstraints = false
         contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 10).isActive = true
-        contactUsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
+        contactUsLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
         
         
-        self.addSubview(contactView)
+        mainView.addSubview(contactView)
         contactView.translatesAutoresizingMaskIntoConstraints = false
         contactView.topAnchor.constraint(equalTo: contactUsLabel.bottomAnchor, constant: 4).isActive = true
-        contactView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        contactView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         contactView.heightAnchor.constraint(equalToConstant: 80.0).isActive = true
         contactView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
-        self.addSubview(otherAppLabel)
+        mainView.addSubview(otherAppLabel)
         otherAppLabel.translatesAutoresizingMaskIntoConstraints = false
         otherAppLabel.topAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 10).isActive = true
-        otherAppLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
+        otherAppLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
         
-        self.addSubview(otherAppView)
+        mainView.addSubview(otherAppView)
         otherAppView.translatesAutoresizingMaskIntoConstraints = false
         otherAppView.topAnchor.constraint(equalTo: otherAppLabel.bottomAnchor, constant: 4).isActive = true
-        otherAppView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        otherAppView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
         otherAppView.heightAnchor.constraint(equalToConstant: 75.0).isActive = true
         otherAppView.widthAnchor.constraint(equalToConstant: self.layer.frame.width).isActive = true
         
-        self.addSubview(savingMoneyButton)
+        mainView.addSubview(savingMoneyButton)
         savingMoneyButton.translatesAutoresizingMaskIntoConstraints = false
         savingMoneyButton.centerYAnchor.constraint(equalTo: otherAppView.centerYAnchor).isActive = true
-        savingMoneyButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
+        savingMoneyButton.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 16).isActive = true
         savingMoneyButton.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
         savingMoneyButton.widthAnchor.constraint(equalToConstant: 64.0).isActive = true
         savingMoneyButton.addTarget(self, action: #selector(openSavingMoneySVApp), for: .touchUpInside)
         
-        self.addSubview(savingMoneyLabel)
+        mainView.addSubview(savingMoneyLabel)
         savingMoneyLabel.translatesAutoresizingMaskIntoConstraints = false
         savingMoneyLabel.topAnchor.constraint(equalTo: otherAppView.topAnchor, constant: 28).isActive = true
         savingMoneyLabel.leadingAnchor.constraint(equalTo: savingMoneyButton.trailingAnchor, constant: 16).isActive = true
         
-        self.addSubview(savingMoneyDetailLabel)
+        mainView.addSubview(savingMoneyDetailLabel)
         savingMoneyDetailLabel.translatesAutoresizingMaskIntoConstraints = false
         savingMoneyDetailLabel.topAnchor.constraint(equalTo: savingMoneyLabel.bottomAnchor, constant: 4).isActive = true
         savingMoneyDetailLabel.leadingAnchor.constraint(equalTo: savingMoneyButton.trailingAnchor, constant: 16).isActive = true
         
         //Contact us StackView
         let facebookView = UIView()
-        
         let gmailView = UIView()
         
         contactStackView = UIStackView(arrangedSubviews: [facebookView,gmailView])
         contactStackView.axis = .horizontal
         contactStackView.distribution = .fillEqually
         
-        addSubview(contactStackView)
+        mainView.addSubview(contactStackView)
         contactStackView.translatesAutoresizingMaskIntoConstraints = false
         contactStackView.topAnchor.constraint(equalTo: contactView.topAnchor, constant: 0.0).isActive = true
         contactStackView.leadingAnchor.constraint(equalTo: contactView.leadingAnchor, constant: 32).isActive = true
         contactStackView.trailingAnchor.constraint(equalTo: contactView.trailingAnchor, constant: -32).isActive = true
         contactStackView.bottomAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 0.0).isActive = true
         
-        addSubview(facebookButton)
+        mainView.addSubview(facebookButton)
         facebookButton.translatesAutoresizingMaskIntoConstraints = false
         facebookButton.centerXAnchor.constraint(equalTo: facebookView.centerXAnchor).isActive = true
         facebookButton.centerYAnchor.constraint(equalTo: facebookView.centerYAnchor).isActive = true
@@ -413,7 +437,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         facebookButton.addTarget(self, action: #selector(openMyFacebook), for: .touchUpInside)
 
         
-        addSubview(gmailButton)
+        mainView.addSubview(gmailButton)
         gmailButton.translatesAutoresizingMaskIntoConstraints = false
         gmailButton.centerXAnchor.constraint(equalTo: gmailView.centerXAnchor).isActive = true
         gmailButton.centerYAnchor.constraint(equalTo: gmailView.centerYAnchor).isActive = true

@@ -202,14 +202,14 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         addSubview(inputWeightView)
         inputWeightView.translatesAutoresizingMaskIntoConstraints = false
         inputWeightView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        inputWeightView.topAnchor.constraint(equalTo: self.topAnchor, constant: (selfHeight-350-55)/2).isActive = true
+        inputWeightView.topAnchor.constraint(equalTo: self.topAnchor, constant: (selfHeight-350)/2).isActive = true
         inputWeightView.widthAnchor.constraint(equalToConstant: selfWidth - 40).isActive = true
-        inputWeightView.heightAnchor.constraint(equalToConstant: 350.0).isActive = true
+        inputWeightView.heightAnchor.constraint(equalToConstant: 315.0).isActive = true
         
         inputWeightView.addSubview(inputWeightTextfield)
         inputWeightTextfield.translatesAutoresizingMaskIntoConstraints = false
         inputWeightTextfield.centerXAnchor.constraint(equalTo: inputWeightView.centerXAnchor).isActive = true
-        inputWeightTextfield.topAnchor.constraint(equalTo: inputWeightView.topAnchor, constant: 32.0).isActive = true
+        inputWeightTextfield.topAnchor.constraint(equalTo: inputWeightView.topAnchor, constant: 18.0).isActive = true
         inputWeightTextfield.widthAnchor.constraint(equalToConstant: selfWidth - 100).isActive = true
         inputWeightTextfield.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
         
@@ -222,24 +222,24 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         addSubview(noteLabel)
         noteLabel.translatesAutoresizingMaskIntoConstraints = false
-        noteLabel.topAnchor.constraint(equalTo: kgLabel.bottomAnchor, constant: 12).isActive = true
+        noteLabel.topAnchor.constraint(equalTo: kgLabel.bottomAnchor, constant: 4).isActive = true
         noteLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 50 ).isActive = true
         
         addSubview(noteTextView)
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
-        noteTextView.topAnchor.constraint(equalTo: noteLabel.bottomAnchor, constant: 4).isActive = true
+        noteTextView.topAnchor.constraint(equalTo: noteLabel.bottomAnchor, constant: 0).isActive = true
         noteTextView.centerXAnchor.constraint(equalTo: inputWeightView.centerXAnchor).isActive = true
         noteTextView.widthAnchor.constraint(equalToConstant: selfWidth - 100).isActive = true
         noteTextView.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         
         addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 47).isActive = true
+        timeLabel.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 40).isActive = true
         timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 50 ).isActive = true
         
         addSubview(timePicker)
         timePicker.translatesAutoresizingMaskIntoConstraints = false
-        timePicker.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 14).isActive = true
+        timePicker.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 7).isActive = true
         timePicker.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 30 ).isActive = true
         timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 60).isActive = true
         timePicker.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
