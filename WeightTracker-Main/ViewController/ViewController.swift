@@ -9,11 +9,12 @@
 import UIKit
 import CoreData
 import MessageUI
+import GoogleMobileAds
 
 
 //collectionView is the top colection view
 // TabColectionView are big bottom views
-class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout  {
+class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,GADBannerViewDelegate  {
     
 
     //MARK: - Outlet variable
@@ -22,7 +23,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     @IBOutlet weak var leadingOfNarBarBottom: NSLayoutConstraint!
     @IBOutlet weak var widthOfNarBarBottom: NSLayoutConstraint!
     
+    @IBOutlet weak var bannerView: GADBannerView!
     
+    @IBOutlet weak var bottomAnchorMainView: NSLayoutConstraint!
     //MARK: - Variable
     var spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
     var isStart  = true
@@ -41,6 +44,23 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //
+        //Ads Banner setup
+        //
+        bannerView.delegate = self
+        bannerView.adSize = kGADAdSizeSmartBannerPortrait
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        self.view.layoutIfNeeded()
+        
+        //
+        //End Banner setup
+        //
+        
+        
+        
         collectionViewSetup()
         tabCollectionViewSetup()
         NotificationCenter.default.addObserver(self,
@@ -71,6 +91,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         self.spinner.transform = CGAffineTransform(scaleX: 2, y: 2)
         
     }
+    
+    
     @objc func refreshLbl(notification: NSNotification) {
         print("Received Notification")
         collectionView.reloadData()

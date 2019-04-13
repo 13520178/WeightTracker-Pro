@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AD4412B710A222216F27D5456DBF8785"
+               BlueprintIdentifier = "10B09C19D46CB4AF8CC1BFD00F054BB8"
                BuildableName = "Pods_WeightTracker_Main.framework"
                BlueprintName = "Pods-WeightTracker-Main"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AD4412B710A222216F27D5456DBF8785"
+            BlueprintIdentifier = "10B09C19D46CB4AF8CC1BFD00F054BB8"
             BuildableName = "Pods_WeightTracker_Main.framework"
             BlueprintName = "Pods-WeightTracker-Main"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -7,5 +7,5 @@ target 'WeightTracker-Main' do
 
   # Pods for WeightTracker-Main
 pod 'Charts'
-
+pod 'Google-Mobile-Ads-SDK'
 end

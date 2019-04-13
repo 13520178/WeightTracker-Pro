@@ -237,11 +237,12 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         timeLabel.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 40).isActive = true
         timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 50 ).isActive = true
         
+        
         addSubview(timePicker)
         timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePicker.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 7).isActive = true
         timePicker.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 30 ).isActive = true
-        timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 60).isActive = true
+        timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 100).isActive = true
         timePicker.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         
         
@@ -249,7 +250,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         addSubview(enterButton)
         enterButton.translatesAutoresizingMaskIntoConstraints = false
         enterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        enterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12).isActive = true
+        enterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
         enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
         enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
         enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)

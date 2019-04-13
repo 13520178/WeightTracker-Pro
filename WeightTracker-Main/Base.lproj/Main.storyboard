@@ -79,6 +79,24 @@
                                     <constraint firstItem="yX2-XB-oMJ" firstAttribute="leading" secondItem="sZy-hX-c0Z" secondAttribute="leading" id="bSm-5L-jF5"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="inJ-ID-cmr" customClass="GADBannerView">
+                                <rect key="frame" x="0.0" y="518" width="320" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry for the ad. It helps me earn income." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdc-cW-NMp">
+                                        <rect key="frame" x="16" y="8" width="288" height="43"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" red="0.58188301320000002" green="0.21569153669999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.83216959239999999" green="0.98548370600000001" blue="0.47333085539999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="gdc-cW-NMp" firstAttribute="top" secondItem="inJ-ID-cmr" secondAttribute="top" constant="8" id="4A0-le-RAP"/>
+                                    <constraint firstAttribute="height" constant="50" id="8B6-Fc-gTx"/>
+                                    <constraint firstAttribute="trailing" secondItem="gdc-cW-NMp" secondAttribute="trailing" constant="16" id="YOt-mu-nqH"/>
+                                    <constraint firstItem="gdc-cW-NMp" firstAttribute="leading" secondItem="inJ-ID-cmr" secondAttribute="leading" constant="16" id="gJp-Tc-F0l"/>
+                                </constraints>
+                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DAy-x1-8Yd">
                                 <rect key="frame" x="0.0" y="85" width="320" height="433"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -103,17 +121,22 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="sZy-hX-c0Z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4ni-AN-thv"/>
+                            <constraint firstItem="inJ-ID-cmr" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="5jf-KN-uUe"/>
                             <constraint firstItem="DAy-x1-8Yd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="654-76-mTe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="inJ-ID-cmr" secondAttribute="bottom" id="Jgf-9w-MYp"/>
                             <constraint firstItem="DAy-x1-8Yd" firstAttribute="top" secondItem="sZy-hX-c0Z" secondAttribute="bottom" id="QhJ-MX-DDp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DAy-x1-8Yd" secondAttribute="trailing" id="Tyx-pf-4AR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DAy-x1-8Yd" secondAttribute="bottom" constant="50" id="fMc-q0-KdQ"/>
                             <constraint firstItem="sZy-hX-c0Z" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qi3-XX-cda"/>
                             <constraint firstItem="sZy-hX-c0Z" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="uM4-gg-Irm"/>
+                            <constraint firstItem="inJ-ID-cmr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="yeZ-b6-xYC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="bannerView" destination="inJ-ID-cmr" id="RTp-Mf-PR7"/>
+                        <outlet property="bottomAnchorMainView" destination="fMc-q0-KdQ" id="J49-4c-eEh"/>
                         <outlet property="collectionView" destination="PHi-GZ-xFk" id="chL-n1-K7p"/>
                         <outlet property="leadingOfNarBarBottom" destination="bSm-5L-jF5" id="WQR-Aj-UAO"/>
                         <outlet property="tabCollectionView" destination="DAy-x1-8Yd" id="vJq-Fc-7WM"/>
