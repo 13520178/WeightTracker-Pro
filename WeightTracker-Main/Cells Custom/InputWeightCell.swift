@@ -237,12 +237,11 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         timeLabel.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 40).isActive = true
         timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 50 ).isActive = true
         
-        
         addSubview(timePicker)
         timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePicker.topAnchor.constraint(equalTo: noteTextView.bottomAnchor, constant: 7).isActive = true
-        timePicker.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 30 ).isActive = true
-        timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 100).isActive = true
+        timePicker.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 100 ).isActive = true
+        timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 200).isActive = true
         timePicker.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         
         
