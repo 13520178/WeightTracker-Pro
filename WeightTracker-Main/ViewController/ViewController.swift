@@ -50,7 +50,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         //
         bannerView.delegate = self
         bannerView.adSize = kGADAdSizeSmartBannerPortrait
+        //Thu nghiem
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+    
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         self.view.layoutIfNeeded()

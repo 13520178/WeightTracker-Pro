@@ -868,7 +868,8 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         if inputHeightTextfield.text != ""
         {
             if heightUnit == "cm" {
-                if let h = inputHeightTextfield.text {
+                if var h = inputHeightTextfield.text {
+                    h = h.replacingOccurrences(of: ",", with: ".")
                     if let h = Float(h) {
                         if h >= 30 && h <= 300 {
                             isHeightOK = true
@@ -878,7 +879,8 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                     }
                 }
             }else if heightUnit == "ft:in" {
-                if let ftH = inputFtHeightTextfield.text , let inH = inputInHeightTextfield.text {
+                if let ftH = inputFtHeightTextfield.text , var inH = inputInHeightTextfield.text {
+                    inH = inH.replacingOccurrences(of: ",", with: ".")
                     if let ftH = Float(ftH) ,let inH = Float(inH) {
                         if ftH > 0 && ftH < 11 && inH >= 0 && inH <= 20 {
                             isHeightOK = true
@@ -889,7 +891,8 @@ class ToolCell: BaseCell,UITextFieldDelegate {
 
                 }
             }else {
-                if let h = inputHeightTextfield.text {
+                if var h = inputHeightTextfield.text {
+                    h = h.replacingOccurrences(of: ",", with: ".")
                     if let h = Float(h) {
                         if h >= 30 && h <= 300 {
                             isHeightOK = true
@@ -906,7 +909,8 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         
         if desiredWeightTextfield.text != ""
         {
-            if let w = desiredWeightTextfield.text {
+            if var w = desiredWeightTextfield.text {
+                w = w.replacingOccurrences(of: ",", with: ".")
                 if let w = Float(w) {
                     if w >= 1 && w <= 400 {
                         isWeightOk = true

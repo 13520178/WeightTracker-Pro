@@ -124,10 +124,23 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     let resetButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
         bt.setTitle("≡", for: .normal)
-        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 50)
-        bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 45)
+        bt.setTitleColor(#colorLiteral(red: 1, green: 0.9368489583, blue: 0, alpha: 1), for: .normal)
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        bt.layer.borderWidth = 2
+        bt.layer.borderColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        bt.layer.cornerRadius = 8
         return bt
+    }()
+    
+    let shadowResetbuttonView : UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        v.layer.shadowColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        v.layer.shadowOffset = CGSize(width: 0.5, height: 1.5)
+        v.layer.shadowOpacity = 0.3
+        v.layer.shadowRadius = 6.0
+        return v
     }()
     
     let resetInBlurViewButton: UIButton = {
@@ -154,6 +167,14 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         v.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         v.clipsToBounds = true
         return v
+    }()
+    
+    let calculationToolsLabel : UILabel =  {
+        let label = UILabel()
+        label.text = "Calculation tools"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        return label
     }()
     
     var delegate: InputWeightCellDelegate?
@@ -202,7 +223,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         addSubview(inputWeightView)
         inputWeightView.translatesAutoresizingMaskIntoConstraints = false
         inputWeightView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        inputWeightView.topAnchor.constraint(equalTo: self.topAnchor, constant: (selfHeight-350)/2).isActive = true
+        inputWeightView.topAnchor.constraint(equalTo: self.topAnchor, constant: (selfHeight-330)/2).isActive = true
         inputWeightView.widthAnchor.constraint(equalToConstant: selfWidth - 40).isActive = true
         inputWeightView.heightAnchor.constraint(equalToConstant: 315.0).isActive = true
         
@@ -255,12 +276,19 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
 
         
-        addSubview(resetButton)
+        addSubview(shadowResetbuttonView)
+        shadowResetbuttonView.translatesAutoresizingMaskIntoConstraints = false
+        shadowResetbuttonView.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        shadowResetbuttonView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        shadowResetbuttonView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
+        shadowResetbuttonView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
+        
+        shadowResetbuttonView.addSubview(resetButton)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
-        resetButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        resetButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
-        resetButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        resetButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        resetButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
+        resetButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
         resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
         
         
@@ -300,9 +328,15 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     //MARK: - setup SubsCalculatorView
     func setupsubsCalculatorView() {
+        caculatorView.addSubview(calculationToolsLabel)
+        calculationToolsLabel.translatesAutoresizingMaskIntoConstraints = false
+        calculationToolsLabel.topAnchor.constraint(equalTo: caculatorView.topAnchor, constant: 10.0).isActive = true
+        calculationToolsLabel.leadingAnchor.constraint(equalTo: caculatorView.leadingAnchor, constant: 8.0).isActive = true
+        
+        
         let subView1Tap = UITapGestureRecognizer(target: self, action: #selector(subView1HandleTap(_:)))
         subView1.addGestureRecognizer(subView1Tap)
-        subView1.setupProperty(captionText: "BMI", contentText: "Body mass index",imageName: "lineChart")
+        subView1.setupProperty(captionText: "BMI", contentText: "Determine reasonable weight",imageName: "lineChart")
         caculatorView.addSubview(subView1)
         subView1.translatesAutoresizingMaskIntoConstraints = false
         subView1.topAnchor.constraint(equalTo: caculatorView.topAnchor, constant: 40.0).isActive = true
@@ -313,7 +347,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         let subView2Tap = UITapGestureRecognizer(target: self, action: #selector(subView2HandleTap(_:)))
         subView2.addGestureRecognizer(subView2Tap)
-        subView2.setupProperty(captionText: "BMR", contentText: "Basal metabolic rate",imageName: "barChart")
+        subView2.setupProperty(captionText: "BMR (TDEE)", contentText: "Total daily energy expenditure",imageName: "barChart")
         caculatorView.addSubview(subView2)
         subView2.translatesAutoresizingMaskIntoConstraints = false
         subView2.topAnchor.constraint(equalTo: subView1.bottomAnchor, constant: 12.0).isActive = true
@@ -394,7 +428,8 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         if inputWeightTextfield.text != ""
         {
-            if let w = inputWeightTextfield.text {
+            if var w = inputWeightTextfield.text {
+                w = w.replacingOccurrences(of: ",", with: ".")
                 if let w = Float(w) {
                     if w > 1 && w <= 400 {
                         let person = Person(context: context)

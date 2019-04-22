@@ -438,7 +438,8 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
                 print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
             }else {
-                if let weight = Float(weightTextfield.text!) , var height = Float(heightTextfield.text!) {
+                let w = weightTextfield.text!.replacingOccurrences(of: ",", with: ".")
+                if let weight = Float(w) , var height = Float(heightTextfield.text!) {
                     if (weight > 1 && weight < 400) && (height > 30 && height < 250) {
                         
                         //Calculate the BMI value
@@ -474,7 +475,9 @@ class Sub1ViewController: UIViewController , UITextFieldDelegate{
                 print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type of weight or height.")
             }else {
-                if let weight = Float(weightInLbsTextfield.text!) , let ftHeight = Float(ftTextfield.text!) , let inHeight = Float(inTextfield.text!){
+                let w = weightInLbsTextfield.text!.replacingOccurrences(of: ",", with: ".")
+                let iH = inTextfield.text!.replacingOccurrences(of: ",", with: ".")
+                if let weight = Float(w) , let ftHeight = Float(ftTextfield.text!) , let inHeight = Float(iH){
                     if (weight > 10 && weight < 800) && (ftHeight > 0 && ftHeight < 11) && (inHeight >= 0 && inHeight < 100) {
                         
                         //Calculate the BMI value

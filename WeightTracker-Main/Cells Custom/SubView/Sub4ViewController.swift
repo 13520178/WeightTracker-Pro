@@ -623,7 +623,9 @@ class Sub4ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewD
                 print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
             }else {
-                if let hip = Double(inHipWeightTextField.text!) , let waist = Double(inWaistTextfield.text!) {
+                let iH = inHipWeightTextField.text!.replacingOccurrences(of: ",", with: ".")
+                let iW = inWaistTextfield.text!.replacingOccurrences(of: ",", with: ".")
+                if let hip = Double(iH) , let waist = Double(iW) {
                     if (hip > 1 && hip < 200) && (waist > 1 && waist < 200) {
                         var WHR  = waist / hip
                         WHR = round(WHR * 100) / 100

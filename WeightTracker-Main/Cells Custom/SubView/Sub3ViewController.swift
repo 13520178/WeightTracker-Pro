@@ -385,8 +385,8 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
                 print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
             }else {
-                
-                if var weight = Double(weightTextfield.text!) , var waist = Double(waistTextfield.text!) {
+                let w = weightTextfield.text!.replacingOccurrences(of: ",", with: ".")
+                if var weight = Double(w) , var waist = Double(waistTextfield.text!) {
                     if (weight > 1 && weight < 400) && (waist > 30 && waist < 300) {
                         weight = weight * 2.2
                         waist = waist / 2.54
@@ -434,7 +434,8 @@ class Sub3ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewData
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
             }else {
                 
-                if let weight = Double(lbsWeightTextField.text!) , let waist = Double(inTextfield.text!) {
+                let w = lbsWeightTextField.text!.replacingOccurrences(of: ",", with: ".")
+                if let weight = Double(w) , let waist = Double(inTextfield.text!) {
                     if (weight > 1 && weight < 400) && (waist > 5 && waist < 150) {
                         var YMCA = 0.0
                         if genderIndex == 0 {

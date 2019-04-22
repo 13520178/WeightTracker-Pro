@@ -460,10 +460,10 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
             }else {
-                if let weight = Float(weightTextfield.text!) , let height = Float(heightTextfield.text!) , let age = Int(ageTextfield.text!){
+                let w = weightTextfield.text!.replacingOccurrences(of: ",", with: ".")
+                if let weight = Float(w) , let height = Float(heightTextfield.text!) , let age = Int(ageTextfield.text!){
                     if (weight > 1 && weight < 400) && (height > 30 && height < 250) && (1 <= age && age <= 150) {
-                        
-                        
+
                         
                         var bmrValue = 0.0
                         if genderIndex == 0 {
@@ -499,7 +499,9 @@ class Sub2ViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 print("Co nhap weight gi dau ma'")
                 AlertController.showAlert(inController: self, tilte: "Something is wrong", message: "You entered the wrong type.")
             }else {
-                if let weight = Float(lbsWeightTextField.text!) , let ftHeight = Float(ftTextfield.text!),let inHeight = Float(inTextfield.text!) , let age = Int(ageInImperialTextfield.text!){
+                 let w = lbsWeightTextField.text!.replacingOccurrences(of: ",", with: ".")
+                let iH = inTextfield.text!.replacingOccurrences(of: ",", with: ".")
+                if let weight = Float(w) , let ftHeight = Float(ftTextfield.text!),let inHeight = Float(iH) , let age = Int(ageInImperialTextfield.text!){
                     if (weight > 1 && weight < 800) && (ftHeight > 0 && ftHeight < 11) && (inHeight >= 0 && inHeight < 100) && (1 <= age && age <= 150) {
                         
                         let height = ftHeight * 30.48 + inHeight * 2.54
