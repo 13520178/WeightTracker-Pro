@@ -147,7 +147,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
         bt.setTitle("⊗", for: .normal)
         bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 25)
-        bt.setTitleColor(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), for: .normal)
+        bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         return bt
     }()
@@ -161,10 +161,17 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     let caculatorView:UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 0.9473781616, green: 0.9473781616, blue: 0.9473781616, alpha: 1)
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         v.layer.cornerRadius = 10
         v.layer.borderWidth = 1.5
-        v.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        v.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        v.clipsToBounds = true
+        return v
+    }()
+    
+    let titleCaculatorView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         v.clipsToBounds = true
         return v
     }()
@@ -173,7 +180,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         let label = UILabel()
         label.text = "Calculation tools"
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
     }()
     
@@ -309,6 +316,13 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         caculatorView.heightAnchor.constraint(equalToConstant: 380).isActive = true
         caculatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 380).isActive = true
         caculatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        caculatorView.addSubview(titleCaculatorView)
+        titleCaculatorView.translatesAutoresizingMaskIntoConstraints = false
+        titleCaculatorView.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 32).isActive = true
+        titleCaculatorView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        titleCaculatorView.topAnchor.constraint(equalTo: caculatorView.topAnchor, constant: 0).isActive = true
+        titleCaculatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
        
 
         caculatorView.addSubview(resetInBlurViewButton)
@@ -349,10 +363,10 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         let subView1Tap = UITapGestureRecognizer(target: self, action: #selector(subView1HandleTap(_:)))
         subView1.addGestureRecognizer(subView1Tap)
-        subView1.setupProperty(captionText: "BMI", contentText: "Determine reasonable weight",imageName: "lineChart")
+        subView1.setupProperty(captionText: "BMI", contentText: "Determine reasonable weight",imageName: "BMI", imageBackGround: "green")
         caculatorView.addSubview(subView1)
         subView1.translatesAutoresizingMaskIntoConstraints = false
-        subView1.topAnchor.constraint(equalTo: caculatorView.topAnchor, constant: 40.0).isActive = true
+        subView1.topAnchor.constraint(equalTo: caculatorView.topAnchor, constant: 50.0).isActive = true
         subView1.centerXAnchor.constraint(equalTo: caculatorView.centerXAnchor).isActive = true
         subView1.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 58).isActive = true
         subView1.heightAnchor.constraint(equalToConstant: 64.0).isActive = true
@@ -360,7 +374,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         let subView2Tap = UITapGestureRecognizer(target: self, action: #selector(subView2HandleTap(_:)))
         subView2.addGestureRecognizer(subView2Tap)
-        subView2.setupProperty(captionText: "BMR (TDEE)", contentText: "Total daily energy expenditure",imageName: "barChart")
+        subView2.setupProperty(captionText: "BMR (TDEE)", contentText: "Total daily energy expenditure",imageName: "BMR", imageBackGround: "orange")
         caculatorView.addSubview(subView2)
         subView2.translatesAutoresizingMaskIntoConstraints = false
         subView2.topAnchor.constraint(equalTo: subView1.bottomAnchor, constant: 12.0).isActive = true
@@ -371,7 +385,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         let subView3Tap = UITapGestureRecognizer(target: self, action: #selector(subView3HandleTap(_:)))
         subView3.addGestureRecognizer(subView3Tap)
-        subView3.setupProperty(captionText: "YMCA", contentText: "Body fat calculator",imageName: "YMCA")
+        subView3.setupProperty(captionText: "YMCA", contentText: "Body fat calculator",imageName: "bodyFat",imageBackGround: "blue")
         caculatorView.addSubview(subView3)
         subView3.translatesAutoresizingMaskIntoConstraints = false
         subView3.topAnchor.constraint(equalTo: subView2.bottomAnchor, constant: 12.0).isActive = true
@@ -382,7 +396,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         let subView4Tap = UITapGestureRecognizer(target: self, action: #selector(subView4HandleTap(_:)))
         subView4.addGestureRecognizer(subView4Tap)
-        subView4.setupProperty(captionText: "WHR", contentText: "Waist-to-Hip ratio",imageName: "WHR")
+        subView4.setupProperty(captionText: "WHR", contentText: "Waist-to-Hip ratio",imageName: "WHR", imageBackGround: "pink")
         caculatorView.addSubview(subView4)
         subView4.translatesAutoresizingMaskIntoConstraints = false
         subView4.topAnchor.constraint(equalTo: subView3.bottomAnchor, constant: 12.0).isActive = true

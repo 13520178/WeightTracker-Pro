@@ -13,7 +13,7 @@ class InputWeightSubView: UIView {
     //MARK: - Variable
     let caption:UILabel = {
         let l = UILabel()
-        l.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        l.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         l.text = "asdasd"
         l.font = UIFont.systemFont(ofSize: 22)
         return l
@@ -21,8 +21,8 @@ class InputWeightSubView: UIView {
     
     let content:UILabel = {
         let l = UILabel()
-        l.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        l.font = UIFont.systemFont(ofSize: 12)
+        l.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        l.font = UIFont(name:"TrebuchetMS", size: 12)
         
         return l
     }()
@@ -30,6 +30,15 @@ class InputWeightSubView: UIView {
     let imageView:UIImageView = {
         let i = UIImageView()
         i.contentMode = .center
+        i.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        i.layer.cornerRadius = 25
+        return i
+    }()
+    
+    var backgroundView:UIImageView = {
+        let i = UIImageView()
+        i.contentMode = .center
+        i.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         return i
     }()
     
@@ -42,8 +51,8 @@ class InputWeightSubView: UIView {
     let goLabel:UILabel = {
         let l = UILabel()
         l.text = "›"
-        l.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        l.font = UIFont.systemFont(ofSize: 28)
+        l.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        l.font = UIFont.systemFont(ofSize: 40)
         return l
     }()
     //initWithFrame to init view from code
@@ -64,19 +73,30 @@ class InputWeightSubView: UIView {
         layer.cornerRadius = 10
         clipsToBounds = true
         
+        let backgroundImage = UIImage(named: "green")
+        backgroundView = UIImageView(image: backgroundImage)
+        backgroundView.contentMode = .scaleToFill
         
+        self.addSubview(backgroundView)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
+        imageView.tintColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 56).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 56).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 6).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
+        lineView.isHidden = true
         addSubview(lineView)
         lineView.translatesAutoresizingMaskIntoConstraints = false
         lineView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        lineView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 0).isActive = true
+        lineView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -2).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         lineView.widthAnchor.constraint(equalToConstant: 2.5).isActive = true
         
@@ -98,10 +118,12 @@ class InputWeightSubView: UIView {
         
     }
     
-    func setupProperty(captionText:String,contentText:String,imageName:String) {
+    func setupProperty(captionText:String,contentText:String,imageName:String, imageBackGround:String) {
         caption.text = captionText
         content.text = contentText
         imageView.image = UIImage(named: imageName)
+        backgroundView.image = UIImage(named: imageBackGround)
+        
     }
 
 
