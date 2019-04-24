@@ -47,7 +47,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     let noteLabel: UILabel = {
         let label = UILabel()
-        label.text = "  Note:"
+        label.text = "  Note: (optional)"
         label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         return label
@@ -137,7 +137,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         v.layer.shadowColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        v.layer.shadowOffset = CGSize(width: 0.5, height: 1.5)
+        v.layer.shadowOffset = CGSize(width: 0, height: 2)
         v.layer.shadowOpacity = 0.3
         v.layer.shadowRadius = 6.0
         return v
@@ -292,7 +292,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
         
         
-        
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkTouchInBlurView))
         blurView.isHidden = true
         addSubview(blurView)
         blurView.translatesAutoresizingMaskIntoConstraints = false
@@ -300,7 +300,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         blurView.heightAnchor.constraint(equalToConstant: self.layer.frame.height).isActive = true
         blurView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         blurView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        
+        self.blurView.addGestureRecognizer(gesture)
         
         
         addSubview(caculatorView)
@@ -327,6 +327,19 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     }
     
     //MARK: - setup SubsCalculatorView
+    @objc func checkTouchInBlurView(sender : UITapGestureRecognizer) {
+        print("touched !!!")
+        if blurView.isHidden == false {
+            blurView.isHidden = true
+            self.isUserInteractionEnabled = true
+            delegate?.enableUserInteraction()
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                self.caculatorView.frame.origin.y += 360
+            }, completion: nil)
+        }
+        
+    }
+    
     func setupsubsCalculatorView() {
         caculatorView.addSubview(calculationToolsLabel)
         calculationToolsLabel.translatesAutoresizingMaskIntoConstraints = false

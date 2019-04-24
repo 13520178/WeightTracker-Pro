@@ -279,7 +279,9 @@ class DiagramCell: BaseCell {
         chartData.setDrawValues(false)
         viewForChartCandle.data = chartData
         viewForChartCandle.setVisibleXRangeMaximum(20)
+        viewForChartCandle.doubleTapToZoomEnabled = false
         viewForChartCandle.autoScaleMinMaxEnabled = true
+        viewForChartCandle.pinchZoomEnabled = true
         viewForChartCandle.moveViewToX(Double(months.count))
         let xAxisValue = viewForChartCandle.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
@@ -313,6 +315,8 @@ class DiagramCell: BaseCell {
         viewForChart.data = chartData
         viewForChart.setVisibleXRangeMaximum(20)
         viewForChart.autoScaleMinMaxEnabled = true
+        viewForChart.doubleTapToZoomEnabled = false
+        viewForChart.pinchZoomEnabled = true
         viewForChart.moveViewToX(Double(months.count))
 
         let xAxisValue = viewForChart.xAxis

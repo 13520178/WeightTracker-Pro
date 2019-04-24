@@ -178,7 +178,7 @@ class MyCell:UITableViewCell {
         var lb = UILabel()
         lb.text = "❯"
         lb.font = lb.font.withSize(30.0)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.9882352941, green: 0.9814886477, blue: 0.4504477662, alpha: 1)
         return lb
     }()
     

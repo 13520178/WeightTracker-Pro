@@ -198,9 +198,12 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     
     let changeProfileButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
-        bt.setTitle(" 🗒 Edit profile ", for: .normal)
-        bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 15)
+        bt.setTitle("Set target  ", for: .normal)
+        bt.setTitleColor(#colorLiteral(red: 1, green: 0.9368489583, blue: 0, alpha: 1), for: .normal)
+        bt.titleLabel?.font = UIFont(name:"Avenir", size: 18)
+        bt.layer.cornerRadius = 12
+        bt.layer.borderWidth = 1
+        bt.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         bt.backgroundColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         
         return bt
@@ -594,10 +597,11 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         changeProfileButton.isHidden = true
         addSubview(changeProfileButton)
         changeProfileButton.translatesAutoresizingMaskIntoConstraints = false
-        changeProfileButton.heightAnchor.constraint(equalToConstant: 17.0)
-        changeProfileButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
-        changeProfileButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
-        changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        changeProfileButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        changeProfileButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
+        
+        changeProfileButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
+        changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12).isActive = true
         changeProfileButton.addTarget(self, action: #selector(editProfileButtonAction), for: .touchUpInside)
     }
     
