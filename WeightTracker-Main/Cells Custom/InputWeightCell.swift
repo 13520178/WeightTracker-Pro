@@ -123,16 +123,18 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     let resetButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
-        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        bt.layer.borderWidth = 2
-        bt.layer.borderColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
-        bt.layer.cornerRadius = 8
-        
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.9972919862)
+        bt.layer.cornerRadius = 4
         let image = UIImage(named: "showCalculatorButton")
         bt.setImage(image, for: .normal)
-        bt.tintColor = #colorLiteral(red: 1, green: 0.9368489583, blue: 0, alpha: 1)
+        bt.tintColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return bt
     }()
+    
+
+    
+
+
     
     let shadowResetbuttonView : UIView = {
         let v = UIView()
@@ -293,7 +295,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         shadowResetbuttonView.addSubview(resetButton)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
-        resetButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        resetButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         resetButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
         resetButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
