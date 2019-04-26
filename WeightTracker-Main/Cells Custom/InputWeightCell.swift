@@ -81,12 +81,22 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         return label
     }()
     
+    let imageBelowEnterButton: UIImageView = {
+        let image = UIImage(named: "enterButtonImage")
+        let iu = UIImageView(image: image)
+        iu.layer.cornerRadius = 23
+        iu.clipsToBounds = true
+        return iu
+    }()
+    
+  
+    
     let enterButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
         bt.setTitle("Enter", for: .normal)
         bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        bt.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 30)
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        bt.titleLabel?.font = UIFont(name:"TrebuchetMS", size: 30)
         bt.layer.cornerRadius = 23
 
         return bt
@@ -274,6 +284,14 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 200).isActive = true
         timePicker.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         
+        
+        
+        addSubview(imageBelowEnterButton)
+        imageBelowEnterButton.translatesAutoresizingMaskIntoConstraints = false
+        imageBelowEnterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        imageBelowEnterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+        imageBelowEnterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
+        imageBelowEnterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
         
         
         addSubview(enterButton)
@@ -500,7 +518,7 @@ extension UITextField {
         self.borderStyle = .none
         self.layer.backgroundColor = UIColor.white.cgColor
         self.layer.masksToBounds = false
-        self.layer.shadowColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        self.layer.shadowColor = #colorLiteral(red: 0.5563300252, green: 0.3507795036, blue: 0.9688282609, alpha: 1)
         self.layer.shadowOffset = CGSize(width: 0.0, height: 1)
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0.0

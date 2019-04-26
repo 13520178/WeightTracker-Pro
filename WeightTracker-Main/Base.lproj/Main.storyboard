@@ -21,6 +21,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sZy-hX-c0Z">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="header" translatesAutoresizingMaskIntoConstraints="NO" id="BXo-Vg-acy">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                                    </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yX2-XB-oMJ">
                                         <rect key="frame" x="0.0" y="71.5" width="100" height="3.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -34,11 +37,15 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="yX2-XB-oMJ" secondAttribute="bottom" id="U9l-fQ-cB6"/>
                                     <constraint firstItem="yX2-XB-oMJ" firstAttribute="leading" secondItem="sZy-hX-c0Z" secondAttribute="leading" id="bSm-5L-jF5"/>
+                                    <constraint firstAttribute="trailing" secondItem="BXo-Vg-acy" secondAttribute="trailing" id="fsB-4f-dtv"/>
+                                    <constraint firstAttribute="bottom" secondItem="BXo-Vg-acy" secondAttribute="bottom" id="qHv-n6-cb2"/>
+                                    <constraint firstItem="BXo-Vg-acy" firstAttribute="leading" secondItem="sZy-hX-c0Z" secondAttribute="leading" id="z1T-s1-89M"/>
+                                    <constraint firstItem="BXo-Vg-acy" firstAttribute="top" secondItem="sZy-hX-c0Z" secondAttribute="top" id="zNt-qk-h1u"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PHi-GZ-xFk">
                                 <rect key="frame" x="0.0" y="20" width="320" height="50"/>
-                                <color key="backgroundColor" red="0.45098039220000002" green="0.1529411765" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="xoF-D2-aDb"/>
                                 </constraints>
@@ -1786,6 +1793,7 @@
     <resources>
         <image name="bmiBackground1" width="1242" height="2688"/>
         <image name="bmrBackground1" width="1242" height="2688"/>
+        <image name="header" width="1200" height="300"/>
         <image name="toolCellBackground" width="2400" height="2000"/>
         <image name="whrBackground1" width="1242" height="2688"/>
         <image name="ymcaBackground1" width="1242" height="2688"/>
