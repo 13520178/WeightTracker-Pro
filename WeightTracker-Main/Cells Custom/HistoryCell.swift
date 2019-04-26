@@ -86,6 +86,7 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource,UIPicker
     let filterView: UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        v.isHidden = true
         return v
     }()
     
@@ -209,15 +210,15 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource,UIPicker
         filterView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         addSubview(filterView)
         filterView.translatesAutoresizingMaskIntoConstraints = false
-        filterView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 210).isActive = true
+        
         filterView.widthAnchor.constraint(equalToConstant: self.frame.width - 24).isActive = true
         filterView.heightAnchor.constraint(equalToConstant: 210).isActive = true
         filterView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        filterView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
- 
         filterView.addSubview(filterHeader)
         filterHeader.translatesAutoresizingMaskIntoConstraints = false
-        filterHeader.topAnchor.constraint(equalTo: filterView.topAnchor, constant: 0).isActive = true
+        filterHeader.bottomAnchor.constraint(equalTo: filterView.bottomAnchor, constant: -5).isActive = true
         filterHeader.widthAnchor.constraint(equalToConstant: self.frame.width - 24).isActive = true
         filterHeader.heightAnchor.constraint(equalToConstant: 40).isActive = true
         filterHeader.centerXAnchor.constraint(equalTo: filterView.centerXAnchor).isActive = true
@@ -243,7 +244,7 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource,UIPicker
         filterPicker.selectRow(3, inComponent: 0, animated: true)
         filterView.addSubview(filterPicker)
         filterPicker.translatesAutoresizingMaskIntoConstraints = false
-        filterPicker.bottomAnchor.constraint(equalTo: filterView.bottomAnchor, constant: -8).isActive = true
+        filterPicker.topAnchor.constraint(equalTo: filterView.topAnchor, constant: 8).isActive = true
         
         filterPicker.widthAnchor.constraint(equalToConstant: self.frame.width - 24).isActive = true
         
@@ -300,14 +301,18 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource,UIPicker
      
         
         if blurForFilterView.isHidden == false {
-            blurForFilterView.isHidden = true
+//            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+//                self.filterView.frame.origin.y += 210
+//                self.tableView.frame.origin.y -= self.tableView.frame.height
+//                self.layoutIfNeeded()
+//            }, completion: {finished in
+//                self.isUserInteractionEnabled = true
+//                self.delegate?.enableUserInteraction()
+//            })
             self.isUserInteractionEnabled = true
-            delegate?.enableUserInteraction()
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterView.frame.origin.y += 210
-                //self.tableView.frame.origin.y -= self.tableView.frame.height
-            }, completion: nil)
-            
+            self.delegate?.enableUserInteraction()
+            self.filterView.isHidden = true
+            self.blurForFilterView.isHidden = true
         }
     }
     
@@ -430,46 +435,64 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource,UIPicker
     @objc func checkTouchInBlurView(sender : UITapGestureRecognizer) {
         print("touched !!!")
         if blurForFilterView.isHidden == false {
-            blurForFilterView.isHidden = true
+            self.blurForFilterView.isHidden = true
+            self.tableView.reloadData()
             self.isUserInteractionEnabled = true
-            delegate?.enableUserInteraction()
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-                self.filterView.frame.origin.y += 210
-                //self.tableView.frame.origin.y -= self.tableView.frame.height
-                self.tableView.reloadData()
-            }, completion: nil)
+            self.delegate?.enableUserInteraction()
+            self.filterView.isHidden = true
+            
+//            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+//                  self.filterView.frame.origin.y += 210
+//                  self.tableView.frame.origin.y -= self.tableView.frame.height
+
+//                self.layoutIfNeeded()
+//            }, completion: {acion in
+//                self.tableView.reloadData()
+//                self.isUserInteractionEnabled = true
+//                self.delegate?.enableUserInteraction()
+//            })
         }
-        
+
     }
     
     @objc func showFilterAction() {
+//        self.blurForFilterView.isHidden = false
+//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+//            self.filterView.frame.origin.y -= 210
+//            self.tableView.frame.origin.y += self.tableView.frame.height
+//            self.layoutIfNeeded()
+//        }, completion: { action in
+//            self.isUserInteractionEnabled = true
+//            self.delegate?.disableUserInteraction()
+//            self.tableView.reloadData()
+//        })
         
         self.blurForFilterView.isHidden = false
+        self.filterView.isHidden = false
+        self.isUserInteractionEnabled = true
+        self.delegate?.disableUserInteraction()
+        self.tableView.reloadData()
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.filterView.frame.origin.y -= 210
-            //self.tableView.frame.origin.y += self.tableView.frame.height
-            
-        }, completion: { action in
-            
-            self.isUserInteractionEnabled = true
-            self.delegate?.disableUserInteraction()
-            self.tableView.reloadData()
-        })
-       
-       
     }
     
     @objc func hideFilterAction() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.filterView.frame.origin.y += 210
-            //self.tableView.frame.origin.y -= self.tableView.frame.height
-        }, completion: { action in
-            self.blurForFilterView.isHidden = true
-            self.isUserInteractionEnabled = true
-            self.delegate?.enableUserInteraction()
-            self.tableView.reloadData()
-        })
+//        self.blurForFilterView.isHidden = true
+//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+//            self.filterView.frame.origin.y += 210
+//            self.tableView.frame.origin.y -= self.tableView.frame.height
+//            self.layoutIfNeeded()
+//        }, completion: { action in
+//
+//            self.isUserInteractionEnabled = true
+//            self.delegate?.enableUserInteraction()
+//            self.tableView.reloadData()
+//        })
+        
+        self.blurForFilterView.isHidden = true
+        self.isUserInteractionEnabled = true
+        self.delegate?.enableUserInteraction()
+        self.tableView.reloadData()
+        self.filterView.isHidden = true
 
     }
     
