@@ -277,7 +277,12 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell?.weightUnit = "kg"
                     
                 }
-
+                
+                cell?.filterStateLabel.text = "All records"
+                cell?.filterPeople = []
+                for i in (cell?.people)! {
+                    cell?.filterPeople.append(i)
+                }
                 cell?.delegate = self
                 cell?.tableView.reloadData()
                 return cell!
@@ -554,6 +559,11 @@ extension ViewController: InputWeightCellDelegate {
 }
 
 extension ViewController: HistoryCellDelegate {
+    func showFilterAction() {
+       
+
+    }
+    
     func showDetailHistory(index: Int) {
         indexOfCellSelected = index
         performSegue(withIdentifier: "showHistoryDetail", sender: nil)

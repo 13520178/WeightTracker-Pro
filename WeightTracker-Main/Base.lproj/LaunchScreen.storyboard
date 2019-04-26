@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lauchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="naX-Io-jRr">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="startBackground" translatesAutoresizingMaskIntoConstraints="NO" id="naX-Io-jRr">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WeChart" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ze-I8-B8Y">
@@ -31,11 +31,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="naX-Io-jRr" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Aeo-hA-J7N"/>
-                            <constraint firstItem="naX-Io-jRr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JwX-ss-oGA"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="naX-Io-jRr" secondAttribute="trailing" id="OWh-m4-b4V"/>
+                            <constraint firstItem="naX-Io-jRr" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Hx3-XI-UXG"/>
+                            <constraint firstItem="naX-Io-jRr" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="IdK-CN-SvE"/>
+                            <constraint firstAttribute="bottom" secondItem="naX-Io-jRr" secondAttribute="bottom" id="MAL-9W-lvr"/>
                             <constraint firstItem="4Ze-I8-B8Y" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Sf3-qX-qfx"/>
-                            <constraint firstAttribute="bottom" secondItem="naX-Io-jRr" secondAttribute="bottom" id="fau-Sb-mLZ"/>
+                            <constraint firstItem="naX-Io-jRr" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="abH-lY-bcO"/>
                             <constraint firstItem="4Ze-I8-B8Y" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="lJB-gi-owe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -48,6 +48,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="lauchScreen" width="1242" height="2208"/>
+        <image name="startBackground" width="1400" height="2800"/>
     </resources>
 </document>

@@ -47,15 +47,15 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     let noteLabel: UILabel = {
         let label = UILabel()
-        label.text = "  Note: (optional)"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.text = "  Note (optional)"
+        label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         return label
     }()
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "  Time:"
+        label.text = "  Time"
         label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         return label
@@ -123,13 +123,14 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     let resetButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
-        bt.setTitle("≡", for: .normal)
-        bt.titleLabel?.font = UIFont(name:"Avenir-Light", size: 45)
-        bt.setTitleColor(#colorLiteral(red: 1, green: 0.9368489583, blue: 0, alpha: 1), for: .normal)
         bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         bt.layer.borderWidth = 2
-        bt.layer.borderColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        bt.layer.borderColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
         bt.layer.cornerRadius = 8
+        
+        let image = UIImage(named: "showCalculatorButton")
+        bt.setImage(image, for: .normal)
+        bt.tintColor = #colorLiteral(red: 1, green: 0.9368489583, blue: 0, alpha: 1)
         return bt
     }()
     
@@ -466,6 +467,8 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
                         person.time = timeArray[pickerSelectedRow]
                         print(person)
                         savePerson()
+                        
+                        
                         delegate?.changeAndUpdateCell(didChange: true, person: person)
                     }else {
                         delegate?.checkIfOverInput()

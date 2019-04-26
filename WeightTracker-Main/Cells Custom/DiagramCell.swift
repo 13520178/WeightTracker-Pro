@@ -225,7 +225,7 @@ class DiagramCell: BaseCell {
         addSubview(charViews)
         charViews.translatesAutoresizingMaskIntoConstraints = false
         charViews.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        charViews.topAnchor.constraint(equalTo: numberOfDaysStackView.bottomAnchor, constant: 8.0).isActive = true
+        charViews.topAnchor.constraint(equalTo: aboveView.bottomAnchor, constant: 8.0).isActive = true
         charViews.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0).isActive = true
         charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
     }

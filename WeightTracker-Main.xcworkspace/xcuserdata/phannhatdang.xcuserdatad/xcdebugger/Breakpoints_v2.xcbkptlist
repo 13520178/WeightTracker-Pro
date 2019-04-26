@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/DiagramCell.swift"
-            timestampString = "577780422.18837"
+            timestampString = "577889963.82118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "398"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/InputWeightCell.swift"
-            timestampString = "577784514.229416"
+            timestampString = "577898061.945015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "460"
-            endingLineNumber = "460"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
             landmarkName = "buttonAction(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/InputWeightCell.swift"
-            timestampString = "577784514.2298779"
+            timestampString = "577898061.9450819"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "buttonAction(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/HistoryCell.swift"
-            timestampString = "577599102.988772"
+            timestampString = "577945035.587816"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "setUpView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/DiagramCell.swift"
-            timestampString = "577780422.1909339"
+            timestampString = "577889963.82564"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "244"
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/DiagramCell.swift"
-            timestampString = "577780422.191584"
+            timestampString = "577889963.826032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "212"
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/HistoryCell.swift"
-            timestampString = "577599102.990173"
+            timestampString = "577945035.5879461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "496"
+            endingLineNumber = "496"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/DiagramCell.swift"
-            timestampString = "577780422.192078"
+            timestampString = "577889963.826362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "305"
@@ -298,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/DiagramCell.swift"
-            timestampString = "577780422.192474"
+            timestampString = "577889963.826687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "306"
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.991531"
+            timestampString = "577875610.787784"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
             landmarkName = "setUpView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.991689"
+            timestampString = "577875610.787855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "385"
+            endingLineNumber = "385"
             landmarkName = "setUpView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,11 +602,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.9921"
+            timestampString = "577875610.7880599"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1089"
-            endingLineNumber = "1089">
+            startingLineNumber = "1127"
+            endingLineNumber = "1127"
+            landmarkName = "ToolCell"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -616,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.992238"
+            timestampString = "577875610.7881089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
             landmarkName = "dismissKeyboard()"
             landmarkType = "7">
          </BreakpointContent>
@@ -648,7 +650,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/DiagramCell.swift"
-            timestampString = "577780422.193079"
+            timestampString = "577889963.827137"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "225"
@@ -664,7 +666,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/DiagramCell.swift"
-            timestampString = "577780422.19345"
+            timestampString = "577889963.827392"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "226"
@@ -680,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.993489"
+            timestampString = "577875610.788191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "705"
-            endingLineNumber = "705"
+            startingLineNumber = "743"
+            endingLineNumber = "743"
             landmarkName = "calculateAndShowBMIValue()"
             landmarkType = "7">
          </BreakpointContent>
@@ -696,7 +698,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.169561"
+            timestampString = "577898061.946503"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "243"
@@ -712,7 +714,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/SetupCell.swift"
-            timestampString = "576839375.871264"
+            timestampString = "577898061.946618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "482"
@@ -728,11 +730,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.169636"
+            timestampString = "577898061.946682"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "702"
-            endingLineNumber = "702"
+            startingLineNumber = "712"
+            endingLineNumber = "712"
             landmarkName = "configureMailController()"
             landmarkType = "7">
          </BreakpointContent>
@@ -744,7 +746,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/SetupCell.swift"
-            timestampString = "576839375.871881"
+            timestampString = "577898061.946732"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "230"
@@ -760,7 +762,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.169704"
+            timestampString = "577898061.946776"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "154"
@@ -840,7 +842,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.169782"
+            timestampString = "577898061.9468549"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "80"
@@ -856,11 +858,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.169831"
+            timestampString = "577898061.946903"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1013,28 +1015,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.169943"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
-            landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.994543"
+            timestampString = "577875610.788756"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1017"
-            endingLineNumber = "1017"
+            startingLineNumber = "1055"
+            endingLineNumber = "1055"
             landmarkName = "editProfileButtonAction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1046,11 +1032,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.994673"
+            timestampString = "577875610.788811"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "setUpView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1062,11 +1048,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.9947799"
+            timestampString = "577875610.788857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "814"
-            endingLineNumber = "814"
+            startingLineNumber = "852"
+            endingLineNumber = "852"
             landmarkName = "setInputView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1078,11 +1064,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.9948879"
+            timestampString = "577875610.788903"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "815"
-            endingLineNumber = "815"
+            startingLineNumber = "853"
+            endingLineNumber = "853"
             landmarkName = "setInputView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1094,11 +1080,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/ToolCell.swift"
-            timestampString = "577599102.994994"
+            timestampString = "577875610.788947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "808"
-            endingLineNumber = "808"
+            startingLineNumber = "846"
+            endingLineNumber = "846"
             landmarkName = "setInputView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1110,11 +1096,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.1700521"
+            timestampString = "577898061.9470609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
             <Locations>
@@ -1158,11 +1144,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.170101"
+            timestampString = "577898061.947111"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "671"
-            endingLineNumber = "671"
+            startingLineNumber = "681"
+            endingLineNumber = "681"
             landmarkName = "setWeightUnit(indexOfWeightUnit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1174,12 +1160,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/ViewController/ViewController.swift"
-            timestampString = "577784442.170148"
+            timestampString = "577898061.947156"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "268"
             endingLineNumber = "268"
             landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeightTracker-Main/ViewController/ViewController.swift"
+            timestampString = "577898061.947305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeightTracker-Main/Cells Custom/HistoryCell.swift"
+            timestampString = "577945035.588632"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "448"
+            endingLineNumber = "448"
+            landmarkName = "showFilterAction()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

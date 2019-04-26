@@ -189,12 +189,22 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     let progressView:UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        v.layer.cornerRadius = 15.0
-        v.layer.borderWidth = 0.5
-        v.layer.borderColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        v.layer.cornerRadius = 12.0
+        v.layer.borderWidth = 1.5
+        v.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         v.layer.masksToBounds = true
         return v
     }()
+    
+    let progressTitleView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        v.layer.borderWidth = 1
+        v.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        v.layer.masksToBounds = true
+        return v
+    }()
+    
     
     let changeProfileButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
@@ -288,18 +298,28 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     //Progress View
     var shapeLayer: CAShapeLayer!
     var backgoundShapeLayer:CAShapeLayer!
+    var lineShapeLayer:CAShapeLayer!
+    var borderBackgoundShapeLayer:CAShapeLayer!
     let percentlabel : UILabel = {
         let l = UILabel()
         l.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.medium)
-        l.textColor = #colorLiteral(red: 0.7289724051, green: 0.6552841139, blue: 1, alpha: 1)
+        l.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         return l
     }()
     
     let currentWeightlabel : UILabel = {
         let l = UILabel()
         l.text = "Current weight: 64 kg"
-        l.font = UIFont.systemFont(ofSize: 17)
-        l.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        l.font = UIFont(name:"TrebuchetMS", size: 16)
+        l.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return l
+    }()
+    
+    let progressTitlelabel : UILabel = {
+        let l = UILabel()
+        l.text = "Weight change process"
+        l.font = UIFont(name:"TrebuchetMS", size: 18)
+        l.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return l
     }()
     
@@ -307,7 +327,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         let l = UILabel()
         l.text = "70.0 kg"
         l.font = UIFont.systemFont(ofSize: 17)
-        l.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        l.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         return l
     }()
     
@@ -316,7 +336,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         let image = UIImage(named: "resetIcon")
         btn.layer.cornerRadius = 15
         btn.layer.borderWidth = 1
-        btn.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        btn.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         btn.clipsToBounds = true
         btn.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.6512054256)
         btn.setImage(image, for: .normal)
@@ -327,7 +347,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         let l = UILabel()
         l.text = "60.0 kg"
         l.font = UIFont.systemFont(ofSize: 17)
-        l.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        l.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
         return l
     }()
     
@@ -341,6 +361,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
             return range.location <= 10
         }
     }
+    
     //MARK: - Setup View
     override func setUpView() {
         super.setUpView()
@@ -379,36 +400,47 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     }
     //MARK: - ProgressView SETUP
     func setProgressView() {
-        backgoundShapeLayer = initialChart(withStrokeColor: #colorLiteral(red: 0.9410408125, green: 0.9459677277, blue: 0.9459677277, alpha: 1), withLineWidth: 8, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 1)
+        borderBackgoundShapeLayer = initialChart(withStrokeColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1), withLineWidth: 9, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 1)
         
-        shapeLayer = initialChart(withStrokeColor: UIColor.red.cgColor, withLineWidth: 5, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 0)
+        backgoundShapeLayer = initialChart(withStrokeColor: #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1), withLineWidth: 8, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 1)
         
+         lineShapeLayer = initialChart(withStrokeColor: #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1), withLineWidth: 1, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 1)
+        
+        shapeLayer = initialChart(withStrokeColor: UIColor.red.cgColor, withLineWidth: 6, byFillColor: UIColor.clear.cgColor, withStrokeEnd: 0)
+        
+        progressView.layer.addSublayer(borderBackgoundShapeLayer)
         progressView.layer.addSublayer(backgoundShapeLayer)
+        progressView.layer.addSublayer(lineShapeLayer)
         progressView.layer.addSublayer(shapeLayer)
         
         //Add % Label
         progressView.addSubview(percentlabel)
         percentlabel.translatesAutoresizingMaskIntoConstraints = false
         percentlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor).isActive = true
-        percentlabel.centerYAnchor.constraint(equalTo: progressView.centerYAnchor).isActive = true
+        percentlabel.centerYAnchor.constraint(equalTo: progressView.centerYAnchor, constant: 5).isActive = true
         
         
         // Add currentWeightlabel
         progressView.addSubview(currentWeightlabel)
         currentWeightlabel.translatesAutoresizingMaskIntoConstraints = false
-        currentWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor).isActive = true
-        currentWeightlabel.topAnchor.constraint(equalTo: progressView.topAnchor, constant: 5.0).isActive = true
+        currentWeightlabel.leadingAnchor.constraint(equalTo: progressView.leadingAnchor, constant: 12.0).isActive = true
+        currentWeightlabel.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: -5.0).isActive = true
+        
+        progressView.addSubview(progressTitlelabel)
+        progressTitlelabel.translatesAutoresizingMaskIntoConstraints = false
+        progressTitlelabel.leadingAnchor.constraint(equalTo: progressView.leadingAnchor, constant: 10.0).isActive = true
+        progressTitlelabel.topAnchor.constraint(equalTo: progressView.topAnchor, constant: 3.0).isActive = true
         
         // Add currentWeightlabel
         progressView.addSubview(initWeightlabel)
         initWeightlabel.translatesAutoresizingMaskIntoConstraints = false
-        initWeightlabel.topAnchor.constraint(equalTo: progressView.centerYAnchor, constant: 15).isActive = true
-        initWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -60.0).isActive = true
+        initWeightlabel.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: -28).isActive = true
+        initWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -70.0).isActive = true
         
         
         progressView.addSubview(initWeightButton)
         initWeightButton.translatesAutoresizingMaskIntoConstraints = false
-        initWeightButton.topAnchor.constraint(equalTo: progressView.centerYAnchor, constant: 10).isActive = true
+        initWeightButton.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: -25).isActive = true
         initWeightButton.trailingAnchor.constraint(equalTo: initWeightlabel.leadingAnchor, constant: -5.0).isActive = true
         initWeightButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
         initWeightButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
@@ -421,8 +453,8 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         // Add targetWeightlabel
         progressView.addSubview(targetWeightlabel)
         targetWeightlabel.translatesAutoresizingMaskIntoConstraints = false
-        targetWeightlabel.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: -5.0).isActive = true
-        targetWeightlabel.leadingAnchor.constraint(equalTo: progressView.centerXAnchor, constant: -5).isActive = true
+        targetWeightlabel.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: -28.0).isActive = true
+        targetWeightlabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor, constant: 70).isActive = true
         
         startChart()
     }
@@ -438,7 +470,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
 
         //percentlabel.text = String(round(10*(completedRate*100))/10) + "%"
 
-        shapeLayer.strokeColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        shapeLayer.strokeColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         
         basicAnimation.fillMode = CAMediaTimingFillMode.forwards
         basicAnimation.isRemovedOnCompletion = false
@@ -449,7 +481,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     func initialChart(withStrokeColor strokeColor: CGColor, withLineWidth lineWidth:CGFloat, byFillColor fillColor: CGColor, withStrokeEnd strockEnd:CGFloat)->CAShapeLayer {
         
         let centerpoint = CGPoint.zero
-        let circularPath = UIBezierPath(arcCenter: centerpoint, radius: 65, startAngle: CGFloat.pi, endAngle: 2.5 * CGFloat.pi, clockwise: true)
+        let circularPath = UIBezierPath(arcCenter: centerpoint, radius: 85, startAngle: 0.9 * CGFloat.pi, endAngle: 2.1 * CGFloat.pi, clockwise: true)
         
         let chart = CAShapeLayer()
         
@@ -459,7 +491,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         chart.fillColor = fillColor
         chart.lineCap = CAShapeLayerLineCap.round
         chart.strokeEnd = strockEnd
-        chart.position = CGPoint(x: self.frame.width/2 - 55/3, y: 100.0)
+        chart.position = CGPoint(x: self.frame.width/2 - 55/3, y: 120.0)
         chart.name = "myLayer"
         print(self.frame.height/2)
         
@@ -507,12 +539,12 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         
         
         // add image to Progress View
-        let backgroundProgressImage = UIImage(named: "progressBackround")
+        let backgroundProgressImage = UIImage(named: "progressBackground")
         let backgroundProgressView = UIImageView(image: backgroundProgressImage)
         backgroundProgressView.contentMode = .scaleToFill
         
 
-       
+
         
         self.detailView.addSubview(progressView)
         progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -521,6 +553,8 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         progressView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -16).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
+        
+        
         self.progressView.addSubview(backgroundProgressView)
         backgroundProgressView.translatesAutoresizingMaskIntoConstraints = false
         backgroundProgressView.topAnchor.constraint(equalTo: progressView.topAnchor, constant: 0).isActive = true
@@ -528,7 +562,12 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         backgroundProgressView.trailingAnchor.constraint(equalTo: progressView.trailingAnchor, constant: 0).isActive = true
         backgroundProgressView.bottomAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 0).isActive = true
         
-        
+        progressView.addSubview(progressTitleView)
+        progressTitleView.translatesAutoresizingMaskIntoConstraints = false
+        progressTitleView.topAnchor.constraint(equalTo: progressView.topAnchor, constant: 0).isActive = true
+        progressTitleView.leadingAnchor.constraint(equalTo: progressView.leadingAnchor, constant: 0).isActive = true
+        progressTitleView.trailingAnchor.constraint(equalTo: progressView.trailingAnchor, constant: 0).isActive = true
+        progressTitleView.heightAnchor.constraint(equalToConstant: 27).isActive = true
         
         self.detailView.addSubview(BMILabel)
         BMILabel.translatesAutoresizingMaskIntoConstraints = false

@@ -160,7 +160,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toolCellBackground" translatesAutoresizingMaskIntoConstraints="NO" id="DCB-Fi-DbD">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bmiBackground1" translatesAutoresizingMaskIntoConstraints="NO" id="DCB-Fi-DbD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BMI." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCI-t9-16a">
@@ -620,7 +620,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toolCellBackground" translatesAutoresizingMaskIntoConstraints="NO" id="5Dm-jf-pJy">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bmrBackground1" translatesAutoresizingMaskIntoConstraints="NO" id="5Dm-jf-pJy">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calculate basal metabolic rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x6P-J3-fUV">
@@ -1099,7 +1099,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toolCellBackground" translatesAutoresizingMaskIntoConstraints="NO" id="v8m-qP-o0r">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whrBackground1" translatesAutoresizingMaskIntoConstraints="NO" id="v8m-qP-o0r">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WHR." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxI-Ot-yRQ">
@@ -1458,7 +1458,7 @@
                                     <constraint firstItem="xEL-39-v2C" firstAttribute="top" secondItem="qzf-qv-q2a" secondAttribute="top" constant="48" id="u4w-L7-kqi"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toolCellBackground" translatesAutoresizingMaskIntoConstraints="NO" id="YEd-j3-JNL">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ymcaBackground1" translatesAutoresizingMaskIntoConstraints="NO" id="YEd-j3-JNL">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YMCA." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xO1-lT-FRl">
@@ -1784,6 +1784,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bmiBackground1" width="1242" height="2688"/>
+        <image name="bmrBackground1" width="1242" height="2688"/>
         <image name="toolCellBackground" width="2400" height="2000"/>
+        <image name="whrBackground1" width="1242" height="2688"/>
+        <image name="ymcaBackground1" width="1242" height="2688"/>
     </resources>
 </document>

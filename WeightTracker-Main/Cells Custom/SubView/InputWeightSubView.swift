@@ -11,6 +11,14 @@ import UIKit
 class InputWeightSubView: UIView {
 
     //MARK: - Variable
+    
+    let mainView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        v.layer.cornerRadius = 10
+        v.clipsToBounds = true
+        return v
+    }()
     let caption:UILabel = {
         let l = UILabel()
         l.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -69,15 +77,26 @@ class InputWeightSubView: UIView {
     
     //common func to init our view
     private func setupView() {
-        backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        layer.cornerRadius = 10
-        clipsToBounds = true
+        layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        layer.shadowOffset = CGSize(width: 0, height: 1.5)
+        layer.shadowOpacity = 0
+        layer.shadowRadius = 10
+        layer.masksToBounds = false
+        
+        self.addSubview(mainView)
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        mainView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        mainView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        mainView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        mainView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        
         
         let backgroundImage = UIImage(named: "green")
         backgroundView = UIImageView(image: backgroundImage)
         backgroundView.contentMode = .scaleToFill
         
-        self.addSubview(backgroundView)
+        mainView.addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
@@ -85,7 +104,7 @@ class InputWeightSubView: UIView {
         backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
         imageView.tintColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-        addSubview(imageView)
+        mainView.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 6).isActive = true
@@ -93,24 +112,24 @@ class InputWeightSubView: UIView {
         imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
         lineView.isHidden = true
-        addSubview(lineView)
+        mainView.addSubview(lineView)
         lineView.translatesAutoresizingMaskIntoConstraints = false
         lineView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         lineView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -2).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         lineView.widthAnchor.constraint(equalToConstant: 2.5).isActive = true
         
-        addSubview(caption)
+        mainView.addSubview(caption)
         caption.translatesAutoresizingMaskIntoConstraints = false
         caption.topAnchor.constraint(equalTo: self.topAnchor, constant: 12).isActive = true
         caption.leadingAnchor.constraint(equalTo: lineView.trailingAnchor, constant: 8).isActive = true
         
-        addSubview(content)
+        mainView.addSubview(content)
         content.translatesAutoresizingMaskIntoConstraints = false
         content.topAnchor.constraint(equalTo: caption.bottomAnchor, constant: 0).isActive = true
         content.leadingAnchor.constraint(equalTo: lineView.trailingAnchor, constant: 8).isActive = true
         
-        addSubview(goLabel)
+        mainView.addSubview(goLabel)
         goLabel.translatesAutoresizingMaskIntoConstraints = false
         goLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         goLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -4).isActive = true
