@@ -89,7 +89,8 @@ class HistoryDetailVC: UIViewController {
        
         if weightTextfield.text != ""
         {
-            if let w = weightTextfield.text {
+            if var w = weightTextfield.text {
+                w = w.replacingOccurrences(of: ",", with: ".")
                 if let w = Float(w) {
                     if w > 1 && w <= 400 {
                         people[people.count - indexOfPeople - 1].weight  = w

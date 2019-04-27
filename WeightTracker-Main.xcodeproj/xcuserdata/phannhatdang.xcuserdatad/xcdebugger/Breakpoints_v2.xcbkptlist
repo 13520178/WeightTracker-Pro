@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeightTracker-Main/Cells Custom/InputWeightCell.swift"
-            timestampString = "577977301.198332"
+            timestampString = "578042682.081569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
             landmarkName = "dismissKeyboard()"
             landmarkType = "7">
          </BreakpointContent>

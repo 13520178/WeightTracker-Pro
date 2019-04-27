@@ -128,9 +128,11 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 self.collectionView?.selectItem(at: indexPathForFirstRow, animated: true, scrollPosition: .top)
                 isStart = true
             }
-        }
+        }  
         
     }
+    
+    
 
     func tabCollectionViewSetup() {
         tabCollectionView.delegate = self

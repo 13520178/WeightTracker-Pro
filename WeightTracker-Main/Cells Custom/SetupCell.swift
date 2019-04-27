@@ -372,7 +372,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         mainView.addSubview(contactUsLabel)
         contactUsLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 10).isActive = true
+        contactUsLabel.topAnchor.constraint(equalTo: lineSecondView.bottomAnchor, constant: 24).isActive = true
         contactUsLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
         
         
@@ -385,7 +385,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         
         mainView.addSubview(otherAppLabel)
         otherAppLabel.translatesAutoresizingMaskIntoConstraints = false
-        otherAppLabel.topAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 10).isActive = true
+        otherAppLabel.topAnchor.constraint(equalTo: contactView.bottomAnchor, constant: 24).isActive = true
         otherAppLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 8).isActive = true
         
         mainView.addSubview(otherAppView)

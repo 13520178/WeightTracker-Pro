@@ -205,16 +205,22 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         return v
     }()
     
+    let changeProfileImageButton: UIImageView =  {
+        let image = UIImage(named: "enterButtonImage")
+        let ui = UIImageView(image: image)
+        ui.layer.cornerRadius = 12
+        ui.clipsToBounds = true
+        
+        return ui
+    }()
     
     let changeProfileButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
         bt.setTitle("Set target  ", for: .normal)
-        bt.setTitleColor(#colorLiteral(red: 1, green: 0.9368489583, blue: 0, alpha: 1), for: .normal)
-        bt.titleLabel?.font = UIFont(name:"Avenir", size: 18)
+        bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        bt.titleLabel?.font = UIFont(name:"TrebuchetMS", size: 18)
         bt.layer.cornerRadius = 12
-        bt.layer.borderWidth = 1
-        bt.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        bt.backgroundColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         
         return bt
     }()
@@ -632,6 +638,17 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         riskValueLabel.topAnchor.constraint(equalTo: riskLabel.bottomAnchor, constant: 6.0).isActive = true
         riskValueLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
+        //add image Button
+        changeProfileImageButton.isHidden = true
+        addSubview(changeProfileImageButton)
+        changeProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
+        changeProfileImageButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        changeProfileImageButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
+        
+        changeProfileImageButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
+        changeProfileImageButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -23).isActive = true
+        
+        
         //add profile Button
         changeProfileButton.isHidden = true
         addSubview(changeProfileButton)
@@ -640,7 +657,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         changeProfileButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
         
         changeProfileButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
-        changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12).isActive = true
+        changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -23).isActive = true
         changeProfileButton.addTarget(self, action: #selector(editProfileButtonAction), for: .touchUpInside)
     }
     
@@ -975,6 +992,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                             
                                 self.scrollView.alpha = 1
                                 self.changeProfileButton.alpha = 1
+                                self.changeProfileImageButton.alpha = 1
                                 self.profileView.alpha = 0
                                 self.cmLabel.alpha = 0
                                 self.ftLabel.alpha = 0
@@ -994,6 +1012,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                 },  completion: {(_ completed: Bool) -> Void in
                     self.scrollView.isHidden = false
                     self.changeProfileButton.isHidden = false
+                    self.changeProfileImageButton.isHidden  = false
                     
                     self.profileView.isHidden = true
                     self.cmLabel.isHidden = true
@@ -1036,6 +1055,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                         
                         self.scrollView.alpha = 0
                         self.changeProfileButton.alpha = 0
+                        self.changeProfileImageButton.alpha = 0
                         if self.heightUnit == "cm" {
                             self.cmLabel.alpha = 1
                             self.inputHeightTextfield.alpha = 1
@@ -1064,6 +1084,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
             },  completion: {(_ completed: Bool) -> Void in
                 self.scrollView.isHidden = true
                 self.changeProfileButton.isHidden = true
+                self.changeProfileImageButton.isHidden = true
                 
                 if self.heightUnit == "cm" {
                     self.cmLabel.isHidden = false
@@ -1098,6 +1119,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
     func setProfileViewPosition() {
         self.scrollView.isHidden = false
         self.changeProfileButton.isHidden = false
+        self.changeProfileImageButton.isHidden = false
         
         
         if self.heightUnit == "cm" {

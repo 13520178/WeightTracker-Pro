@@ -23,7 +23,7 @@ protocol InputWeightCellDelegate {
     func showSub4()
 }
 
-class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
+class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UITextFieldDelegate{
    
     //MARK: - MainView variables
     let inputWeightView:UIView = {
@@ -31,6 +31,8 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return v
     }()
+    
+    //MARK: - Textfield setup
     
     let inputWeightTextfield :UITextField = {
         let tf = UITextField()
@@ -44,6 +46,32 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         tf.setBottomBorder()
         return tf
     }()
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("tf touch")
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let hour = calendar.component(.hour, from: date)
+        
+        if hour >= 6 && hour < 12 {
+            print("Morning")
+            timePicker.selectRow(0, inComponent: 0, animated: true)
+            pickerSelectedRow = 0
+        }else if hour >= 12 && hour < 17 {
+            print("Afternoom")
+            timePicker.selectRow(1, inComponent: 0, animated: true)
+            pickerSelectedRow = 1
+        }else if hour >= 17 && hour < 20 {
+            print("Everning")
+            timePicker.selectRow(2, inComponent: 0, animated: true)
+            pickerSelectedRow = 2
+        }else {
+            print("night")
+            timePicker.selectRow(3, inComponent: 0, animated: true)
+            pickerSelectedRow = 3
+        }
+    }
     
     let noteLabel: UILabel = {
         let label = UILabel()
@@ -123,9 +151,20 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let titleData = timeArray[row] as String
-        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.foregroundColor:#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)])
-        
-        return myTitle
+        if row == 0 {
+            let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.foregroundColor:#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)])
+            return myTitle
+        }else if row == 1 {
+             let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.foregroundColor:#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)])
+            return myTitle
+        }else if row == 2 {
+             let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.foregroundColor:#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)])
+            return myTitle
+        }else {
+             let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedString.Key.foregroundColor:#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)])
+            return myTitle
+        }
+
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickerSelectedRow = row
@@ -224,6 +263,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         self.timePicker.dataSource = self
         self.timePicker.delegate = self
+        self.inputWeightTextfield.delegate = self
         
         layer.backgroundColor = UIColor.clear.cgColor
         layer.shadowColor = UIColor.black.cgColor
@@ -394,7 +434,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource{
         
         let subView2Tap = UITapGestureRecognizer(target: self, action: #selector(subView2HandleTap(_:)))
         subView2.addGestureRecognizer(subView2Tap)
-        subView2.setupProperty(captionText: "BMR (TDEE)", contentText: "Total daily energy expenditure",imageName: "BMR", imageBackGround: "orange")
+        subView2.setupProperty(captionText: "BMR (TDEE)", contentText: "Total daily calories using",imageName: "BMR", imageBackGround: "orange")
         caculatorView.addSubview(subView2)
         subView2.translatesAutoresizingMaskIntoConstraints = false
         subView2.topAnchor.constraint(equalTo: subView1.bottomAnchor, constant: 12.0).isActive = true

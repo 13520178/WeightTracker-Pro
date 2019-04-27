@@ -301,14 +301,6 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource,UIPicker
      
         
         if blurForFilterView.isHidden == false {
-//            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-//                self.filterView.frame.origin.y += 210
-//                self.tableView.frame.origin.y -= self.tableView.frame.height
-//                self.layoutIfNeeded()
-//            }, completion: {finished in
-//                self.isUserInteractionEnabled = true
-//                self.delegate?.enableUserInteraction()
-//            })
             self.isUserInteractionEnabled = true
             self.delegate?.enableUserInteraction()
             self.filterView.isHidden = true
@@ -525,13 +517,13 @@ class HistoryCell: BaseCell, UITableViewDelegate, UITableViewDataSource,UIPicker
             cell.timeLabel.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         }else if filterPeople[max - indexPath.row].time == "Afternoon" {
             cell.timeLabel.text = "A"
-            cell.timeLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+            cell.timeLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
         }else if filterPeople[max - indexPath.row].time == "Evening" {
             cell.timeLabel.text = "E"
-            cell.timeLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+            cell.timeLabel.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         }else {
             cell.timeLabel.text = "N"
-            cell.timeLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
+            cell.timeLabel.textColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
         }
         return cell
     }
@@ -574,7 +566,7 @@ class MyCell:UITableViewCell {
         var lb = UILabel()
         lb.text = "❯"
         lb.font = lb.font.withSize(30.0)
-        lb.textColor = #colorLiteral(red: 0.9882352941, green: 0.9814886477, blue: 0.4504477662, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     

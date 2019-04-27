@@ -77,7 +77,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "66.0 Kg"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -93,7 +93,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "-3.0 Kg"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -109,7 +109,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "1/1/2019"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return lb
     }()
 
@@ -125,7 +125,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "62"
         lb.font = lb.font.withSize(17.0)
-        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return lb
     }()
 
