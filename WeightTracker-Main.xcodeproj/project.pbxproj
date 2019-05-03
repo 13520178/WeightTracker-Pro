@@ -19,6 +19,7 @@
 		1B11F4DE221993950000D9CD /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B11F4DD221993950000D9CD /* HistoryCell.swift */; };
 		1B305984223E404F0007E934 /* SetupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B305983223E404F0007E934 /* SetupCell.swift */; };
 		1B3BB32C224121FC0039F788 /* InputWeightSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3BB32B224121FC0039F788 /* InputWeightSubView.swift */; };
+		1B6E24072277DE4E00FD96BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1B6E24062277DE4E00FD96BC /* GoogleService-Info.plist */; };
 		1B81304122262AA00057ABC4 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81304022262AA00057ABC4 /* AlertController.swift */; };
 		1BC789AF2224B97D00B884A6 /* BaseCelll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC789AE2224B97D00B884A6 /* BaseCelll.swift */; };
 		1BC7D19A222F5CE5001FFF87 /* ToolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC7D199222F5CE5001FFF87 /* ToolCell.swift */; };
@@ -46,6 +47,7 @@
 		1B11F4DD221993950000D9CD /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		1B305983223E404F0007E934 /* SetupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupCell.swift; sourceTree = "<group>"; };
 		1B3BB32B224121FC0039F788 /* InputWeightSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputWeightSubView.swift; sourceTree = "<group>"; };
+		1B6E24062277DE4E00FD96BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1B81304022262AA00057ABC4 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		1BC789AE2224B97D00B884A6 /* BaseCelll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCelll.swift; sourceTree = "<group>"; };
 		1BC7D199222F5CE5001FFF87 /* ToolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCell.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				1B11F4C8221919A00000D9CD /* LaunchScreen.storyboard */,
 				1B11F4CB221919A00000D9CD /* Info.plist */,
 				1B11F4C32219199E0000D9CD /* WeightTracker_Main.xcdatamodeld */,
+				1B6E24062277DE4E00FD96BC /* GoogleService-Info.plist */,
 			);
 			path = "WeightTracker-Main";
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B11F4CA221919A00000D9CD /* LaunchScreen.storyboard in Resources */,
+				1B6E24072277DE4E00FD96BC /* GoogleService-Info.plist in Resources */,
 				1B11F4C7221919A00000D9CD /* Assets.xcassets in Resources */,
 				1B11F4C22219199E0000D9CD /* Main.storyboard in Resources */,
 			);

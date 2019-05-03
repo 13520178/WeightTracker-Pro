@@ -62,6 +62,15 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         return label
     }()
     
+    let descriptionLabel:UILabel = {
+        let label = UILabel()
+        label.text = "( This table only appears when you start or want to change your weight goal. )"
+        label.font = UIFont(name:"TrebuchetMS-Italic", size: 15)
+        label.textColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+        label.numberOfLines = 0
+        return label
+    }()
+    
     let cmLabel:UILabel = {
         let label = UILabel()
         label.text = "cm"
@@ -806,7 +815,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         profileView.translatesAutoresizingMaskIntoConstraints = false
         profileView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -42.0).isActive = true
         profileView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        profileView.heightAnchor.constraint(equalToConstant: 300.0).isActive = true
+        profileView.heightAnchor.constraint(equalToConstant: 350.0).isActive = true
         profileView.widthAnchor.constraint(equalToConstant: self.frame.width - 48.0).isActive = true
         
         //add round to input view
@@ -909,10 +918,16 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         addSubview(enterButton)
         enterButton.translatesAutoresizingMaskIntoConstraints = false
         enterButton.heightAnchor.constraint(equalToConstant: 38).isActive = true
-        enterButton.bottomAnchor.constraint(equalTo: profileView.bottomAnchor, constant: -22).isActive = true
+        enterButton.bottomAnchor.constraint(equalTo: profileView.bottomAnchor, constant: -72).isActive = true
         enterButton.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 56).isActive = true
         enterButton.trailingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: -56).isActive = true
         enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
+        addSubview(descriptionLabel)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.bottomAnchor.constraint(equalTo: profileView.bottomAnchor, constant: -12).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo: profileView.leadingAnchor, constant: 18).isActive = true
+        descriptionLabel.trailingAnchor.constraint(equalTo: profileView.trailingAnchor, constant: -18).isActive = true
     }
     
     //MARK: - "Let's go" Button Action

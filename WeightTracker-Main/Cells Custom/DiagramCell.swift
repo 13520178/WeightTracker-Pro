@@ -321,6 +321,7 @@ class DiagramCell: BaseCell {
 
         let xAxisValue = viewForChart.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
+        
         viewForChart.reloadInputViews()
         
     }
