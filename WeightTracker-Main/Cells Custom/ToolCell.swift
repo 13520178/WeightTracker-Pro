@@ -14,6 +14,7 @@ protocol ToolCellDelegate {
     func checkIfWrongInputToolCell()
     func enterWeightFirst()
     func enterInitialWeight()
+    func enterDesiredWeight(dWeight:Double)
 }
 
 
@@ -1051,6 +1052,7 @@ class ToolCell: BaseCell,UITextFieldDelegate {
                 defaults.set(Double(desiredWeightTextfield.text!), forKey: "desizedWeight")
                 startChart()
                 calculateAndShowBMIValue()
+                delegate?.enterDesiredWeight(dWeight: Double(desiredWeightTextfield.text!)!)
                 
             }else {
                 delegate?.enterWeightFirst()

@@ -204,6 +204,10 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     print("Error to fetch Item data")
                 }
                 
+                if defaults.double(forKey: "desizedWeightForHistory") != 0 {
+                    cell?.desiredWeight = defaults.double(forKey: "desizedWeightForHistory")
+                }
+                
                 if  cell != nil , cell!.people.count >= 1 {
                     
                     var sumOfDays = 0
@@ -269,6 +273,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 } catch  {
                     print("Error to fetch Item data")
                 }
+                
+                
+                
                 if indexOfUnitWeight == 0 {
                     cell?.weightUnit = "kg"
                     
@@ -433,6 +440,12 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
 //MARK: Protocol
 
 extension ViewController: ToolCellDelegate {
+    func enterDesiredWeight(dWeight: Double) {
+        defaults.set(dWeight, forKey: "desizedWeightForHistory")
+        collectionView.reloadData()
+        tabCollectionView.reloadData()
+    }
+    
     func enterInitialWeight() {
         let alertController = UIAlertController(title: "Initial weight settings", message: "Enter the initial weight you want to edit ", preferredStyle: .alert)
         

@@ -14,6 +14,8 @@ class DiagramCell: BaseCell {
     
     var people = [Person]()
     var weightUnit = ""
+    var desiredWeight:Double = -1
+    var targetWeight = [Double]()
     
     let segmentOfCharts:UISegmentedControl = {
         let sm = UISegmentedControl (items: ["One","Two"])
@@ -304,13 +306,30 @@ class DiagramCell: BaseCell {
         axisFormatDelegate = self
         viewForChart.noDataText = "You need to provide data for the chart."
         var dataEntries:[ChartDataEntry] = []
+        var dataTargetWeightEntries:[ChartDataEntry] = []
         for i in 0..<forX.count{
             let dataEntry = BarChartDataEntry(x: Double(i), y: Double(forY[i]) , data: months as AnyObject?)
             dataEntries.append(dataEntry)
+            if desiredWeight != -1 {
+                let dataEntry = BarChartDataEntry(x: Double(i), y: desiredWeight , data: months as AnyObject?)
+                dataTargetWeightEntries.append(dataEntry)
+            }
         }
+        
         let chartDataSet = LineChartDataSet(values: dataEntries, label: "Weight")
         chartDataSet.colors = [#colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)]
+        chartDataSet.circleRadius = 4
+        chartDataSet.lineWidth = 2
+        
+        let chartTargetDataSet = LineChartDataSet(values: dataTargetWeightEntries, label: "Target weight")
+        chartTargetDataSet.colors = [#colorLiteral(red: 0.3882352941, green: 0.8549019608, blue: 0.2196078431, alpha: 1)]
+        chartTargetDataSet.circleRadius = 2
+        chartTargetDataSet.circleColors = [#colorLiteral(red: 0.3882352941, green: 0.8549019608, blue: 0.2196078431, alpha: 1)]
+        chartTargetDataSet.lineWidth = 4
+        
         let chartData = LineChartData(dataSet: chartDataSet)
+        chartData.addDataSet(chartTargetDataSet)
+        
         chartData.setDrawValues(false)
         viewForChart.data = chartData
         viewForChart.setVisibleXRangeMaximum(20)
@@ -318,6 +337,9 @@ class DiagramCell: BaseCell {
         viewForChart.doubleTapToZoomEnabled = false
         viewForChart.pinchZoomEnabled = true
         viewForChart.moveViewToX(Double(months.count))
+        viewForChart.xAxis.gridColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.5)
+        viewForChart.leftAxis.gridColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.5)
+        viewForChart.rightAxis.gridColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.5)
 
         let xAxisValue = viewForChart.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
