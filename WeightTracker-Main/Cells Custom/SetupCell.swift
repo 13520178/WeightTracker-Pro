@@ -115,7 +115,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let appNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "WeChart"
+        label.text = "WeChart-Pro"
         label.font = UIFont.systemFont(ofSize:30, weight: UIFont.Weight.medium)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
@@ -123,7 +123,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let appVersionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Version: 1.2.0"
+        label.text = "Version: 1.2.1"
         label.font = UIFont.systemFont(ofSize:13, weight: UIFont.Weight.light)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label

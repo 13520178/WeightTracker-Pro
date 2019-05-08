@@ -324,23 +324,43 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 200).isActive = true
         timePicker.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         
+        if #available(iOS 11.0, *) {
+            let safeErea = self.safeAreaLayoutGuide
+            
+            addSubview(imageBelowEnterButton)
+            imageBelowEnterButton.translatesAutoresizingMaskIntoConstraints = false
+            imageBelowEnterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
+            imageBelowEnterButton.bottomAnchor.constraint(equalTo: safeErea.bottomAnchor, constant: -8).isActive = true
+            imageBelowEnterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
+            imageBelowEnterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
+            
+            
+            addSubview(enterButton)
+            enterButton.translatesAutoresizingMaskIntoConstraints = false
+            enterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
+            enterButton.bottomAnchor.constraint(equalTo: safeErea.bottomAnchor, constant: -8).isActive = true
+            enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
+            enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
+            enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        } else {
+            addSubview(imageBelowEnterButton)
+            imageBelowEnterButton.translatesAutoresizingMaskIntoConstraints = false
+            imageBelowEnterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
+            imageBelowEnterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+            imageBelowEnterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
+            imageBelowEnterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
+            
+            
+            addSubview(enterButton)
+            enterButton.translatesAutoresizingMaskIntoConstraints = false
+            enterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
+            enterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+            enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
+            enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
+            enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        }
         
-        
-        addSubview(imageBelowEnterButton)
-        imageBelowEnterButton.translatesAutoresizingMaskIntoConstraints = false
-        imageBelowEnterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        imageBelowEnterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-        imageBelowEnterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
-        imageBelowEnterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
-        
-        
-        addSubview(enterButton)
-        enterButton.translatesAutoresizingMaskIntoConstraints = false
-        enterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        enterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-        enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
-        enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
-        enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+      
 
         
         addSubview(shadowResetbuttonView)
@@ -524,10 +544,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
                         person.date = Date().string(format: "dd-MM-yyyy")
                         person.note = noteTextView.text!
                         person.time = timeArray[pickerSelectedRow]
-                        print(person)
                         savePerson()
-                        
-                        
                         delegate?.changeAndUpdateCell(didChange: true, person: person)
                     }else {
                         delegate?.checkIfOverInput()

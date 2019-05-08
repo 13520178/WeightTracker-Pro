@@ -648,27 +648,56 @@ class ToolCell: BaseCell,UITextFieldDelegate {
         riskValueLabel.topAnchor.constraint(equalTo: riskLabel.bottomAnchor, constant: 6.0).isActive = true
         riskValueLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
-        //add image Button
-        changeProfileImageButton.isHidden = true
-        addSubview(changeProfileImageButton)
-        changeProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
-        changeProfileImageButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        changeProfileImageButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
         
-        changeProfileImageButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
-        changeProfileImageButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -23).isActive = true
+        if #available(iOS 11.0, *) {
+            let safeErea = self.safeAreaLayoutGuide
+            
+            //add image Button
+            changeProfileImageButton.isHidden = true
+            addSubview(changeProfileImageButton)
+            changeProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
+            changeProfileImageButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+            changeProfileImageButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
+            
+            changeProfileImageButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
+            changeProfileImageButton.bottomAnchor.constraint(equalTo: safeErea.bottomAnchor, constant: -23).isActive = true
+            
+            
+            //add profile Button
+            changeProfileButton.isHidden = true
+            addSubview(changeProfileButton)
+            changeProfileButton.translatesAutoresizingMaskIntoConstraints = false
+            changeProfileButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+            changeProfileButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
+            
+            changeProfileButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
+            changeProfileButton.bottomAnchor.constraint(equalTo: safeErea.bottomAnchor, constant: -23).isActive = true
+            changeProfileButton.addTarget(self, action: #selector(editProfileButtonAction), for: .touchUpInside)
+        } else {
+            //add image Button
+            changeProfileImageButton.isHidden = true
+            addSubview(changeProfileImageButton)
+            changeProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
+            changeProfileImageButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+            changeProfileImageButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
+            
+            changeProfileImageButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
+            changeProfileImageButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -23).isActive = true
+            
+            
+            //add profile Button
+            changeProfileButton.isHidden = true
+            addSubview(changeProfileButton)
+            changeProfileButton.translatesAutoresizingMaskIntoConstraints = false
+            changeProfileButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+            changeProfileButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
+            
+            changeProfileButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
+            changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -23).isActive = true
+            changeProfileButton.addTarget(self, action: #selector(editProfileButtonAction), for: .touchUpInside)
+        }
         
         
-        //add profile Button
-        changeProfileButton.isHidden = true
-        addSubview(changeProfileButton)
-        changeProfileButton.translatesAutoresizingMaskIntoConstraints = false
-        changeProfileButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        changeProfileButton.widthAnchor.constraint(equalToConstant: 104).isActive = true
-        
-        changeProfileButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 10).isActive = true
-        changeProfileButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -23).isActive = true
-        changeProfileButton.addTarget(self, action: #selector(editProfileButtonAction), for: .touchUpInside)
     }
     
     func calculateAndShowBMIValue() {

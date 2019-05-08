@@ -9,12 +9,11 @@
 import UIKit
 import CoreData
 import MessageUI
-import GoogleMobileAds
 
 
 //collectionView is the top colection view
 // TabColectionView are big bottom views
-class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,GADBannerViewDelegate  {
+class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
 
     //MARK: - Outlet variable
@@ -22,8 +21,6 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var leadingOfNarBarBottom: NSLayoutConstraint!
     @IBOutlet weak var widthOfNarBarBottom: NSLayoutConstraint!
-    
-    @IBOutlet weak var bannerView: GADBannerView!
     
     @IBOutlet weak var bottomAnchorMainView: NSLayoutConstraint!
     //MARK: - Variable
@@ -45,16 +42,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //
-        //Ads Banner setup
-        //
-        bannerView.delegate = self
-        bannerView.adSize = kGADAdSizeSmartBannerPortrait
-        //Thu nghiem
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-    
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
+      
         self.view.layoutIfNeeded()
         
         //
@@ -234,24 +222,29 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     if indexOfUnitWeight == 0 {
                         cell?.weightUnit = "kg"
                         cell!.startKgLabel.text = String(startKg) + " kg "
-                        cell!.changeKgLabel.text = String(changeKg) + " kg "
+                        cell!.changeKgLabel.text = String(changeKg)
                     }else if indexOfUnitWeight == 1  {
                         cell?.weightUnit = "lbs"
                         cell!.startKgLabel.text = String(startKg) + " lbs "
-                        cell!.changeKgLabel.text = String(changeKg) + " lbs "
+                        cell!.changeKgLabel.text = String(changeKg)
                     }else {
                         cell?.weightUnit = "kg"
                         cell!.startKgLabel.text = String(startKg) + " kg "
-                        cell!.changeKgLabel.text = String(changeKg) + " kg "
+                        cell!.changeKgLabel.text = String(changeKg)
                     }
                    
+                    let datesForWeightTrend = cell!.get7and30DayBefore()
+                    cell!.setWeight7TrendValue(dates: datesForWeightTrend)
+                    cell!.setWeight30TrendValue(dates: datesForWeightTrend)
                     cell!.timeStartLabel.text = cell!.people[0].date
-                    // sum of days
                     
+                    // sum of days
                     cell!.totalDaysLabel.text = String(sumOfDays)
                 }else {
                     cell!.startKgLabel.text = "No record"
-                    cell!.changeKgLabel.text = "No record"
+                    cell!.changeKgLabel.text = "-"
+                    cell!.change7DayLabel.text = "-"
+                    cell!.change30DayLabel.text = "_"
                     cell!.timeStartLabel.text = "No record"
                     cell!.totalDaysLabel.text = "0"
                     
