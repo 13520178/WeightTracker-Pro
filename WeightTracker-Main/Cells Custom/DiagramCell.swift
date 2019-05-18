@@ -13,26 +13,29 @@ import CoreData
 class DiagramCell: BaseCell {
     
     var people = [Person]()
+    var sevenPeople = [Person]()
+    var thirdtyPeople = [Person]()
     var weightUnit = ""
     var desiredWeight:Double = -1
     var targetWeight = [Double]()
      let filterPeople = [Person]()
     
     let segmentOfCharts:UISegmentedControl = {
-        let sm = UISegmentedControl (items: ["One","Two"])
-        sm.selectedSegmentIndex = 0
-        sm.setImage(UIImage(named: "lineChart"), forSegmentAt: 0)
-        sm.setImage(UIImage(named: "barChart"), forSegmentAt: 1)
+        let sm = UISegmentedControl (items: ["One","Two","Three"])
+        sm.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        sm.selectedSegmentIndex = 2
+        sm.setTitle("7 days", forSegmentAt: 0)
+        sm.setTitle("30 days", forSegmentAt: 1)
+        sm.setTitle("All time", forSegmentAt: 2)
         sm.tintColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         return sm
     }()
     
+    
     let charViews: UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        v.layer.cornerRadius = 10
-        v.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        v.layer.borderWidth = 1.5
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.7513060775)
+
         v.clipsToBounds = true
         return v
     }()
@@ -42,12 +45,6 @@ class DiagramCell: BaseCell {
         return chart
     }()
     
-    let viewForChartCandle:BarChartView = {
-        
-        let chart = BarChartView()
-        chart.isHidden = true
-        return chart
-    }()
     
      let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var months: [String] = []
@@ -64,25 +61,22 @@ class DiagramCell: BaseCell {
     
     var aboveView:UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        v.layer.borderWidth = 1
-        v.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.2996668904)
         v.clipsToBounds = true
-        v.layer.cornerRadius = 10
         return v
     }()
     
     var aboveTiltleView:UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.5481810775)
         return v
     }()
     
     var aboveTiltleViewLabel: UILabel = {
         let lb = UILabel()
         lb.text = "Summary"
-        lb.font = UIFont(name:"TrebuchetMS", size: 19)
-        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.font = UIFont(name:"TrebuchetMS", size: 25)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         
         return lb
     }()
@@ -90,8 +84,8 @@ class DiagramCell: BaseCell {
     var startKgTitleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "Initial weight"
-        lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        lb.font = lb.font.withSize(16.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         
         return lb
     }()
@@ -100,7 +94,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "66.0 Kg"
         lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -108,7 +102,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "All time"
         lb.font = lb.font.withSize(13.0)
-        lb.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -124,7 +118,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "In 7 days"
         lb.font = lb.font.withSize(13.0)
-        lb.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -140,7 +134,7 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "In 30 days"
         lb.font = lb.font.withSize(13.0)
-        lb.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -154,26 +148,39 @@ class DiagramCell: BaseCell {
     
     let titleWeightTrendsView:UIView = {
         let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.1988353144)
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0)
+        v.clipsToBounds = true
+        return v
+    }()
+    
+    let weightTrendLineView1:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.5527583397)
+        v.layer.cornerRadius = 1
+        v.clipsToBounds = true
+        return v
+    }()
+    let weightTrendLineView2:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.5527583397)
+         v.layer.cornerRadius = 1
         v.clipsToBounds = true
         return v
     }()
     
     var weightTrendsLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "Weight trends"
-        lb.font = lb.font.withSize(15.0)
+        lb.text = "Weight changes"
+        lb.font = lb.font.withSize(18.0)
         lb.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         return lb
     }()
     
-    
-    
     var timeStartTitleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "Start day"
-        lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        lb.font = lb.font.withSize(16.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -181,15 +188,15 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "1/1/2019"
         lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return lb
     }()
 
     var totalDaysTitleLabel: UILabel = {
         let lb = UILabel()
         lb.text = "Total days"
-        lb.font = lb.font.withSize(15.0)
-        lb.textColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        lb.font = lb.font.withSize(16.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return lb
     }()
     
@@ -197,18 +204,16 @@ class DiagramCell: BaseCell {
         let lb = UILabel()
         lb.text = "62"
         lb.font = lb.font.withSize(16.0)
-        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return lb
     }()
 
     
     var lineView:UIView = {
         var v = UIView()
-        v.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        v.layer.borderWidth = 1
-        v.layer.borderColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.2996668904)
         v.clipsToBounds = true
-        v.layer.cornerRadius = 8
+       
         return v
     }()
     
@@ -229,48 +234,44 @@ class DiagramCell: BaseCell {
         
         self.addSubview(aboveView)
         aboveView.translatesAutoresizingMaskIntoConstraints = false
-        aboveView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-        aboveView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
-        aboveView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
-        aboveView.heightAnchor.constraint(equalToConstant: 152).isActive = true
+        aboveView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        aboveView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        aboveView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        aboveView.heightAnchor.constraint(equalToConstant: 135).isActive = true
         
         aboveView.addSubview(aboveTiltleView)
         aboveTiltleView.translatesAutoresizingMaskIntoConstraints = false
-        aboveTiltleView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-        aboveTiltleView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
-        aboveTiltleView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
-        aboveTiltleView.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        aboveTiltleView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        aboveTiltleView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        aboveTiltleView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        aboveTiltleView.heightAnchor.constraint(equalToConstant: 41).isActive = true
         
         aboveView.addSubview(aboveTiltleViewLabel)
         aboveTiltleViewLabel.translatesAutoresizingMaskIntoConstraints = false
-        aboveTiltleViewLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 9).isActive = true
-        aboveTiltleViewLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-       
-        
+        aboveTiltleViewLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        aboveTiltleViewLabel.leadingAnchor.constraint(equalTo: aboveView.leadingAnchor, constant: 8).isActive = true
         
         setupStartDay()
         setupInitialWeight()
-       
-        
         
         setupTotalDay()
         
         addSubview(lineView)
         lineView.translatesAutoresizingMaskIntoConstraints = false
-        lineView.topAnchor.constraint(equalTo: totalDaysLabel.bottomAnchor, constant: 2.0).isActive = true
-        lineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12.0).isActive = true
-        lineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12.0).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        lineView.topAnchor.constraint(equalTo: totalDaysLabel.bottomAnchor, constant: 5.0).isActive = true
+        lineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        lineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        lineView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+
         
         setupWeightTrends()
-        
-        //setupChangeLabels()
-        
-     
-        
-        
         setChartViews()
+        
+
         setSegment()
+        
+       
 
         let request : NSFetchRequest<Person> = Person.fetchRequest()
         do {
@@ -279,34 +280,24 @@ class DiagramCell: BaseCell {
             print("Error to fetch Item data")
         }
         
-        
-        
-
         if  people.count >= 1 {
             var sumOfDays = 0
             var embedDateForCountInSumOfDay = ""
             print(people[people.count-1].weight)
             for i in 0..<people.count {
-                let subString = people[i].date?.prefix(5)
-                months.append(String(subString ?? ""))
-                unitsSold.append(Double(people[i].weight))
                 if(embedDateForCountInSumOfDay != people[i].date) {
                     sumOfDays += 1
                     embedDateForCountInSumOfDay = people[i].date!
-                    
                 }
             }
-            let startKg = round(unitsSold[0] * 100)/100
-            let change  = round((unitsSold.last! - unitsSold.first!) * 100)/100
+            let startKg = round(people[0].weight * 100)/100
+            let change  = round(((people.last?.weight)! - people.first!.weight) * 100)/100
             startKgLabel.text = "\(String(startKg)) \(weightUnit)"
             changeKgLabel.text = "\(String(change))"
             timeStartLabel.text = people[0].date
             // sum of days
-           
-            totalDaysLabel.text = String(sumOfDays)
-            setChartCandle(dataEntryX: months, dataEntryY: unitsSold)
-            setChart(dataEntryX: months, dataEntryY: unitsSold)
             
+            totalDaysLabel.text = String(sumOfDays)
             setWeight7TrendValue(dates: get7and30DayBefore())
             setWeight30TrendValue(dates: get7and30DayBefore())
             
@@ -318,7 +309,29 @@ class DiagramCell: BaseCell {
             timeStartLabel.text = "No record"
             totalDaysLabel.text = "0"
         }
-
+        addSubview(viewForChart)
+        viewForChart.translatesAutoresizingMaskIntoConstraints = false
+        viewForChart.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
+        viewForChart.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 8.0).isActive = true
+        viewForChart.bottomAnchor.constraint(equalTo: charViews.bottomAnchor, constant: -8.0).isActive = true
+        viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
+        
+        startDrawValue(subPeople: people)
+    }
+    
+    func startDrawValue(subPeople: [Person]) {
+        months = []
+        unitsSold = []
+        if  subPeople.count >= 1 {
+            print(subPeople[subPeople.count-1].weight)
+            for i in 0..<subPeople.count {
+                let subString = subPeople[i].date?.prefix(5)
+                months.append(String(subString ?? ""))
+                unitsSold.append(Double(subPeople[i].weight))
+            }
+            setChart(dataEntryX: months, dataEntryY: unitsSold)
+        
+        }
     }
     
     //MARK: - Set Weight change (coding)
@@ -339,8 +352,13 @@ class DiagramCell: BaseCell {
                     if indexOfSevenDay < people.count {
                         let sevenWeight =  round((people.last!.weight - people[indexOfSevenDay].weight) * 100)/100
                         change7DayLabel.text = "\(sevenWeight)"
+                        sevenPeople = []
+                        let sp = people[indexOfSevenDay...(people.count-1)]
+                        sevenPeople = Array(sp)
+                        
                     }else {
                         change7DayLabel.text = "_"
+                        sevenPeople = []
                     }
                     
                     return
@@ -349,6 +367,8 @@ class DiagramCell: BaseCell {
             }
         }
         let sevenWeight = round((people.last!.weight - people[0].weight) * 100)/100
+        sevenPeople = []
+        sevenPeople = people
         change7DayLabel.text = "\(sevenWeight)"
     }
     
@@ -367,8 +387,12 @@ class DiagramCell: BaseCell {
                     if indexOfThirtyDay < people.count {
                         let thirtyWeight =  round((people.last!.weight - people[indexOfThirtyDay].weight) * 100)/100
                         change30DayLabel.text = "\(thirtyWeight)"
+                        thirdtyPeople = []
+                        let sp = people[indexOfThirtyDay...(people.count-1)]
+                        thirdtyPeople = Array(sp)
                     }else {
                         change30DayLabel.text = "_"
+                        thirdtyPeople = []
                     }
                     return
                 }
@@ -377,6 +401,8 @@ class DiagramCell: BaseCell {
         }
         let thirtyWeight = round((people.last!.weight - people[0].weight) * 100)/100
         change30DayLabel.text = "\(thirtyWeight)"
+        thirdtyPeople = []
+        thirdtyPeople = people
     }
     
     func get7and30DayBefore() -> [Int]{
@@ -400,34 +426,37 @@ class DiagramCell: BaseCell {
     
     
     func setChartViews() {
+        
         if #available(iOS 11.0, *) {
             let safeArea = self.safeAreaLayoutGuide
             
             addSubview(charViews)
             charViews.translatesAutoresizingMaskIntoConstraints = false
             charViews.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-            charViews.topAnchor.constraint(equalTo: aboveView.bottomAnchor, constant: 8.0).isActive = true
-            charViews.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10.0).isActive = true
-            charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
+            charViews.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -1.0).isActive = true
+            charViews.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0.0).isActive = true
+            charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 0).isActive = true
         } else {
             addSubview(charViews)
             charViews.translatesAutoresizingMaskIntoConstraints = false
             charViews.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-            charViews.topAnchor.constraint(equalTo: aboveView.bottomAnchor, constant: 8.0).isActive = true
+            charViews.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -20.0).isActive = true
             charViews.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0).isActive = true
             charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         }
         
+
         
     }
     
     func setSegment() {
+        
         addSubview(segmentOfCharts)
         segmentOfCharts.translatesAutoresizingMaskIntoConstraints = false
-        segmentOfCharts.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
-        segmentOfCharts.topAnchor.constraint(equalTo: charViews.topAnchor, constant: 5.0).isActive = true
-        segmentOfCharts.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        segmentOfCharts.widthAnchor.constraint(equalToConstant: 170.0).isActive = true
+        segmentOfCharts.trailingAnchor.constraint(equalTo: charViews.trailingAnchor, constant: -8.0).isActive = true
+        segmentOfCharts.topAnchor.constraint(equalTo: charViews.topAnchor, constant: 8.0).isActive = true
+        segmentOfCharts.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
+        segmentOfCharts.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
         
          segmentOfCharts.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
 
@@ -437,57 +466,18 @@ class DiagramCell: BaseCell {
     {
         print("Selected Segment Index is : \(sender.selectedSegmentIndex)")
         if sender.selectedSegmentIndex == 0 {
-            viewForChart.isHidden = false
-            viewForChartCandle.isHidden = true
+           startDrawValue(subPeople: sevenPeople)
+        }else if sender.selectedSegmentIndex == 1 {
+            startDrawValue(subPeople: thirdtyPeople)
         }else {
-            viewForChart.isHidden = true
-            viewForChartCandle.isHidden = false
+            startDrawValue(subPeople: people)
         }
     }
     
-    func setChartCandle(dataEntryX forX:[String],dataEntryY forY: [Double]) {
-        addSubview(viewForChartCandle)
-        viewForChartCandle.translatesAutoresizingMaskIntoConstraints = false
-        viewForChartCandle.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
-        viewForChartCandle.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 5.0).isActive = true
-        viewForChartCandle.bottomAnchor.constraint(equalTo: charViews.bottomAnchor, constant: -16.0).isActive = true
-        viewForChartCandle.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
-        
-        layoutIfNeeded()
-        updateConstraintsIfNeeded()
-        
-       
-        axisFormatDelegate = self
-        viewForChartCandle.noDataText = "You need to provide data for the chart."
-        var dataEntries:[ChartDataEntry] = []
-        for i in 0..<forX.count{
-            let dataEntry = BarChartDataEntry(x: Double(i), y: Double(forY[i]) , data: months as AnyObject?)
-            dataEntries.append(dataEntry)
-        }
-        let chartDataSet = BarChartDataSet(values: dataEntries, label: "Weight")
-        chartDataSet.colors = [#colorLiteral(red: 0.7289724051, green: 0.6552841139, blue: 1, alpha: 1)]
-        let chartData = BarChartData(dataSet: chartDataSet)
-        chartData.setDrawValues(false)
-        viewForChartCandle.data = chartData
-        viewForChartCandle.setVisibleXRangeMaximum(20)
-        viewForChartCandle.doubleTapToZoomEnabled = false
-        viewForChartCandle.autoScaleMinMaxEnabled = true
-        viewForChartCandle.pinchZoomEnabled = true
-        viewForChartCandle.moveViewToX(Double(months.count))
-        let xAxisValue = viewForChartCandle.xAxis
-        xAxisValue.valueFormatter = axisFormatDelegate
-        viewForChartCandle.reloadInputViews()
-        
-    }
 
     
     func setChart(dataEntryX forX:[String],dataEntryY forY: [Double]) {
-        addSubview(viewForChart)
-        viewForChart.translatesAutoresizingMaskIntoConstraints = false
-        viewForChart.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
-        viewForChart.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 5.0).isActive = true
-        viewForChart.bottomAnchor.constraint(equalTo: charViews.bottomAnchor, constant: -16.0).isActive = true
-        viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
+
         
         layoutIfNeeded()
         updateConstraintsIfNeeded()
@@ -526,9 +516,9 @@ class DiagramCell: BaseCell {
         viewForChart.doubleTapToZoomEnabled = false
         viewForChart.pinchZoomEnabled = true
         viewForChart.moveViewToX(Double(months.count))
-        viewForChart.xAxis.gridColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.5)
-        viewForChart.leftAxis.gridColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.5)
-        viewForChart.rightAxis.gridColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.5)
+        viewForChart.xAxis.gridColor = #colorLiteral(red: 0.5741485357, green: 0.5741624236, blue: 0.574154973, alpha: 0.4001509778)
+        viewForChart.leftAxis.gridColor = #colorLiteral(red: 0.5741485357, green: 0.5741624236, blue: 0.574154973, alpha: 0.4001509778)
+        viewForChart.rightAxis.gridColor = #colorLiteral(red: 0.5741485357, green: 0.5741624236, blue: 0.574154973, alpha: 0.4001509778)
 
         let xAxisValue = viewForChart.xAxis
         xAxisValue.valueFormatter = axisFormatDelegate
@@ -541,14 +531,8 @@ class DiagramCell: BaseCell {
         
         
         let days7ChangeView = UIView()
-        days7ChangeView.layer.borderWidth = 0.5
-        days7ChangeView.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         let days30ChangeView = UIView()
-        days30ChangeView.layer.borderWidth = 0.5
-        days30ChangeView.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         let allDaysChangeView = UIView()
-        allDaysChangeView.layer.borderWidth = 0.5
-        allDaysChangeView.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         
         weightChangeStackView = UIStackView(arrangedSubviews: [days7ChangeView,days30ChangeView,allDaysChangeView])
         weightChangeStackView.axis = .horizontal
@@ -556,10 +540,24 @@ class DiagramCell: BaseCell {
         
         lineView.addSubview(weightChangeStackView)
         weightChangeStackView.translatesAutoresizingMaskIntoConstraints = false
-        weightChangeStackView.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 20).isActive = true
+        weightChangeStackView.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 25).isActive = true
         weightChangeStackView.leadingAnchor.constraint(equalTo: lineView.leadingAnchor, constant: 0.0).isActive = true
         weightChangeStackView.trailingAnchor.constraint(equalTo: lineView.trailingAnchor, constant: 0.0).isActive = true
-        weightChangeStackView.bottomAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 0.0).isActive = true
+        weightChangeStackView.bottomAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -0.0).isActive = true
+        
+        lineView.addSubview(weightTrendLineView1)
+        weightTrendLineView1.translatesAutoresizingMaskIntoConstraints = false
+        weightTrendLineView1.topAnchor.constraint(equalTo: aboveView.bottomAnchor, constant: 5).isActive = true
+        weightTrendLineView1.trailingAnchor.constraint(equalTo: days7ChangeView.trailingAnchor, constant: -1).isActive = true
+        weightTrendLineView1.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        weightTrendLineView1.bottomAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -7.0).isActive = true
+        
+        lineView.addSubview(weightTrendLineView2)
+        weightTrendLineView2.translatesAutoresizingMaskIntoConstraints = false
+        weightTrendLineView2.topAnchor.constraint(equalTo: aboveView.bottomAnchor, constant: 5).isActive = true
+        weightTrendLineView2.trailingAnchor.constraint(equalTo: days30ChangeView.trailingAnchor, constant: -1).isActive = true
+        weightTrendLineView2.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        weightTrendLineView2.bottomAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -7.0).isActive = true
         
         
         //add all time
@@ -721,7 +719,7 @@ class DiagramCell: BaseCell {
         
         addSubview(timeStartStackView)
         timeStartStackView.translatesAutoresizingMaskIntoConstraints = false
-        timeStartStackView.topAnchor.constraint(equalTo: aboveView.topAnchor, constant: 22.0).isActive = true
+        timeStartStackView.topAnchor.constraint(equalTo: aboveView.topAnchor, constant: 43.0).isActive = true
         timeStartStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22.0).isActive = true
         timeStartStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12.0).isActive = true
         timeStartStackView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true

@@ -24,12 +24,44 @@ protocol InputWeightCellDelegate {
 }
 
 class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UITextFieldDelegate{
+    
+    let titleView :UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.6452142446)
+        return v
+    }()
+    
+    var aboveTiltleViewLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "New weight"
+        lb.font = UIFont(name:"TrebuchetMS", size: 25)
+        lb.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        
+        return lb
+    }()
+    
+    var aboveSubTiltleViewLabel: UILabel = {
+        let l = UILabel()
+        l.text = "Tools box"
+        l.font = UIFont.systemFont(ofSize: 16)
+        l.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        return l
+    }()
+
    
     //MARK: - MainView variables
     let inputWeightView:UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return v
+    }()
+    
+    let bellowInputWeightViewImage: UIImageView = {
+        let backgroundImage = UIImage(named: "bellowInputWeightView")
+        let backgroundView = UIImageView(image: backgroundImage)
+        backgroundView.contentMode = .scaleToFill
+        
+        return backgroundView
     }()
     
     //MARK: - Textfield setup
@@ -39,7 +71,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         tf.attributedPlaceholder = NSAttributedString(string:"Weight...", attributes:[NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1),NSAttributedString.Key.font :UIFont(name: "Arial", size: 25)!])
         tf.font = UIFont.systemFont(ofSize: 25)
         tf.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-        tf.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        tf.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3161546204)
         tf.textAlignment = .center
         tf.keyboardType = .decimalPad
         tf.isUserInteractionEnabled = true
@@ -91,12 +123,12 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
     
     let noteTextView: UITextView = {
         let tv = UITextView()
-        tv.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        tv.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3005895322)
         tv.font = UIFont.systemFont(ofSize: 18)
         tv.textColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         tv.layer.cornerRadius = 12.0
         tv.layer.borderWidth = 1
-        tv.layer.borderColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1)
+        tv.layer.borderColor = #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 0.6547761695)
         tv.layer.masksToBounds = true
         return tv
     }()
@@ -110,9 +142,9 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
     }()
     
     let imageBelowEnterButton: UIImageView = {
-        let image = UIImage(named: "enterButtonImage")
+        let image = UIImage(named: "enterButton")
         let iu = UIImageView(image: image)
-        iu.layer.cornerRadius = 23
+        iu.layer.cornerRadius = 20
         iu.clipsToBounds = true
         return iu
     }()
@@ -124,8 +156,8 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         bt.setTitle("Enter", for: .normal)
         bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        bt.titleLabel?.font = UIFont(name:"TrebuchetMS", size: 30)
-        bt.layer.cornerRadius = 23
+        bt.titleLabel?.font = UIFont(name:"TrebuchetMS", size: 24)
+        bt.layer.cornerRadius = 0
 
         return bt
     }()
@@ -172,27 +204,16 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
     
     let resetButton: UIButton = {
         let bt = UIButton()
-        let image = UIImage(named: "showCalculatorButton")
+        let image = UIImage(named: "toolBoxButton")
         bt.setImage(image, for: .normal)
-        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.9972919862)
-        bt.layer.cornerRadius = 8
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        bt.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        bt.layer.borderWidth = 1
+        bt.layer.cornerRadius = 10
         return bt
     }()
     
 
-    
-
-
-    
-    let shadowResetbuttonView : UIView = {
-        let v = UIView()
-        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        v.layer.shadowColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        v.layer.shadowOffset = CGSize(width: 0, height: 2)
-        v.layer.shadowOpacity = 0.3
-        v.layer.shadowRadius = 6.0
-        return v
-    }()
     
     let resetInBlurViewButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
@@ -271,20 +292,45 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         layer.shadowOpacity = 0.2
         layer.shadowRadius = 4.0
         
-        inputWeightView.layer.cornerRadius = 15.0
-        inputWeightView.layer.borderWidth = 1.5
-        inputWeightView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        inputWeightView.layer.cornerRadius = 8.0
         inputWeightView.layer.masksToBounds = true
         
         
         let selfWidth = self.layer.frame.width
         let selfHeight = self.layer.frame.height
+        
+        addSubview(titleView)
+        titleView.translatesAutoresizingMaskIntoConstraints = false
+        titleView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        titleView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        titleView.widthAnchor.constraint(equalToConstant: selfWidth).isActive = true
+        titleView.heightAnchor.constraint(equalToConstant: 41).isActive = true
+        
+        
+        addSubview(aboveTiltleViewLabel)
+        aboveTiltleViewLabel.translatesAutoresizingMaskIntoConstraints = false
+        aboveTiltleViewLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        aboveTiltleViewLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8).isActive = true
+        
+        addSubview(aboveSubTiltleViewLabel)
+        aboveSubTiltleViewLabel.translatesAutoresizingMaskIntoConstraints = false
+        aboveSubTiltleViewLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        aboveSubTiltleViewLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -52).isActive = true
+        
         addSubview(inputWeightView)
         inputWeightView.translatesAutoresizingMaskIntoConstraints = false
         inputWeightView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        inputWeightView.topAnchor.constraint(equalTo: self.topAnchor, constant: (selfHeight-330)/2).isActive = true
-        inputWeightView.widthAnchor.constraint(equalToConstant: selfWidth - 40).isActive = true
-        inputWeightView.heightAnchor.constraint(equalToConstant: 315.0).isActive = true
+        inputWeightView.topAnchor.constraint(equalTo: self.topAnchor, constant: (selfHeight-360)/2).isActive = true
+        inputWeightView.widthAnchor.constraint(equalToConstant: selfWidth - 24).isActive = true
+        inputWeightView.heightAnchor.constraint(equalToConstant: 360.0).isActive = true
+        
+        inputWeightView.addSubview(bellowInputWeightViewImage)
+        bellowInputWeightViewImage.translatesAutoresizingMaskIntoConstraints = false
+        bellowInputWeightViewImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        bellowInputWeightViewImage.bottomAnchor.constraint(equalTo: self.inputWeightView.bottomAnchor, constant: 0).isActive = true
+        bellowInputWeightViewImage.widthAnchor.constraint(equalToConstant: selfWidth - 24).isActive = true
+        bellowInputWeightViewImage.heightAnchor.constraint(equalToConstant:60.0).isActive = true
+        
         
         inputWeightView.addSubview(inputWeightTextfield)
         inputWeightTextfield.translatesAutoresizingMaskIntoConstraints = false
@@ -324,58 +370,31 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         timePicker.widthAnchor.constraint(equalToConstant: selfWidth - 200).isActive = true
         timePicker.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         
-        if #available(iOS 11.0, *) {
-            let safeErea = self.safeAreaLayoutGuide
             
-            addSubview(imageBelowEnterButton)
-            imageBelowEnterButton.translatesAutoresizingMaskIntoConstraints = false
-            imageBelowEnterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
-            imageBelowEnterButton.bottomAnchor.constraint(equalTo: safeErea.bottomAnchor, constant: -8).isActive = true
-            imageBelowEnterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
-            imageBelowEnterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
-            
-            
-            addSubview(enterButton)
-            enterButton.translatesAutoresizingMaskIntoConstraints = false
-            enterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
-            enterButton.bottomAnchor.constraint(equalTo: safeErea.bottomAnchor, constant: -8).isActive = true
-            enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
-            enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
-            enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        } else {
-            addSubview(imageBelowEnterButton)
-            imageBelowEnterButton.translatesAutoresizingMaskIntoConstraints = false
-            imageBelowEnterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
-            imageBelowEnterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-            imageBelowEnterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
-            imageBelowEnterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
-            
-            
-            addSubview(enterButton)
-            enterButton.translatesAutoresizingMaskIntoConstraints = false
-            enterButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
-            enterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-            enterButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22).isActive = true
-            enterButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -22).isActive = true
-            enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        }
-        
-      
+        addSubview(imageBelowEnterButton)
+        imageBelowEnterButton.translatesAutoresizingMaskIntoConstraints = false
+        imageBelowEnterButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        imageBelowEnterButton.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        imageBelowEnterButton.topAnchor.constraint(equalTo: inputWeightView.bottomAnchor, constant: -22).isActive = true
+        imageBelowEnterButton.trailingAnchor.constraint(equalTo: inputWeightView.trailingAnchor, constant: -12).isActive = true
 
         
-        addSubview(shadowResetbuttonView)
-        shadowResetbuttonView.translatesAutoresizingMaskIntoConstraints = false
-        shadowResetbuttonView.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        shadowResetbuttonView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        shadowResetbuttonView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
-        shadowResetbuttonView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
+        addSubview(enterButton)
+        enterButton.translatesAutoresizingMaskIntoConstraints = false
+        enterButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        enterButton.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        enterButton.topAnchor.constraint(equalTo: inputWeightView.bottomAnchor, constant: -22).isActive = true
+        enterButton.trailingAnchor.constraint(equalTo: inputWeightView.trailingAnchor, constant: -12).isActive = true
+        enterButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
-        shadowResetbuttonView.addSubview(resetButton)
+
+        
+        addSubview(resetButton)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
-        resetButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
-        resetButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
-        resetButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4).isActive = true
+        resetButton.widthAnchor.constraint(equalToConstant: 38).isActive = true
+        resetButton.heightAnchor.constraint(equalToConstant: 38).isActive = true
+        resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 1.5).isActive = true
+        resetButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
         resetButton.addTarget(self, action: #selector(resetButtonAction), for: .touchUpInside)
         
         
@@ -545,6 +564,119 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
                         person.note = noteTextView.text!
                         person.time = timeArray[pickerSelectedRow]
                         savePerson()
+                        
+//                        let person1 = Person(context: context)
+//                        person1.weight = 80
+//                        person1.date = "06-04-2019"
+//                        person1.note = ""
+//                        person1.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person2 = Person(context: context)
+//                        person2.weight = 79.5
+//                        person2.date = "07-04-2019"
+//                        person2.note = ""
+//                        person2.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person3 = Person(context: context)
+//                        person3.weight = 79.3
+//                        person3.date = "08-04-2019"
+//                        person3.note = ""
+//                        person3.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person4 = Person(context: context)
+//                        person4.weight = 79
+//                        person4.date = "09-04-2019"
+//                        person4.note = ""
+//                        person4.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person5 = Person(context: context)
+//                        person5.weight = 78.5
+//                        person5.date = "10-04-2019"
+//                        person5.note = ""
+//                        person5.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person6 = Person(context: context)
+//                        person6.weight = 78
+//                        person6.date = "11-04-2019"
+//                        person6.note = ""
+//                        person6.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person7 = Person(context: context)
+//                        person7.weight = 77.6
+//                        person7.date = "12-04-2019"
+//                        person7.note = ""
+//                        person7.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person8 = Person(context: context)
+//                        person8.weight = 77.2
+//                        person8.date = "13-04-2019"
+//                        person8.note = ""
+//                        person8.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person9 = Person(context: context)
+//                        person9.weight = 70
+//                        person9.date = "01-05-2019"
+//                        person9.note = ""
+//                        person9.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person10 = Person(context: context)
+//                        person10.weight = 69.5
+//                        person10.date = "02-05-2019"
+//                        person10.note = ""
+//                        person10.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person11 = Person(context: context)
+//                        person11.weight = 69.4
+//                        person11.date = "03-05-2019"
+//                        person11.note = ""
+//                        person11.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person12 = Person(context: context)
+//                        person12.weight = 69.6
+//                        person12.date = "04-05-2019"
+//                        person12.note = ""
+//                        person12.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person13 = Person(context: context)
+//                        person13.weight = 69
+//                        person13.date = "05-05-2019"
+//                        person13.note = ""
+//                        person13.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person14 = Person(context: context)
+//                        person14.weight = 68
+//                        person14.date = "06-05-2019"
+//                        person14.note = ""
+//                        person14.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person15 = Person(context: context)
+//                        person15.weight = 68.4
+//                        person15.date = "07-05-2019"
+//                        person15.note = ""
+//                        person15.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+//
+//                        let person16 = Person(context: context)
+//                        person16.weight = 67.9
+//                        person16.date = "08-05-2019"
+//                        person16.note = ""
+//                        person16.time = timeArray[pickerSelectedRow]
+//                        savePerson()
+                        
                         delegate?.changeAndUpdateCell(didChange: true, person: person)
                     }else {
                         delegate?.checkIfOverInput()
@@ -573,7 +705,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
 extension UITextField {
     func setBottomBorder() {
         self.borderStyle = .none
-        self.layer.backgroundColor = UIColor.white.cgColor
+        self.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.layer.masksToBounds = false
         self.layer.shadowColor = #colorLiteral(red: 0.5563300252, green: 0.3507795036, blue: 0.9688282609, alpha: 1)
         self.layer.shadowOffset = CGSize(width: 0.0, height: 1)

@@ -192,6 +192,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     print("Error to fetch Item data")
                 }
                 
+                cell?.segmentOfCharts.selectedSegmentIndex = 2
+                
                 if defaults.double(forKey: "desizedWeightForHistory") != 0 {
                     cell?.desiredWeight = defaults.double(forKey: "desizedWeightForHistory")
                 }
@@ -216,7 +218,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.months = monthss
                     cell!.unitsSold = unitsSolds
                     cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
-                    cell!.setChartCandle(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
+
                     let startKg = round(cell!.unitsSold[0] * 100)/100
                     let changeKg  = round((cell!.unitsSold.last! - cell!.unitsSold.first!) * 100)/100
                     if indexOfUnitWeight == 0 {
@@ -253,7 +255,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.months = monthss
                     cell!.unitsSold = unitsSolds
                     cell!.setChart(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
-                    cell!.setChartCandle(dataEntryX: cell!.months, dataEntryY: cell!.unitsSold)
+
                 }
                 
                 return cell!
@@ -363,6 +365,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     
                     cell?.calculateAndShowBMIValue()
                 }
+                cell!.setWeightPrediction()
+                
                 return cell!
                 
             }else {
@@ -420,10 +424,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 
             }
         }
-        
-        
-        
-        
+
     }
 
 }
@@ -433,6 +434,10 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
 //MARK: Protocol
 
 extension ViewController: ToolCellDelegate {
+    func showPrediction() {
+         AlertController.showAlert(inController: self, tilte: "Weight prediction feature", message: "The more daily weight records will give the correct results. We will start calculating your weight after 2 days of weight recording. Accuracy of weight will affect results. Too much weight change in a day or two can be caused by a change in body water percentage.")
+    }
+    
     func enterDesiredWeight(dWeight: Double) {
         defaults.set(dWeight, forKey: "desizedWeightForHistory")
         collectionView.reloadData()

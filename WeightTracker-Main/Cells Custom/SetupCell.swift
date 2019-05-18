@@ -79,13 +79,13 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let lineFirstView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5)
         return view
     }()
     
     let lineSecondView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5)
         return view
     }()
     
@@ -97,19 +97,19 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let settingView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5)
         return view
     }()
     
     let contactView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5)
         return view
     }()
     
     let otherAppView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5)
         return view
     }()
     
@@ -123,7 +123,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let appVersionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Version: 1.2.1"
+        label.text = "Version: 1.0.1"
         label.font = UIFont.systemFont(ofSize:13, weight: UIFont.Weight.light)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
@@ -147,7 +147,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let contactUsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Contact me"
+        label.text = "Contact us"
         label.font = UIFont.systemFont(ofSize:20, weight: UIFont.Weight.medium)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
@@ -155,7 +155,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let otherAppLabel: UILabel = {
         let label = UILabel()
-        label.text = "My other apps"
+        label.text = "Our other apps"
         label.font = UIFont.systemFont(ofSize:20, weight: UIFont.Weight.medium)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
@@ -180,7 +180,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         let label = UILabel()
         label.text = "Weight unit"
         label.font = UIFont.systemFont(ofSize:20, weight: UIFont.Weight.light)
-        label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         return label
     }()
     
@@ -200,7 +200,7 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         let label = UILabel()
         label.text = "Height unit"
         label.font = UIFont.systemFont(ofSize:20, weight: UIFont.Weight.light)
-        label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         return label
     }()
     
