@@ -209,7 +209,7 @@ class DiagramCell: BaseCell {
     }()
 
     
-    var lineView:UIView = {
+    var changeView:UIView = {
         var v = UIView()
         v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.2996668904)
         v.clipsToBounds = true
@@ -256,12 +256,12 @@ class DiagramCell: BaseCell {
         
         setupTotalDay()
         
-        addSubview(lineView)
-        lineView.translatesAutoresizingMaskIntoConstraints = false
-        lineView.topAnchor.constraint(equalTo: totalDaysLabel.bottomAnchor, constant: 5.0).isActive = true
-        lineView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
-        lineView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        addSubview(changeView)
+        changeView.translatesAutoresizingMaskIntoConstraints = false
+        changeView.topAnchor.constraint(equalTo: totalDaysLabel.bottomAnchor, constant: 5.0).isActive = true
+        changeView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        changeView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        changeView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
 
         
@@ -433,14 +433,14 @@ class DiagramCell: BaseCell {
             addSubview(charViews)
             charViews.translatesAutoresizingMaskIntoConstraints = false
             charViews.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-            charViews.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -1.0).isActive = true
+            charViews.topAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -1.0).isActive = true
             charViews.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0.0).isActive = true
             charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 0).isActive = true
         } else {
             addSubview(charViews)
             charViews.translatesAutoresizingMaskIntoConstraints = false
             charViews.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-            charViews.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -20.0).isActive = true
+            charViews.topAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -20.0).isActive = true
             charViews.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0).isActive = true
             charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         }
@@ -538,26 +538,26 @@ class DiagramCell: BaseCell {
         weightChangeStackView.axis = .horizontal
         weightChangeStackView.distribution = .fillEqually
         
-        lineView.addSubview(weightChangeStackView)
+        changeView.addSubview(weightChangeStackView)
         weightChangeStackView.translatesAutoresizingMaskIntoConstraints = false
-        weightChangeStackView.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 25).isActive = true
-        weightChangeStackView.leadingAnchor.constraint(equalTo: lineView.leadingAnchor, constant: 0.0).isActive = true
-        weightChangeStackView.trailingAnchor.constraint(equalTo: lineView.trailingAnchor, constant: 0.0).isActive = true
-        weightChangeStackView.bottomAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -0.0).isActive = true
+        weightChangeStackView.topAnchor.constraint(equalTo: changeView.topAnchor, constant: 25).isActive = true
+        weightChangeStackView.leadingAnchor.constraint(equalTo: changeView.leadingAnchor, constant: 0.0).isActive = true
+        weightChangeStackView.trailingAnchor.constraint(equalTo: changeView.trailingAnchor, constant: 0.0).isActive = true
+        weightChangeStackView.bottomAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -0.0).isActive = true
         
-        lineView.addSubview(weightTrendLineView1)
+        changeView.addSubview(weightTrendLineView1)
         weightTrendLineView1.translatesAutoresizingMaskIntoConstraints = false
         weightTrendLineView1.topAnchor.constraint(equalTo: aboveView.bottomAnchor, constant: 5).isActive = true
         weightTrendLineView1.trailingAnchor.constraint(equalTo: days7ChangeView.trailingAnchor, constant: -1).isActive = true
         weightTrendLineView1.widthAnchor.constraint(equalToConstant: 2).isActive = true
-        weightTrendLineView1.bottomAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -7.0).isActive = true
+        weightTrendLineView1.bottomAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -7.0).isActive = true
         
-        lineView.addSubview(weightTrendLineView2)
+        changeView.addSubview(weightTrendLineView2)
         weightTrendLineView2.translatesAutoresizingMaskIntoConstraints = false
         weightTrendLineView2.topAnchor.constraint(equalTo: aboveView.bottomAnchor, constant: 5).isActive = true
         weightTrendLineView2.trailingAnchor.constraint(equalTo: days30ChangeView.trailingAnchor, constant: -1).isActive = true
         weightTrendLineView2.widthAnchor.constraint(equalToConstant: 2).isActive = true
-        weightTrendLineView2.bottomAnchor.constraint(equalTo: lineView.bottomAnchor, constant: -7.0).isActive = true
+        weightTrendLineView2.bottomAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -7.0).isActive = true
         
         
         //add all time
@@ -568,7 +568,7 @@ class DiagramCell: BaseCell {
         secondLabelStackView.axis = .vertical
         secondLabelStackView.distribution = .fillEqually
         
-        lineView.addSubview(secondLabelStackView)
+        changeView.addSubview(secondLabelStackView)
         secondLabelStackView.translatesAutoresizingMaskIntoConstraints = false
         secondLabelStackView.topAnchor.constraint(equalTo: allDaysChangeView.topAnchor, constant: -6).isActive = true
         secondLabelStackView.leadingAnchor.constraint(equalTo: allDaysChangeView.leadingAnchor, constant: 0.0).isActive = true
@@ -595,7 +595,7 @@ class DiagramCell: BaseCell {
         change7DaysStackView.axis = .vertical
         change7DaysStackView.distribution = .fillEqually
         
-        lineView.addSubview(change7DaysStackView)
+        changeView.addSubview(change7DaysStackView)
         change7DaysStackView.translatesAutoresizingMaskIntoConstraints = false
         change7DaysStackView.topAnchor.constraint(equalTo: days7ChangeView.topAnchor, constant: -6).isActive = true
         change7DaysStackView.leadingAnchor.constraint(equalTo: days7ChangeView.leadingAnchor, constant: 0.0).isActive = true
@@ -621,7 +621,7 @@ class DiagramCell: BaseCell {
         change30DaysStackView.axis = .vertical
         change30DaysStackView.distribution = .fillEqually
         
-        lineView.addSubview(change30DaysStackView)
+        changeView.addSubview(change30DaysStackView)
         change30DaysStackView.translatesAutoresizingMaskIntoConstraints = false
         change30DaysStackView.topAnchor.constraint(equalTo: days30ChangeView.topAnchor, constant: -6).isActive = true
         change30DaysStackView.leadingAnchor.constraint(equalTo: days30ChangeView.leadingAnchor, constant: 0.0).isActive = true
@@ -641,17 +641,17 @@ class DiagramCell: BaseCell {
         
         
         //Weight trends title
-        lineView.addSubview(titleWeightTrendsView)
+        changeView.addSubview(titleWeightTrendsView)
         titleWeightTrendsView.translatesAutoresizingMaskIntoConstraints = false
-        titleWeightTrendsView.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 0).isActive = true
-        titleWeightTrendsView.leadingAnchor.constraint(equalTo: lineView.leadingAnchor, constant: 0.0).isActive = true
-        titleWeightTrendsView.trailingAnchor.constraint(equalTo: lineView.trailingAnchor, constant: 0.0).isActive = true
+        titleWeightTrendsView.topAnchor.constraint(equalTo: changeView.topAnchor, constant: 0).isActive = true
+        titleWeightTrendsView.leadingAnchor.constraint(equalTo: changeView.leadingAnchor, constant: 0.0).isActive = true
+        titleWeightTrendsView.trailingAnchor.constraint(equalTo: changeView.trailingAnchor, constant: 0.0).isActive = true
         titleWeightTrendsView.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
         
         titleWeightTrendsView.addSubview(weightTrendsLabel)
         weightTrendsLabel.translatesAutoresizingMaskIntoConstraints = false
-        weightTrendsLabel.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 0).isActive = true
-        weightTrendsLabel.centerXAnchor.constraint(equalTo: lineView.centerXAnchor).isActive = true
+        weightTrendsLabel.topAnchor.constraint(equalTo: changeView.topAnchor, constant: 0).isActive = true
+        weightTrendsLabel.centerXAnchor.constraint(equalTo: changeView.centerXAnchor).isActive = true
         
     }
 
@@ -692,7 +692,7 @@ class DiagramCell: BaseCell {
         
         addSubview(secondLabelStackView)
         secondLabelStackView.translatesAutoresizingMaskIntoConstraints = false
-        secondLabelStackView.topAnchor.constraint(equalTo: lineView.topAnchor, constant: 28).isActive = true
+        secondLabelStackView.topAnchor.constraint(equalTo: changeView.topAnchor, constant: 28).isActive = true
         secondLabelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22.0).isActive = true
         secondLabelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0).isActive = true
         secondLabelStackView.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
