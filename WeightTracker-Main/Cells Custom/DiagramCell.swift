@@ -10,8 +10,14 @@ import UIKit
 import Charts
 import CoreData
 
+protocol DiagramCellDelegate {
+    func showDiagramPrediction()
+    
+}
+
 class DiagramCell: BaseCell {
     
+    var delegate: DiagramCellDelegate?
     var people = [Person]()
     var sevenPeople = [Person]()
     var thirdtyPeople = [Person]()
@@ -31,6 +37,15 @@ class DiagramCell: BaseCell {
         return sm
     }()
     
+    let segmentOfCategory:UISegmentedControl = {
+        let sm = UISegmentedControl (items: ["One","Two"])
+        sm.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        sm.selectedSegmentIndex = 0
+        sm.setTitle("Chart", forSegmentAt: 0)
+        sm.setTitle("Details", forSegmentAt: 1)
+        sm.tintColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
+        return sm
+    }()
     
     let charViews: UIView = {
         let v = UIView()
@@ -38,6 +53,26 @@ class DiagramCell: BaseCell {
 
         v.clipsToBounds = true
         return v
+    }()
+    
+    let detailView: UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0)
+        v.clipsToBounds = true
+        v.isHidden = true
+        return v
+    }()
+    
+    var predictNoteButton: UIButton = {
+        let btn = UIButton()
+        btn.layer.cornerRadius = 11
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        btn.clipsToBounds = true
+        btn.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        btn.setTitle("!", for: .normal)
+        btn.setTitleColor(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), for: .normal)
+        return btn
     }()
     
     let viewForChart:LineChartView = {
@@ -51,10 +86,13 @@ class DiagramCell: BaseCell {
     var unitsSold = [Double]()
     weak var axisFormatDelegate: IAxisValueFormatter?
     var weightChangeStackView: UIStackView!
+    var weightAverageStackView: UIStackView!
     var topLabelStackView: UIStackView!
     var secondLabelStackView: UIStackView!
     var change7DaysStackView: UIStackView!
     var change30DaysStackView: UIStackView!
+    var average7DaysStackView: UIStackView!
+    var average30DaysStackView: UIStackView!
     var timeStartStackView: UIStackView!
     var numberOfDaysStackView: UIStackView!
     
@@ -146,12 +184,98 @@ class DiagramCell: BaseCell {
         return lb
     }()
     
+    var average7DayTitleLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = " In 7 days "
+        lb.font = lb.font.withSize(13.0)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.backgroundColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        return lb
+    }()
+    
+    var average7DayWeightLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Weight: -0.3 kg/day"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    
+    var average7DayCaloriesLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Calories: -257 cal/day"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    var average7DayHeaviestLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Heaviest: 70kg"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    var average7DayLightestLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Lightest: 65kg"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    
+    var average30DayTitleLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = " In 30 days "
+        lb.font = lb.font.withSize(13.0)
+        lb.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        lb.backgroundColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        return lb
+    }()
+    
+    var average30DayWeightLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Weight: -0.2 kg/day"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    
+    var average30DayCaloriesLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Calories: -300 cal/day"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    var average30DayHeaviestLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Heaviest: 73kg"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    var average30DayLightestLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Lightest: 63kg"
+        lb.font = lb.font.withSize(14.0)
+        lb.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        return lb
+    }()
+    
     let titleWeightTrendsView:UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0)
         v.clipsToBounds = true
         return v
     }()
+    
+    let titleWeightAverageView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.3032615989)
+        v.clipsToBounds = true
+        return v
+    }()
+    
     
     let weightTrendLineView1:UIView = {
         let v = UIView()
@@ -168,9 +292,25 @@ class DiagramCell: BaseCell {
         return v
     }()
     
+    let weightAverageLineView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.5527583397)
+        v.layer.cornerRadius = 1
+        v.clipsToBounds = true
+        return v
+    }()
+    
     var weightTrendsLabel: UILabel = {
         let lb = UILabel()
         lb.text = "Weight changes"
+        lb.font = lb.font.withSize(18.0)
+        lb.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        return lb
+    }()
+    
+    var weightAverageLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Average"
         lb.font = lb.font.withSize(18.0)
         lb.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         return lb
@@ -217,6 +357,13 @@ class DiagramCell: BaseCell {
         return v
     }()
     
+    var averageView:UIView = {
+        var v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.2996668904)
+        v.clipsToBounds = true
+        return v
+        
+    }()
     override func setUpView() {
         super.setUpView()
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -263,13 +410,19 @@ class DiagramCell: BaseCell {
         changeView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
         changeView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-
+        
+        setChartViews()
+        
+        setCategoreView()
         
         setupWeightTrends()
-        setChartViews()
+        setupWeightAverage()
+        
+        
         
 
         setSegment()
+        setCategorySegment()
         
        
 
@@ -308,8 +461,18 @@ class DiagramCell: BaseCell {
             change30DayLabel.text = "_"
             timeStartLabel.text = "No record"
             totalDaysLabel.text = "0"
+            
+            average7DayWeightLabel.text = "Weight: _ \(weightUnit)/day"
+            average7DayCaloriesLabel.text = "Calories: _ cal/day"
+            average7DayHeaviestLabel.text = "Heaviest: _ \(weightUnit)"
+            average7DayLightestLabel.text = "Lightest: _ \(weightUnit)"
+            
+            average30DayWeightLabel.text = "Weight: _ \(weightUnit)/day"
+            average30DayCaloriesLabel.text = "Calories: _ cal/day"
+            average30DayHeaviestLabel.text = "Heaviest: _ \(weightUnit)"
+            average30DayLightestLabel.text = "Lightest: _ \(weightUnit)"
         }
-        addSubview(viewForChart)
+        charViews.addSubview(viewForChart)
         viewForChart.translatesAutoresizingMaskIntoConstraints = false
         viewForChart.centerXAnchor.constraint(equalTo: charViews.centerXAnchor).isActive = true
         viewForChart.topAnchor.constraint(equalTo: segmentOfCharts.bottomAnchor, constant: 8.0).isActive = true
@@ -317,7 +480,10 @@ class DiagramCell: BaseCell {
         viewForChart.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         
         startDrawValue(subPeople: people)
+
     }
+    
+
     
     func startDrawValue(subPeople: [Person]) {
         months = []
@@ -338,8 +504,11 @@ class DiagramCell: BaseCell {
     
     func setWeight7TrendValue(dates:[Int]) {
         print(people.count)
+        var heaviest = people.last!.weight
+        var lightest = people.last!.weight
         var indexOfSevenDay = people.count - 1
         for i in people.reversed() {
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd-MM-yyyy"
             let date = dateFormatter.date(from: i.date!)
@@ -347,17 +516,40 @@ class DiagramCell: BaseCell {
             let dateInFormat = dateFormatter.string(from: date!)
             if let dateForUseToCompare = Int(dateInFormat){
                
+                if i.weight > heaviest && dateForUseToCompare >= dates[0] {
+                    heaviest = i.weight
+                }
+                
+                if i.weight < lightest && dateForUseToCompare >= dates[0] {
+                    lightest = i.weight
+                }
                 if dateForUseToCompare < dates[0] {
                     indexOfSevenDay += 1
                     if indexOfSevenDay < people.count {
                         let sevenWeight =  round((people.last!.weight - people[indexOfSevenDay].weight) * 100)/100
+                        let average = round((sevenWeight/7)*100)/100
+                        var calories:Int = 0
+                        if weightUnit == "kg" {
+                            calories = Int(average * 7500)
+                        }else {
+                            calories = Int(average * 3375)
+                            
+                        }
                         change7DayLabel.text = "\(sevenWeight)"
+                        average7DayWeightLabel.text = "Weight: \(average) \(weightUnit)/day"
+                        average7DayCaloriesLabel.text = "Calories: \(calories) cal/day"
+                        average7DayHeaviestLabel.text = "Heaviest: \(heaviest) \(weightUnit)"
+                        average7DayLightestLabel.text = "Lightest: \(lightest) \(weightUnit)"
                         sevenPeople = []
                         let sp = people[indexOfSevenDay...(people.count-1)]
                         sevenPeople = Array(sp)
                         
                     }else {
                         change7DayLabel.text = "_"
+                        average7DayWeightLabel.text = "Weight: _ \(weightUnit)/day"
+                        average7DayCaloriesLabel.text = "Calories: _ cal/day"
+                        average7DayHeaviestLabel.text = "Heaviest: _ \(weightUnit)"
+                        average7DayLightestLabel.text = "Lightest: _ \(weightUnit)"
                         sevenPeople = []
                     }
                     
@@ -367,6 +559,18 @@ class DiagramCell: BaseCell {
             }
         }
         let sevenWeight = round((people.last!.weight - people[0].weight) * 100)/100
+        let average = round((sevenWeight/7)*100)/100
+        var calories:Int = 0
+        if weightUnit == "kg" {
+            calories = Int(average * 7500)
+        }else {
+            calories = Int(average * 3375)
+        }
+        change7DayLabel.text = "\(sevenWeight)"
+        average7DayWeightLabel.text = "Weight: \(average) \(weightUnit)/day"
+        average7DayCaloriesLabel.text = "Calories: \(calories) cal/day"
+        average7DayHeaviestLabel.text = "Heaviest: \(heaviest) \(weightUnit)"
+        average7DayLightestLabel.text = "Lightest: \(lightest) \(weightUnit)"
         sevenPeople = []
         sevenPeople = people
         change7DayLabel.text = "\(sevenWeight)"
@@ -374,24 +578,52 @@ class DiagramCell: BaseCell {
     
     func setWeight30TrendValue(dates:[Int]) {
         print(people.count)
+        var heaviest = people.last!.weight
+        var lightest = people.last!.weight
         var indexOfThirtyDay = people.count - 1
         for i in people.reversed() {
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd-MM-yyyy"
             let date = dateFormatter.date(from: i.date!)
             dateFormatter.dateFormat = "yyyyMMdd"
             let dateInFormat = dateFormatter.string(from: date!)
             if let dateForUseToCompare = Int(dateInFormat){
+                
+                if i.weight > heaviest && dateForUseToCompare >= dates[1] {
+                    heaviest = i.weight
+                }
+                
+                if i.weight < lightest && dateForUseToCompare >= dates[1] {
+                    lightest = i.weight
+                }
                 if dateForUseToCompare < dates[1] {
                     indexOfThirtyDay += 1
                     if indexOfThirtyDay < people.count {
                         let thirtyWeight =  round((people.last!.weight - people[indexOfThirtyDay].weight) * 100)/100
                         change30DayLabel.text = "\(thirtyWeight)"
                         thirdtyPeople = []
+                        let average = round((thirtyWeight/30)*100)/100
+                        var calories:Int = 0
+                        if weightUnit == "kg" {
+                            calories = Int(average * 7700)
+                        }else {
+                            calories = Int(average * 3500)
+                            
+                        }
+                        change30DayLabel.text = "\(thirtyWeight)"
+                        average30DayWeightLabel.text = "Weight: \(average) \(weightUnit)/day"
+                        average30DayCaloriesLabel.text = "Calories: \(calories) cal/day"
+                        average30DayHeaviestLabel.text = "Heaviest: \(heaviest) \(weightUnit)"
+                        average30DayLightestLabel.text = "Lightest: \(lightest) \(weightUnit)"
                         let sp = people[indexOfThirtyDay...(people.count-1)]
                         thirdtyPeople = Array(sp)
                     }else {
                         change30DayLabel.text = "_"
+                        average30DayWeightLabel.text = "Weight: _ \(weightUnit)/day"
+                        average30DayCaloriesLabel.text = "Calories: _ cal/day"
+                        average30DayHeaviestLabel.text = "Heaviest: _ \(weightUnit)"
+                        average30DayLightestLabel.text = "Lightest: _ \(weightUnit)"
                         thirdtyPeople = []
                     }
                     return
@@ -401,6 +633,18 @@ class DiagramCell: BaseCell {
         }
         let thirtyWeight = round((people.last!.weight - people[0].weight) * 100)/100
         change30DayLabel.text = "\(thirtyWeight)"
+        let average = round((thirtyWeight/30)*100)/100
+        var calories:Int = 0
+        if weightUnit == "kg" {
+            calories = Int(average * 7700)
+        }else {
+            calories = Int(average * 3500)
+        }
+        change30DayLabel.text = "\(thirtyWeight)"
+        average30DayWeightLabel.text = "Weight: \(average) \(weightUnit)/day"
+        average30DayCaloriesLabel.text = "Calories: \(calories) cal/day"
+        average30DayHeaviestLabel.text = "Heaviest: \(heaviest) \(weightUnit)"
+        average30DayLightestLabel.text = "Lightest: \(lightest) \(weightUnit)"
         thirdtyPeople = []
         thirdtyPeople = people
     }
@@ -436,6 +680,13 @@ class DiagramCell: BaseCell {
             charViews.topAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -1.0).isActive = true
             charViews.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0.0).isActive = true
             charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 0).isActive = true
+            
+            addSubview(detailView)
+            detailView.translatesAutoresizingMaskIntoConstraints = false
+            detailView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            detailView.topAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -1.0).isActive = true
+            detailView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0.0).isActive = true
+            detailView.widthAnchor.constraint(equalToConstant: self.frame.width - 0).isActive = true
         } else {
             addSubview(charViews)
             charViews.translatesAutoresizingMaskIntoConstraints = false
@@ -443,15 +694,53 @@ class DiagramCell: BaseCell {
             charViews.topAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -20.0).isActive = true
             charViews.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0).isActive = true
             charViews.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
+            
+            addSubview(detailView)
+            detailView.translatesAutoresizingMaskIntoConstraints = false
+            detailView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            detailView.topAnchor.constraint(equalTo: changeView.bottomAnchor, constant: -20.0).isActive = true
+            detailView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0).isActive = true
+            detailView.widthAnchor.constraint(equalToConstant: self.frame.width - 18.0).isActive = true
         }
+    
+    }
+    
+    func setCategoreView() {
+        detailView.addSubview(averageView)
+        averageView.translatesAutoresizingMaskIntoConstraints = false
+        averageView.topAnchor.constraint(equalTo: detailView.topAnchor, constant: 0.0).isActive = true
+        averageView.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 0).isActive = true
+        averageView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: 0).isActive = true
+        averageView.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
+        averageView.addSubview(titleWeightAverageView)
+        titleWeightAverageView.translatesAutoresizingMaskIntoConstraints = false
+        titleWeightAverageView.topAnchor.constraint(equalTo: averageView.topAnchor, constant: 0).isActive = true
+        titleWeightAverageView.leadingAnchor.constraint(equalTo: averageView.leadingAnchor, constant: 0.0).isActive = true
+        titleWeightAverageView.trailingAnchor.constraint(equalTo: averageView.trailingAnchor, constant: 0.0).isActive = true
+        titleWeightAverageView.heightAnchor.constraint(equalToConstant: 23.0).isActive = true
+        
+        titleWeightAverageView.addSubview(weightAverageLabel)
+        weightAverageLabel.translatesAutoresizingMaskIntoConstraints = false
+        weightAverageLabel.topAnchor.constraint(equalTo: detailView.topAnchor, constant: 0).isActive = true
+        weightAverageLabel.leadingAnchor.constraint(equalTo: detailView.leadingAnchor, constant: 8).isActive = true
+        
+        titleWeightAverageView.addSubview(predictNoteButton)
+        predictNoteButton.translatesAutoresizingMaskIntoConstraints = false
+        predictNoteButton.topAnchor.constraint(equalTo: detailView.topAnchor, constant: 2).isActive = true
+        predictNoteButton.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -8).isActive = true
+        predictNoteButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        predictNoteButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        predictNoteButton.addTarget(self, action: #selector(showPredictionNote), for: .touchUpInside)
 
-        
+    }
+    
+    @objc func showPredictionNote() {
+        delegate?.showDiagramPrediction()
     }
     
     func setSegment() {
-        
-        addSubview(segmentOfCharts)
+        charViews.addSubview(segmentOfCharts)
         segmentOfCharts.translatesAutoresizingMaskIntoConstraints = false
         segmentOfCharts.trailingAnchor.constraint(equalTo: charViews.trailingAnchor, constant: -8.0).isActive = true
         segmentOfCharts.topAnchor.constraint(equalTo: charViews.topAnchor, constant: 8.0).isActive = true
@@ -474,6 +763,32 @@ class DiagramCell: BaseCell {
         }
     }
     
+    func setCategorySegment() {
+        
+        addSubview(segmentOfCategory)
+        segmentOfCategory.translatesAutoresizingMaskIntoConstraints = false
+        segmentOfCategory.trailingAnchor.constraint(equalTo: aboveTiltleView.trailingAnchor, constant: -8.0).isActive = true
+        segmentOfCategory.centerYAnchor.constraint(equalTo: aboveTiltleView.centerYAnchor).isActive = true
+        segmentOfCategory.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
+        segmentOfCategory.widthAnchor.constraint(equalToConstant: 115.0).isActive = true
+        
+        segmentOfCategory.addTarget(self, action: #selector(categorySegmentedValueChanged(_:)), for: .valueChanged)
+        
+    }
+    
+    @objc func categorySegmentedValueChanged(_ sender:UISegmentedControl!)
+    {
+        print("Selected Segment Index is : \(sender.selectedSegmentIndex)")
+        if sender.selectedSegmentIndex == 0 {
+            charViews.isHidden = false
+            detailView.isHidden = true
+            
+        }else {
+            charViews.isHidden = true
+            detailView.isHidden = false
+        }
+        self.layoutIfNeeded()
+    }
 
     
     func setChart(dataEntryX forX:[String],dataEntryY forY: [Double]) {
@@ -651,8 +966,121 @@ class DiagramCell: BaseCell {
         titleWeightTrendsView.addSubview(weightTrendsLabel)
         weightTrendsLabel.translatesAutoresizingMaskIntoConstraints = false
         weightTrendsLabel.topAnchor.constraint(equalTo: changeView.topAnchor, constant: 0).isActive = true
-        weightTrendsLabel.centerXAnchor.constraint(equalTo: changeView.centerXAnchor).isActive = true
+        weightTrendsLabel.leadingAnchor.constraint(equalTo: changeView.leadingAnchor,constant: 8).isActive = true
+
         
+    }
+    
+    func setupWeightAverage() {
+        let days7AverageView = UIView()
+        let days30AverageView = UIView()
+        
+        weightAverageStackView = UIStackView(arrangedSubviews: [days7AverageView,days30AverageView])
+        weightAverageStackView.axis = .horizontal
+        weightAverageStackView.distribution = .fillEqually
+        
+        averageView.addSubview(weightAverageStackView)
+        weightAverageStackView.translatesAutoresizingMaskIntoConstraints = false
+        weightAverageStackView.topAnchor.constraint(equalTo: averageView.topAnchor, constant: 25).isActive = true
+        weightAverageStackView.leadingAnchor.constraint(equalTo: averageView.leadingAnchor, constant: 0.0).isActive = true
+        weightAverageStackView.trailingAnchor.constraint(equalTo: averageView.trailingAnchor, constant: 0.0).isActive = true
+        weightAverageStackView.bottomAnchor.constraint(equalTo: averageView.bottomAnchor, constant: -0.0).isActive = true
+        
+        averageView.addSubview(weightAverageLineView)
+        weightAverageLineView.translatesAutoresizingMaskIntoConstraints = false
+        weightAverageLineView.topAnchor.constraint(equalTo: titleWeightAverageView.bottomAnchor, constant: 5).isActive = true
+        weightAverageLineView.trailingAnchor.constraint(equalTo: days7AverageView.trailingAnchor, constant: -1).isActive = true
+        weightAverageLineView.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        weightAverageLineView.bottomAnchor.constraint(equalTo: averageView.bottomAnchor, constant: -7.0).isActive = true
+        
+        //add 7 day time
+        let average7DayTitleLabelView = UIView()
+        let average7DayWeightLabelView = UIView()
+        let average7DayCaloriesLabelView = UIView()
+        let average7DayHeaviestLabelView = UIView()
+        let average7DayLightestLabelView = UIView()
+        
+        average7DaysStackView = UIStackView(arrangedSubviews: [average7DayTitleLabelView,average7DayWeightLabelView,average7DayCaloriesLabelView,average7DayHeaviestLabelView,average7DayLightestLabelView])
+        average7DaysStackView.axis = .vertical
+        average7DaysStackView.distribution = .fillEqually
+        
+        averageView.addSubview(average7DaysStackView)
+        average7DaysStackView.translatesAutoresizingMaskIntoConstraints = false
+        average7DaysStackView.topAnchor.constraint(equalTo: days7AverageView.topAnchor, constant: 0).isActive = true
+        average7DaysStackView.leadingAnchor.constraint(equalTo: days7AverageView.leadingAnchor, constant: 0.0).isActive = true
+        average7DaysStackView.trailingAnchor.constraint(equalTo: days7AverageView.trailingAnchor, constant: 0.0).isActive = true
+        average7DaysStackView.bottomAnchor.constraint(equalTo: days7AverageView.bottomAnchor, constant: 0.0).isActive = true
+        
+        averageView.addSubview(average7DayTitleLabel)
+        average7DayTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        average7DayTitleLabel.topAnchor.constraint(equalTo: average7DayTitleLabelView.topAnchor, constant: 0.0).isActive = true
+        average7DayTitleLabel.centerXAnchor.constraint(equalTo: average7DayTitleLabelView.centerXAnchor).isActive = true
+        
+        
+        averageView.addSubview(average7DayWeightLabel)
+        average7DayWeightLabel.translatesAutoresizingMaskIntoConstraints = false
+        average7DayWeightLabel.centerXAnchor.constraint(equalTo: average7DayWeightLabelView.centerXAnchor).isActive = true
+        average7DayWeightLabel.topAnchor.constraint(equalTo: average7DayWeightLabelView.topAnchor, constant: 0).isActive = true
+        
+        averageView.addSubview(average7DayCaloriesLabel)
+        average7DayCaloriesLabel.translatesAutoresizingMaskIntoConstraints = false
+        average7DayCaloriesLabel.centerXAnchor.constraint(equalTo: average7DayCaloriesLabelView.centerXAnchor).isActive = true
+        average7DayCaloriesLabel.topAnchor.constraint(equalTo: average7DayCaloriesLabelView.topAnchor, constant: 0).isActive = true
+        
+        averageView.addSubview(average7DayHeaviestLabel)
+        average7DayHeaviestLabel.translatesAutoresizingMaskIntoConstraints = false
+        average7DayHeaviestLabel.centerXAnchor.constraint(equalTo: average7DayHeaviestLabelView.centerXAnchor).isActive = true
+        average7DayHeaviestLabel.topAnchor.constraint(equalTo: average7DayHeaviestLabelView.topAnchor, constant: 0).isActive = true
+        
+        averageView.addSubview(average7DayLightestLabel)
+        average7DayLightestLabel.translatesAutoresizingMaskIntoConstraints = false
+        average7DayLightestLabel.centerXAnchor.constraint(equalTo: average7DayLightestLabelView.centerXAnchor).isActive = true
+        average7DayLightestLabel.topAnchor.constraint(equalTo: average7DayLightestLabelView.topAnchor, constant: 0).isActive = true
+        
+        
+        //add 30 day time
+        let average30DayTitleLabelView = UIView()
+        let average30DayWeightLabelView = UIView()
+        let average30DayCaloriesLabelView = UIView()
+        let average30DayHeaviestLabelView = UIView()
+        let average30DayLightestLabelView = UIView()
+        
+        average30DaysStackView = UIStackView(arrangedSubviews: [average30DayTitleLabelView,average30DayWeightLabelView,average30DayCaloriesLabelView,average30DayHeaviestLabelView,average30DayLightestLabelView])
+        average30DaysStackView.axis = .vertical
+        average30DaysStackView.distribution = .fillEqually
+        
+        averageView.addSubview(average30DaysStackView)
+        average30DaysStackView.translatesAutoresizingMaskIntoConstraints = false
+        average30DaysStackView.topAnchor.constraint(equalTo: days30AverageView.topAnchor, constant: 0).isActive = true
+        average30DaysStackView.leadingAnchor.constraint(equalTo: days30AverageView.leadingAnchor, constant: 0.0).isActive = true
+        average30DaysStackView.trailingAnchor.constraint(equalTo: days30AverageView.trailingAnchor, constant: 0.0).isActive = true
+        average30DaysStackView.bottomAnchor.constraint(equalTo: days30AverageView.bottomAnchor, constant: 0.0).isActive = true
+        
+        averageView.addSubview(average30DayTitleLabel)
+        average30DayTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        average30DayTitleLabel.topAnchor.constraint(equalTo: average30DayTitleLabelView.topAnchor, constant: 0.0).isActive = true
+        average30DayTitleLabel.centerXAnchor.constraint(equalTo: average30DayTitleLabelView.centerXAnchor).isActive = true
+        
+        
+        averageView.addSubview(average30DayWeightLabel)
+        average30DayWeightLabel.translatesAutoresizingMaskIntoConstraints = false
+        average30DayWeightLabel.centerXAnchor.constraint(equalTo: average30DayWeightLabelView.centerXAnchor).isActive = true
+        average30DayWeightLabel.topAnchor.constraint(equalTo: average30DayWeightLabelView.topAnchor, constant: 0).isActive = true
+        
+        averageView.addSubview(average30DayCaloriesLabel)
+        average30DayCaloriesLabel.translatesAutoresizingMaskIntoConstraints = false
+        average30DayCaloriesLabel.centerXAnchor.constraint(equalTo: average30DayCaloriesLabelView.centerXAnchor).isActive = true
+        average30DayCaloriesLabel.topAnchor.constraint(equalTo: average30DayCaloriesLabelView.topAnchor, constant: 0).isActive = true
+        
+        averageView.addSubview(average30DayHeaviestLabel)
+        average30DayHeaviestLabel.translatesAutoresizingMaskIntoConstraints = false
+        average30DayHeaviestLabel.centerXAnchor.constraint(equalTo: average30DayHeaviestLabelView.centerXAnchor).isActive = true
+        average30DayHeaviestLabel.topAnchor.constraint(equalTo: average30DayHeaviestLabelView.topAnchor, constant: 0).isActive = true
+        
+        averageView.addSubview(average30DayLightestLabel)
+        average30DayLightestLabel.translatesAutoresizingMaskIntoConstraints = false
+        average30DayLightestLabel.centerXAnchor.constraint(equalTo: average30DayLightestLabelView.centerXAnchor).isActive = true
+        average30DayLightestLabel.topAnchor.constraint(equalTo: average30DayLightestLabelView.topAnchor, constant: 0).isActive = true
     }
 
     fileprivate func setupInitialWeight() {

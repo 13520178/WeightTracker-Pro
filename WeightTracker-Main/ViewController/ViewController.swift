@@ -42,7 +42,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      
+        UNService.shared.authorize()
         self.view.layoutIfNeeded()
         
         //
@@ -183,6 +183,14 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell?.kgLabel.text = "kg"
                 }
                 
+                if defaults.bool(forKey: "isBellOn") {
+                    cell?.bellButton.tintColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+                    cell?.segmentOfBell.selectedSegmentIndex = 1
+                }else {
+                    cell?.bellButton.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                    cell?.segmentOfBell.selectedSegmentIndex = 0
+                }
+                
                 return cell!
             }else if indexPath.item == 1 {
                  let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "DiagramId", for: indexPath) as? DiagramCell
@@ -193,7 +201,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 }
                 
                 cell?.segmentOfCharts.selectedSegmentIndex = 2
-                
+                cell?.delegate = self
                 if defaults.double(forKey: "desizedWeightForHistory") != 0 {
                     cell?.desiredWeight = defaults.double(forKey: "desizedWeightForHistory")
                 }
@@ -249,6 +257,16 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     cell!.change30DayLabel.text = "_"
                     cell!.timeStartLabel.text = "No record"
                     cell!.totalDaysLabel.text = "0"
+                    
+                    cell!.average7DayWeightLabel.text = "Weight: _ \(cell!.weightUnit)/day"
+                    cell!.average7DayCaloriesLabel.text = "Calories: _ cal/day"
+                    cell!.average7DayHeaviestLabel.text = "Heaviest: _ \(cell!.weightUnit)"
+                    cell!.average7DayLightestLabel.text = "Lightest: _ \(cell!.weightUnit)"
+                    
+                    cell!.average30DayWeightLabel.text = "Weight: _ \(cell!.weightUnit)/day"
+                    cell!.average30DayCaloriesLabel.text = "Calories: _ cal/day"
+                    cell!.average30DayHeaviestLabel.text = "Heaviest: _ \(cell!.weightUnit)"
+                    cell!.average30DayLightestLabel.text = "Lightest: _ \(cell!.weightUnit)"
                     
                     let monthss = [""]
                     let unitsSolds = [0.0]
@@ -429,13 +447,11 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
 
 }
 
-
-
 //MARK: Protocol
 
 extension ViewController: ToolCellDelegate {
     func showPrediction() {
-         AlertController.showAlert(inController: self, tilte: "Weight prediction feature", message: "The more daily weight records will give the correct results. We will start calculating your weight after 2 days of weight recording. Accuracy of weight will affect results. Too much weight change in a day or two can be caused by a change in body water percentage.")
+        AlertController.showAlert(inController: self, tilte: "Weight prediction feature", message: "The more daily weight records will give the correct results. We will start calculating your weight after 2 days of weight recording. Accuracy of weight will affect results. Too much weight change in a day or two can be caused by a change in body water percentage.")
     }
     
     func enterDesiredWeight(dWeight: Double) {
@@ -444,46 +460,20 @@ extension ViewController: ToolCellDelegate {
         tabCollectionView.reloadData()
     }
     
-    func enterInitialWeight() {
-        let alertController = UIAlertController(title: "Initial weight settings", message: "Enter the initial weight you want to edit ", preferredStyle: .alert)
-        
-        alertController.addTextField(configurationHandler: exchangeTF)
+    func enterInitialWeight(people:[Person]) {
+        let alertController = UIAlertController(title: "Set initial weight", message: "Do you want to set your initial weight to your nearest weight?", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            if let w = self.exchangeTF.text {
-                if let w = Float(w) {
-                    if w > 1 && w <= 400 {
-                        if let result = try? self.context.fetch(self.request) {
-                            result.first?.weight = w
-                        }
-                        do {
-                            try self.context.save()
-                            let indexPath = IndexPath(row: 3, section: 0)
-                            DispatchQueue.main.async {
-                                self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
-                            }
-                            
-                            self.collectionView.reloadData()
-                            self.tabCollectionView.reloadData()
-                        } catch {
-                            print("Co xoa duoc dau ma xoa")
-                        }
-                    }else {
-                        self.checkIfOverInput()
-                    }
-                }else {
-                    self.checkIfWrongInputToolCell()
-                }
-            }else {
-                self.checkIfWrongInputToolCell()
-            }
+            self.defaults.set(people.last?.weight, forKey: "initWeight")
+            self.collectionView.reloadData()
+            self.tabCollectionView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         
-         self.present(alertController, animated: true)
+        self.present(alertController, animated: true)
     }
     
     
@@ -513,11 +503,24 @@ extension ViewController: ToolCellDelegate {
         collectionView.reloadData()
         tabCollectionView.reloadData()
     }
+}
+
+extension ViewController: DiagramCellDelegate {
+    
+    func showDiagramPrediction() {
+         AlertController.showAlert(inController: self, tilte: "Average weight feature", message: "The average value for reference and not specifically reflect your weight loss process.The results will be useful when you reach the corresponding number of days.")
+    }
+    
+    
     
 
 }
 
 extension ViewController: InputWeightCellDelegate {
+    func notificationOff() {
+        AlertController.NotificationIsOff(in: self)
+    }
+    
     func enableUserInteraction() {
         collectionView.isUserInteractionEnabled = true
         tabCollectionView.isScrollEnabled = true

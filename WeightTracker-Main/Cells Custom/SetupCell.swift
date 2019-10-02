@@ -71,8 +71,6 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
         button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         button.setImage(fbImage, for: UIControl.State.normal)
         button.layer.cornerRadius = 16
-        button.layer.borderWidth = 1
-        button.layer.borderColor = #colorLiteral(red: 0.5320518613, green: 0.2923432589, blue: 1, alpha: 1)
         button.clipsToBounds = true
         return button
     }()
@@ -163,9 +161,9 @@ class SetupCell: BaseCell,MFMailComposeViewControllerDelegate {
     
     let savingMoneyLabel: UILabel = {
         let label = UILabel()
-        label.text = "Saving Money SV"
+        label.text = "Saving Money"
         label.font = UIFont.systemFont(ofSize:16, weight: UIFont.Weight.medium)
-        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         return label
     }()
     let savingMoneyDetailLabel: UILabel = {

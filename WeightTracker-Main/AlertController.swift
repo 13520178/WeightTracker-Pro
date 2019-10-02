@@ -15,5 +15,12 @@ class AlertController {
         alert.addAction(action)
         inController.present(alert, animated: true, completion: nil)
     }
+    
+    static func NotificationIsOff(in vc:UIViewController) {
+        let alert = UIAlertController(title: "Notifications is off", message: "You have not enabled Notifications on this application. Go to Settings to turn on Notifications to be notified when events.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .cancel)
+        alert.addAction(ok)
+        vc.present(alert,animated: true )
+    }
 }
 

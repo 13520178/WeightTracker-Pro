@@ -17,9 +17,9 @@
 		1B11F4DA22198CF00000D9CD /* InputWeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B11F4D922198CF00000D9CD /* InputWeightCell.swift */; };
 		1B11F4DC221992370000D9CD /* DiagramCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B11F4DB221992370000D9CD /* DiagramCell.swift */; };
 		1B11F4DE221993950000D9CD /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B11F4DD221993950000D9CD /* HistoryCell.swift */; };
+		1B3058502342374B00744581 /* UNService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B30584F2342374B00744581 /* UNService.swift */; };
 		1B305984223E404F0007E934 /* SetupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B305983223E404F0007E934 /* SetupCell.swift */; };
 		1B3BB32C224121FC0039F788 /* InputWeightSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3BB32B224121FC0039F788 /* InputWeightSubView.swift */; };
-		1B6E24072277DE4E00FD96BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1B6E24062277DE4E00FD96BC /* GoogleService-Info.plist */; };
 		1B81304122262AA00057ABC4 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B81304022262AA00057ABC4 /* AlertController.swift */; };
 		1BC789AF2224B97D00B884A6 /* BaseCelll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC789AE2224B97D00B884A6 /* BaseCelll.swift */; };
 		1BC7D19A222F5CE5001FFF87 /* ToolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC7D199222F5CE5001FFF87 /* ToolCell.swift */; };
@@ -45,9 +45,10 @@
 		1B11F4D922198CF00000D9CD /* InputWeightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputWeightCell.swift; sourceTree = "<group>"; };
 		1B11F4DB221992370000D9CD /* DiagramCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagramCell.swift; sourceTree = "<group>"; };
 		1B11F4DD221993950000D9CD /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
+		1B30584E234236F500744581 /* WeightTracker-Main.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WeightTracker-Main.entitlements"; sourceTree = "<group>"; };
+		1B30584F2342374B00744581 /* UNService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNService.swift; sourceTree = "<group>"; };
 		1B305983223E404F0007E934 /* SetupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupCell.swift; sourceTree = "<group>"; };
 		1B3BB32B224121FC0039F788 /* InputWeightSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputWeightSubView.swift; sourceTree = "<group>"; };
-		1B6E24062277DE4E00FD96BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1B81304022262AA00057ABC4 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		1BC789AE2224B97D00B884A6 /* BaseCelll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCelll.swift; sourceTree = "<group>"; };
 		1BC7D199222F5CE5001FFF87 /* ToolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCell.swift; sourceTree = "<group>"; };
@@ -93,6 +94,7 @@
 		1B11F4BB2219199E0000D9CD /* WeightTracker-Main */ = {
 			isa = PBXGroup;
 			children = (
+				1B30584E234236F500744581 /* WeightTracker-Main.entitlements */,
 				1B11F4DF221995890000D9CD /* Cells Custom */,
 				1B11F4BC2219199E0000D9CD /* AppDelegate.swift */,
 				1BE2E5D9223CDA530027EE1B /* ViewController */,
@@ -102,7 +104,7 @@
 				1B11F4C8221919A00000D9CD /* LaunchScreen.storyboard */,
 				1B11F4CB221919A00000D9CD /* Info.plist */,
 				1B11F4C32219199E0000D9CD /* WeightTracker_Main.xcdatamodeld */,
-				1B6E24062277DE4E00FD96BC /* GoogleService-Info.plist */,
+				1B30584F2342374B00744581 /* UNService.swift */,
 			);
 			path = "WeightTracker-Main";
 			sourceTree = "<group>";
@@ -194,6 +196,11 @@
 				TargetAttributes = {
 					1B11F4B82219199E0000D9CD = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -221,7 +228,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B11F4CA221919A00000D9CD /* LaunchScreen.storyboard in Resources */,
-				1B6E24072277DE4E00FD96BC /* GoogleService-Info.plist in Resources */,
 				1B11F4C7221919A00000D9CD /* Assets.xcassets in Resources */,
 				1B11F4C22219199E0000D9CD /* Main.storyboard in Resources */,
 			);
@@ -297,6 +303,7 @@
 				1B11F4D222191A190000D9CD /* NarBarCollectionViewCell.swift in Sources */,
 				1BC865D722422EBA0055AC4E /* Sub2ViewController.swift in Sources */,
 				1B11F4C52219199E0000D9CD /* WeightTracker_Main.xcdatamodeld in Sources */,
+				1B3058502342374B00744581 /* UNService.swift in Sources */,
 				1B11F4DC221992370000D9CD /* DiagramCell.swift in Sources */,
 				1B305984223E404F0007E934 /* SetupCell.swift in Sources */,
 				1B3BB32C224121FC0039F788 /* InputWeightSubView.swift in Sources */,
@@ -448,6 +455,7 @@
 			baseConfigurationReference = 916169EDF6F601A617F8C00A /* Pods-WeightTracker-Main.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "WeightTracker-Main/WeightTracker-Main.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3Y33U42327;
 				INFOPLIST_FILE = "WeightTracker-Main/Info.plist";
@@ -459,7 +467,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = DangPhan.WeightTrackerPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -468,6 +476,7 @@
 			baseConfigurationReference = 87E05FB5BFA8C7E762DE5AE6 /* Pods-WeightTracker-Main.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "WeightTracker-Main/WeightTracker-Main.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3Y33U42327;
 				INFOPLIST_FILE = "WeightTracker-Main/Info.plist";
@@ -479,7 +488,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = DangPhan.WeightTrackerPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

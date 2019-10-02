@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import UserNotifications
 
 protocol InputWeightCellDelegate {
     func changeAndUpdateCell(didChange: Bool, person:Person)
@@ -21,6 +22,7 @@ protocol InputWeightCellDelegate {
     func showSub2()
     func showSub3()
     func showSub4()
+    func notificationOff()
 }
 
 class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UITextFieldDelegate{
@@ -141,6 +143,33 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         return label
     }()
     
+    let bellOnOrOffLabel:UILabel = {
+        let label = UILabel()
+        label.text = "Reminder"
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        return label
+    }()
+    
+    let bellReminderTimeLabel:UILabel = {
+        let label = UILabel()
+        label.text = "Set reminder time"
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        return label
+    }()
+    
+    let segmentOfBell:UISegmentedControl = {
+        let sm = UISegmentedControl (items: ["Off","On"])
+        sm.selectedSegmentIndex = 0
+        sm.setTitle("Off", forSegmentAt: 0)
+        sm.setTitle("On", forSegmentAt: 1)
+        sm.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        return sm
+    }()
+    
+    
+    
     let imageBelowEnterButton: UIImageView = {
         let image = UIImage(named: "enterButton")
         let iu = UIImageView(image: image)
@@ -149,7 +178,39 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         return iu
     }()
     
-  
+    let bellButton: UIButton = {
+        let bt = UIButton(type: UIButton.ButtonType.roundedRect)
+        bt.setImage(#imageLiteral(resourceName: "bell"), for: .normal)
+        bt.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        bt.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        bt.titleLabel?.font = UIFont(name:"TrebuchetMS", size: 24)
+        bt.layer.cornerRadius = 0
+        
+        return bt
+    }()
+    
+    let okBellButton: UIButton = {
+        let bt = UIButton(type: UIButton.ButtonType.roundedRect)
+        bt.setTitle("Ok", for: .normal)
+        bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        bt.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        bt.layer.cornerRadius = 0
+        
+        return bt
+    }()
+    
+    let cancleBellButton: UIButton = {
+        let bt = UIButton(type: UIButton.ButtonType.roundedRect)
+        bt.setTitle("Cancle", for: .normal)
+        bt.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        bt.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        bt.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        bt.layer.cornerRadius = 0
+        
+        return bt
+    }()
+    
     
     let enterButton: UIButton = {
         let bt = UIButton(type: UIButton.ButtonType.roundedRect)
@@ -164,6 +225,7 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
     
     
     //UIPicker set up
+    let defaults = UserDefaults.standard
     var pickerSelectedRow = 0
     let timeArray = ["Morning", "Afternoon", "Evening", "Night"]
     let timePicker: UIPickerView = {
@@ -171,6 +233,14 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         picker.isHidden = false
         return picker
     }()
+    
+    let timeBellPicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .time
+        picker.isHidden = false
+        return picker
+    }()
+    
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -231,12 +301,44 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         return v
     }()
     
+    let blurViewForBell:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5497507669)
+        
+        return v
+    }()
+    
     let caculatorView:UIView = {
         let v = UIView()
         v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         v.layer.cornerRadius = 25
         v.layer.borderWidth = 1
         v.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        v.clipsToBounds = true
+        return v
+    }()
+    
+    let bellView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        v.layer.cornerRadius = 5
+        v.layer.borderWidth = 1
+        v.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        v.clipsToBounds = true
+        v.isHidden = true
+        return v
+    }()
+    
+    let titleBellView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        v.clipsToBounds = true
+        return v
+    }()
+    
+    let footerBellView:UIView = {
+        let v = UIView()
+        v.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         v.clipsToBounds = true
         return v
     }()
@@ -306,11 +408,21 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         titleView.widthAnchor.constraint(equalToConstant: selfWidth).isActive = true
         titleView.heightAnchor.constraint(equalToConstant: 41).isActive = true
         
+        addSubview(bellButton)
+        bellButton.translatesAutoresizingMaskIntoConstraints = false
+        bellButton.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8).isActive = true
+        bellButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
+        bellButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        bellButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        bellButton.addTarget(self, action: #selector(bellPressed), for: .touchUpInside)
+        
+        
+        
         
         addSubview(aboveTiltleViewLabel)
         aboveTiltleViewLabel.translatesAutoresizingMaskIntoConstraints = false
         aboveTiltleViewLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
-        aboveTiltleViewLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8).isActive = true
+        aboveTiltleViewLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 43).isActive = true
         
         addSubview(aboveSubTiltleViewLabel)
         aboveSubTiltleViewLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -408,6 +520,71 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         blurView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         self.blurView.addGestureRecognizer(gesture)
         
+        let blurViewForBellGesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkTouchInBlurViewForBell))
+        blurViewForBell.isHidden = true
+        addSubview(blurViewForBell)
+        blurViewForBell.translatesAutoresizingMaskIntoConstraints = false
+        blurViewForBell.widthAnchor.constraint(equalToConstant: self.layer.frame.width ).isActive = true
+        blurViewForBell.heightAnchor.constraint(equalToConstant: self.layer.frame.height).isActive = true
+        blurViewForBell.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        blurViewForBell.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        self.blurViewForBell.addGestureRecognizer(blurViewForBellGesture)
+        
+        
+        addSubview(bellView)
+        bellView.translatesAutoresizingMaskIntoConstraints = false
+        bellView.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 30).isActive = true
+        bellView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        bellView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        bellView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        bellView.addSubview(titleBellView)
+        titleBellView.translatesAutoresizingMaskIntoConstraints = false
+        titleBellView.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 30).isActive = true
+        titleBellView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        titleBellView.topAnchor.constraint(equalTo: bellView.topAnchor, constant: 0).isActive = true
+        titleBellView.leadingAnchor.constraint(equalTo: bellView.leadingAnchor, constant: 0).isActive = true
+        
+        
+        bellView.addSubview(bellOnOrOffLabel)
+        bellOnOrOffLabel.translatesAutoresizingMaskIntoConstraints = false
+        bellOnOrOffLabel.leadingAnchor.constraint(equalTo: bellView.leadingAnchor, constant: 16).isActive = true
+        bellOnOrOffLabel.topAnchor.constraint(equalTo: bellView.topAnchor, constant: 8).isActive = true
+        
+        
+        bellView.addSubview(segmentOfBell)
+        segmentOfBell.translatesAutoresizingMaskIntoConstraints = false
+        segmentOfBell.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        segmentOfBell.heightAnchor.constraint(equalToConstant: 26).isActive = true
+        segmentOfBell.trailingAnchor.constraint(equalTo: bellView.trailingAnchor, constant: -8).isActive = true
+        segmentOfBell.topAnchor.constraint(equalTo: bellView.topAnchor, constant: 7).isActive = true
+        
+
+        
+        bellView.addSubview(timeBellPicker)
+        timeBellPicker.translatesAutoresizingMaskIntoConstraints = false
+        timeBellPicker.topAnchor.constraint(equalTo: bellOnOrOffLabel.bottomAnchor, constant: 12).isActive = true
+        timeBellPicker.centerXAnchor.constraint(equalTo: bellView.centerXAnchor).isActive = true
+        timeBellPicker.widthAnchor.constraint(equalToConstant: self.layer.frame.width - 28).isActive = true
+        timeBellPicker.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        
+        
+        bellView.addSubview(okBellButton)
+        okBellButton.translatesAutoresizingMaskIntoConstraints = false
+        okBellButton.widthAnchor.constraint(equalToConstant: (self.layer.frame.width - 32)/2).isActive = true
+        okBellButton.heightAnchor.constraint(equalToConstant: 37).isActive = true
+        okBellButton.bottomAnchor.constraint(equalTo: bellView.bottomAnchor, constant: 0).isActive = true
+        okBellButton.leadingAnchor.constraint(equalTo: bellView.leadingAnchor, constant: 0).isActive = true
+         okBellButton.addTarget(self, action: #selector(bellOkPressed), for: .touchUpInside)
+        
+        bellView.addSubview(cancleBellButton)
+        cancleBellButton.translatesAutoresizingMaskIntoConstraints = false
+        cancleBellButton.widthAnchor.constraint(equalToConstant: (self.layer.frame.width - 32)/2).isActive = true
+        cancleBellButton.heightAnchor.constraint(equalToConstant: 37).isActive = true
+        cancleBellButton.bottomAnchor.constraint(equalTo: bellView.bottomAnchor, constant: 0).isActive = true
+        cancleBellButton.trailingAnchor.constraint(equalTo: bellView.trailingAnchor, constant: 0).isActive = true
+        cancleBellButton.addTarget(self, action: #selector(checkTouchInBlurViewForBell), for: .touchUpInside)
         
         addSubview(caculatorView)
         caculatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -437,6 +614,14 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.addGestureRecognizer(tap)
         
+        if defaults.bool(forKey: "isBellOn") {
+            bellButton.tintColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+            segmentOfBell.selectedSegmentIndex = 1
+        }else {
+            bellButton.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            segmentOfBell.selectedSegmentIndex = 0
+        }
+        
     }
     
     //MARK: - setup SubsCalculatorView
@@ -452,6 +637,65 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         }
         
     }
+    
+    @objc func checkTouchInBlurViewForBell(sender : UITapGestureRecognizer) {
+        print("touched !!!")
+        if blurViewForBell.isHidden == false {
+            blurViewForBell.isHidden = true
+            self.isUserInteractionEnabled = true
+            delegate?.enableUserInteraction()
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                //Some thing happen with bellView
+                self.bellView.isHidden = true
+            }, completion: nil)
+        }
+        
+    }
+    
+    @objc func bellOkPressed(sender : UITapGestureRecognizer) {
+        print("touched !!!")
+        if blurViewForBell.isHidden == false {
+            blurViewForBell.isHidden = true
+            self.isUserInteractionEnabled = true
+            delegate?.enableUserInteraction()
+            
+            //Set Bell Color
+            
+            if segmentOfBell.selectedSegmentIndex == 0 {
+                bellButton.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                defaults.set(false, forKey: "isBellOn")
+            }else {
+                bellButton.tintColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+                defaults.set(true, forKey: "isBellOn")
+            }
+            
+          
+            
+            let date = timeBellPicker.date
+            let components = Calendar.current.dateComponents([.hour, .minute,.second], from: date)
+            let hour = components.hour!
+            let minute = components.minute!
+
+            
+            print(hour)
+            print(minute)
+            if(segmentOfBell.selectedSegmentIndex == 1){
+                UNService.shared.timerRequest(with: components)
+            }else {
+                UNService.shared.removeRequest()
+            }
+            
+   
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                //Some thing happen with bellView
+                self.bellView.isHidden = true
+            }, completion: nil)
+        }
+        
+    }
+    
+    
     
     func setupsubsCalculatorView() {
         caculatorView.addSubview(calculationToolsLabel)
@@ -547,6 +791,42 @@ class InputWeightCell: BaseCell,UIPickerViewDelegate, UIPickerViewDataSource,UIT
         
         
        
+    }
+    
+    @objc func bellPressed(sender: UIButton!) {
+        
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            if settings.authorizationStatus == .authorized {
+                DispatchQueue.main.async {
+                    if self.bellView.isHidden {
+                        self.blurViewForBell.isHidden = false
+                        self.isUserInteractionEnabled = true
+                        self.delegate?.disableUserInteraction()
+                        
+                        if self.defaults.bool(forKey: "isBellOn") {
+                            self.segmentOfBell.selectedSegmentIndex = 1
+                        }else {
+                            self.segmentOfBell.selectedSegmentIndex = 0
+                        }
+                        
+                        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                            self.bellView.isHidden = false
+                        }, completion: nil)
+                    }else {
+                        self.blurViewForBell.isHidden = true
+                        self.isUserInteractionEnabled = true
+                        self.delegate?.enableUserInteraction()
+                        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                            self.bellView.isHidden = true
+                        }, completion: nil)
+                    }
+                }
+            }
+            else {
+                self.delegate?.notificationOff()
+                
+            }
+        }
     }
     
     @objc func buttonAction(sender: UIButton!) {
